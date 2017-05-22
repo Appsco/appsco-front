@@ -251,7 +251,11 @@
              * @private
              */
             _onFormError: function(event) {
-                this._showError(event.detail.request.response.message);
+                var $message = event.detail.request.response.message;
+                if(event.detail.request.response.code == 1495115937) {
+                    $message = 'The domain you added does not have a valid form. Please enter a valid domain';
+                }
+                this._showError($message);
                 this._hideLoader();
             },
 
