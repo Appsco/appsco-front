@@ -1,0 +1,148 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="../../../bower_components/neon-animation/animations/hero-animation.html">
+<link rel="import" href="../../../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../../../bower_components/neon-animation/animations/slide-right-animation.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="appsco-contact-activity-log-page">
+    <template>
+        <style include="webkit-scrollbar-style">
+            :host {
+            @apply(--full-page);
+
+            --paper-card-header: {
+                 border-bottom: 1px solid var(--divider-color);
+             };
+
+            --appsco-contact-application: {
+                 background-color: var(--body-background-color);
+             };
+            }
+            :host paper-card {
+            @apply(--full-page-paper-card);
+            }
+            .page-close-action {
+            @apply(--page-close-action);
+            }
+            .info p {
+                margin-top: 5px;
+                margin-bottom: 0;
+            }
+            .info {
+                margin-bottom: 20px;
+            }
+        </style>
+
+        <paper-card heading="Activity log" id="card">
+            <paper-icon-button
+                    icon="close"
+                    title="Close"
+                    class="page-close-action"
+                    on-tap="_back"></paper-icon-button>
+
+            <div class="card-content layout vertical">
+
+                <appsco-account-log
+                        id="appscoAccountLog"
+                        authorization-token="[[ authorizationToken ]]"
+                        log-api="[[ logApi ]]"
+                        size="10"
+                        load-more>
+                </appsco-account-log>
+
+            </div>
+        </paper-card>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'appsco-contact-activity-log-page',
+
+            properties: {
+
+                account: {
+                    type: Object,
+                    value: function() {
+                        return {};
+                    },
+                    notify: true
+                },
+
+                authorizationToken: {
+                    type: String
+                },
+
+                /**
+                 * Get authorized apps link.
+                 */
+                logApi: {
+                    type: String,
+                    'observer': '_onLogApiChange'
+                },
+
+                /**
+                 * Animation config with hero animation.
+                 */
+                animationConfig: {
+                    value: function() {
+                        return {
+                            'entry': [{
+                                name: 'hero-animation',
+                                id: 'hero',
+                                toPage: this,
+                                timing: {
+                                    duration: 300
+                                }
+                            }, {
+                                name: 'fade-in-animation',
+                                node: this,
+                                timing: {
+                                    duration: 500
+                                }
+                            }],
+                            'exit': {
+                                name: 'slide-right-animation',
+                                node: this,
+                                timing: {
+                                    duration: 200
+                                }
+                            }
+                        }
+                    }
+                },
+
+                /**
+                 * Defines shared element of hero animation.
+                 */
+                sharedElements: {
+                    value: function() {
+                        return {
+                            'hero': this.$.card
+                        }
+                    }
+                }
+            },
+
+            behaviors: [
+                Polymer.NeonSharedElementAnimatableBehavior
+            ],
+
+            _onLogApiChange: function() {
+                this.loadLog();
+            },
+
+            loadLog: function() {
+                this.$.appscoAccountLog.loadLog();
+            },
+
+            _back: function() {
+                this.fire('back');
+            }
+        });
+    </script>
+</dom-module>
