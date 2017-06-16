@@ -13,6 +13,7 @@
 <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="appsco-contact-applications.html">
+<link rel="import" href="../account/appsco-account-log.html">
 
 <dom-module id="appsco-manage-contact-components-page">
     <template>
@@ -22,7 +23,6 @@
                 overflow-y: auto;
                 @apply(--layout-horizontal);
                 @apply(--layout-wrap);
-                @apply(--layout-justified);
                 font-size: 14px;
                 color: var(--primary-text-color);
 
@@ -64,8 +64,29 @@
                      border-bottom: 1px solid var(--divider-color);
                  };
             }
-
+            appsco-account-log {
+                --appsco-account-log-container: {
+                     padding-top: 4px;
+                 };
+                --account-log-paper-progress: {
+                     top: 4px;
+                 };
+                --appsco-account-log-item: {
+                     padding: 16px 6px 8px 6px;
+                 };
+                --appsco-account-log-item-first: {
+                     border-top: none;
+                 };
+                --log-item-date: {
+                     top: 2px;
+                 };
+            }
             .shared-applications {
+                @apply(--layout-vertical);
+                margin-left: 10px;
+                margin-top: 10px;
+            }
+            .activity-log {
                 @apply(--layout-vertical);
                 margin-left: 10px;
                 margin-top: 10px;
@@ -100,6 +121,26 @@
                 </div>
             </paper-card>
         </div>
+
+        <div class="activity-log">
+            <paper-card heading="Activity log">
+                <div class="card-content">
+
+                    <appsco-account-log
+                            id="appscoAccountLog"
+                            account="[[ contact.account ]]"
+                            authorization-token="[[ authorizationToken ]]"
+                            log-api="[[ logApi ]]"
+                            size="5"
+                            short-view>
+                    </appsco-account-log>
+                </div>
+
+                <div class="card-actions">
+                    <paper-button on-tap="_onManageActivityLog">ALL</paper-button>
+                </div>
+            </paper-card>
+        </div>
     </template>
 
     <script>
@@ -125,6 +166,15 @@
 
                 authorizationToken: {
                     type: String
+                },
+
+                /**
+                 * Get account log link.
+                 */
+                logApi: {
+                    type: String,
+                    value: '',
+                    observer: '_onLogApiChanged'
                 },
 
                 /**
@@ -190,6 +240,17 @@
                 }
             },
 
+            loadLog: function() {
+                this.$.appscoAccountLog.loadLog();
+            },
+
+            _onLogApiChanged: function(logApi) {
+
+                if (logApi) {
+                    this.loadLog();
+                }
+            },
+
             _updateScreen: function(tablet, medium) {
                 this.updateStyles();
             },
@@ -213,6 +274,11 @@
             _onAllApplications: function(event) {
                 this._setSharedElement(event.target);
                 this.fire('manage-applications');
+            },
+
+            _onManageActivityLog: function(event) {
+                this._setSharedElement(event.target);
+                this.fire('manage-activity-log');
             },
 
             reloadApplications: function() {
