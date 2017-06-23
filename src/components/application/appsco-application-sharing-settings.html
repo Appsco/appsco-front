@@ -400,14 +400,13 @@ Custom property | Description | Default
             },
 
             /**
-             * Sharing settings toggle should always be hidden for auth types listed in this method.
+             * Sharing settings toggle should be hidden if claim_type_editable is set to false.
              *
              * @returns Boolean
              * @private
              */
             _shouldToggleBeHidden: function(application) {
-                return (application.auth_type == 'cc' || application.auth_type == 'login' || application.auth_type == 'passport'
-                || application.auth_type == 'securenote' || application.auth_type == 'softwarelicence');
+                return application.claim_type_editable == false;
             },
 
             _onApplicationChanged: function(application) {
@@ -436,6 +435,11 @@ Custom property | Description | Default
                         application: application
                     });
 
+                }.bind(this), function() {
+                    if (request.response.code === 1497962487) {
+                        this._error = 'Claim type for this resource can\'t be changed.';
+                    }
+                    this._loader = false;
                 }.bind(this));
             },
 
@@ -550,6 +554,7 @@ Custom property | Description | Default
              */
             reset: function() {
                 this.$.saveSharingSettingsForm.reset();
+                this._error = '';
             }
         });
     </script>
