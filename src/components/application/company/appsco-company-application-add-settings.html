@@ -50,6 +50,7 @@ Custom property | Description | Default
         <style>
             :host {
                 display: block;
+                position: relative;
             }
             :host appsco-application-info {
                 margin-bottom: 10px;
@@ -57,6 +58,19 @@ Custom property | Description | Default
             --paper-font-caption: {
                  font-size: 14px;
              };
+            }
+            :host .claims-container {
+                margin-top: 20px;
+            }
+            :host paper-toggle-button {
+                cursor: pointer;
+            }
+            :host .info {
+                margin-top: 10px;
+            }
+            :host p {
+                margin-top: 4px;
+                margin-bottom: 4px;
             }
         </style>
         <div id="applicationHeader">
@@ -71,7 +85,7 @@ Custom property | Description | Default
 
             <form is="iron-form"
                   hidden
-                  id="addApplicationForm"
+                  id="applicationForm"
                   method="POST"
                   action$="[[ addApplicationApi ]]"
                   headers="[[ _headers ]]"
@@ -80,7 +94,7 @@ Custom property | Description | Default
             </form>
 
             <form is="iron-form"
-                  id="saveApplicationForm">
+                  id="applicationConfigurationForm">
                 <paper-input
                         id="title"
                         label="title"
@@ -101,7 +115,6 @@ Custom property | Description | Default
                         name="configure_application[url]"
                         hidden$="[[ !_shouldShowUrl ]]"
                         ></paper-input>
-
             </form>
 
         </div>
@@ -122,6 +135,11 @@ Custom property | Description | Default
                 </div>
             </template>
 
+            <form is="iron-form"
+                  id="applicationClaimsForm"
+                  class="claims-form">
+            </form>
+
             <template is="dom-if" if="[[ !_claimTypeIndividual ]]">
                 <template is="dom-if" if="[[ _unPwAuthType ]]"
                           restamp
@@ -129,7 +147,6 @@ Custom property | Description | Default
                     <appsco-application-form-unpw
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-unpw>
                 </template>
 
@@ -139,7 +156,6 @@ Custom property | Description | Default
                     <appsco-application-form-item
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-item>
                 </template>
 
@@ -149,7 +165,6 @@ Custom property | Description | Default
                     <appsco-application-form-cc
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-cc>
                 </template>
 
@@ -159,7 +174,6 @@ Custom property | Description | Default
                     <appsco-application-form-login
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-login>
                 </template>
 
@@ -169,7 +183,6 @@ Custom property | Description | Default
                     <appsco-application-form-passport
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-passport>
                 </template>
 
@@ -179,7 +192,6 @@ Custom property | Description | Default
                     <appsco-application-form-securenote
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-securenote>
                 </template>
 
@@ -189,7 +201,6 @@ Custom property | Description | Default
                     <appsco-application-form-softwarelicence
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                     ></appsco-application-form-softwarelicence>
                 </template>
 
@@ -199,7 +210,6 @@ Custom property | Description | Default
                     <appsco-application-form-saml
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                             domain="[[ domain ]]"
                     ></appsco-application-form-saml>
                 </template>
@@ -210,7 +220,6 @@ Custom property | Description | Default
                     <appsco-application-form-saml-dropbox
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                             domain="[[ domain ]]"
                     ></appsco-application-form-saml-dropbox>
                 </template>
@@ -221,7 +230,6 @@ Custom property | Description | Default
                     <appsco-application-form-saml-office-365
                             data-claims
                             claims-name-prefix="application_claims[claims]"
-                            claims="[[ resource.claims ]]"
                             domain="[[ domain ]]"
                     ></appsco-application-form-saml-office-365>
                 </template>
@@ -247,6 +255,9 @@ Custom property | Description | Default
                  */
                 application: {
                     type: Object,
+                    value: function () {
+                        return {};
+                    },
                     notify: true
                 },
 
@@ -258,6 +269,11 @@ Custom property | Description | Default
 
                 _claimsAvailable: {
                     type: Boolean
+                },
+
+                _claimsFormActive: {
+                    type: Boolean,
+                    value: true
                 },
 
                 /**
@@ -278,6 +294,10 @@ Custom property | Description | Default
                 _shouldShowUrl: {
                     type: Boolean,
                     computed: '_computeShouldShowUrl(application)'
+                },
+
+                _saveClaimsUri: {
+                    type: String
                 },
 
                 /**
@@ -387,7 +407,28 @@ Custom property | Description | Default
                     computed: "_computeSAMLAuthType(application, _action, 'saml_office_365')"
                 },
 
-                _resourceClaimsActiveForm: {
+                _applicationForm: {
+                    type: Object,
+                    value: function() {
+                        return {};
+                    }
+                },
+
+                _applicationConfigurationForm: {
+                    type: Object,
+                    value: function() {
+                        return {};
+                    }
+                },
+
+                _applicationClaimsForm: {
+                    type: Object,
+                    value: function() {
+                        return {};
+                    }
+                },
+
+                _applicationClaimsActiveForm: {
                     type: Object,
                     value: function() {
                         return {};
@@ -403,8 +444,14 @@ Custom property | Description | Default
                 'application-changed': '_onApplicationChanged'
             },
 
+            attached: function() {
+                this._applicationForm = this.$.applicationForm;
+                this._applicationConfigurationForm = this.$.applicationConfigurationForm;
+                this._applicationClaimsForm = this.$.applicationClaimsForm;
+            },
+
             _onAuthTypeChanged: function() {
-                this.set('_resourceClaimsActiveForm', Polymer.dom(this.root).querySelector('[data-claims]'));
+                this.set('_applicationClaimsActiveForm', Polymer.dom(this.root).querySelector('[data-claims]'));
             },
 
             _computeAuthType: function (action, authType) {
@@ -426,7 +473,7 @@ Custom property | Description | Default
             },
 
             _claimsAvailableCompute: function (action) {
-                this._claimsAvailable = action !== 'sso-application';
+                this._claimsAvailable = (action !== 'sso-application' && action !== 'link');
             },
 
             setAction: function (action) {
@@ -443,22 +490,21 @@ Custom property | Description | Default
 
             _showClaimsForm: function() {
 
-                if (this._resourceClaimsForm) {
-                    this._resourceClaimsForm.style.display = 'block';
-//                    this.playAnimation('entry');
+                if (this._applicationClaimsForm) {
+                    this._claimsFormActive = true;
+                    this._applicationClaimsForm.style.display = 'block';
                 }
             },
 
             _hideClaimsForm: function() {
+                this._claimsFormActive = false;
                 this._resetClaimsForm();
-//                this.playAnimation('exit');
             },
 
             _resetClaimsForm: function() {
-
-//                if (this._resourceClaimsForm) {
-//                    this._resourceClaimsForm.reset();
-//                }
+                if (this._applicationClaimsForm) {
+                    this._applicationClaimsForm.reset();
+                }
             },
 
             _onChangeClaimType: function() {
@@ -535,36 +581,26 @@ Custom property | Description | Default
                 if (application.title !== title || application.url != url) {
                     this._submitApplicationConfigure(application).then(function(application) {
 
-                        if (application) {
-                            this.application = application;
-                        }
-                        var claimsUri = application.meta.update_claims;
-                        var body = this._resourceClaimsActiveForm.encodedBodyValues();
-                        if('' !== body) {
-                            var options = {
-                                url: claimsUri,
-                                method: 'PATCH',
-                                body: body,
-                                handleAs: 'json',
-                                headers: this._headers
-                            };
-
-                            var request = document.createElement('iron-request');
-                            request.send(options).then(function () {
-
-                                if (request.succeeded) {
-                                }
-
-                            });
-                        }
-
+                        this.application = application;
                         this._onApplicationAdded();
+
+                        this._saveClaims(application.meta.update_claims).then(function (applicationUpdated) {
+                            this.application = applicationUpdated;
+                            this._onClaimsUpdated();
+
+                        }.bind(this), function () { this.fire('form-error'); }.bind(this));
 
                     }.bind(this), function() { this.fire('form-error'); }.bind(this));
                 }
                 else {
                     this.application = application;
                     this._onApplicationAdded();
+
+                    this._saveClaims(application.meta.update_claims).then(function (applicationUpdated) {
+                        this.application = applicationUpdated;
+                        this._onClaimsUpdated();
+
+                    }.bind(this), function () { this.fire('form-error'); }.bind(this));
                 }
             },
 
@@ -609,6 +645,46 @@ Custom property | Description | Default
             },
 
             /**
+             * Saves claims configuration.
+             *
+             * @private
+             */
+            _saveClaims: function(claimsUri) {
+
+                return new Promise(function(resolve, reject) {
+
+                    var body = '';
+                    body += encodeURIComponent('application_claims[claim_type]') + '=' + encodeURIComponent(this._claimTypeIndividual);
+                    if (!this._claimTypeIndividual) {
+                        body += body === '' ? '' : '&';
+                        body += this._applicationClaimsActiveForm.encodedBodyValues();
+                    }
+
+                    if('' !== body) {
+                        var options = {
+                            url: claimsUri,
+                            method: 'PATCH',
+                            body: body,
+                            handleAs: 'json',
+                            headers: this._headers
+                        };
+
+                        var request = document.createElement('iron-request');
+                        request.send(options).then(function () {
+
+                            if (request.succeeded) {
+                                resolve(request.response);
+                            }
+                        }
+                        );
+                } else {
+                    reject(false);
+                }
+
+                }.bind(this));
+            },
+
+            /**
              * Called on form error when trying to add new application as icon.
              *
              * @param {Object} event
@@ -639,13 +715,13 @@ Custom property | Description | Default
              */
             addApplication: function() {
 
-                if(false === this._resourceClaimsActiveForm.isValid()) {
+                if (this._claimsFormActive && false === this._applicationClaimsActiveForm.isValid()) {
                     this.fire('form-error');
                     return;
                 }
 
-                if (this.$.saveApplicationForm.validate()) {
-                    this.$.addApplicationForm.submit();
+                if (this._applicationConfigurationForm.validate()) {
+                    this._applicationForm.submit();
                 } else {
                     this.fire('form-error');
                 }
@@ -670,11 +746,32 @@ Custom property | Description | Default
             },
 
             /**
+             * Called after applications claims has been updated.
+             * It fires event.
+             *
+             * @private
+             */
+            _onClaimsUpdated: function() {
+                /**
+                 * Fired after application claims has been updated.
+                 *
+                 * @event application-claims-updated
+                 */
+                this.fire('application-claims-updated', {
+                    application: this.application
+                });
+            },
+
+            /**
              * Resets component.
              */
             reset: function() {
-                this.$.addApplicationForm.reset();
-                this.$.saveApplicationForm.reset();
+                this._claimTypeIndividual = false;
+                if (this._applicationClaimsActiveForm && this._applicationClaimsActiveForm.$) {
+                    this._applicationClaimsActiveForm.reset();
+                }
+                this._applicationConfigurationForm.reset();
+                this._applicationClaimsForm.reset();
             }
         });
     </script>

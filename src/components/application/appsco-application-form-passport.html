@@ -168,6 +168,17 @@
                 Polymer.AppscoApplicationFormBehavior
             ],
 
+            reset: function () {
+                Polymer.dom(this.root).querySelectorAll('[data-field]').forEach(function(item, key) {
+                    item.value = this.claims[item.getAttribute('id')] ? this.claims[item.getAttribute('id')] : '';
+                    item.invalid = false;
+                }.bind(this));
+
+                Polymer.dom(this.root).querySelectorAll('paper-listbox').forEach(function(item, key) {
+                    item.selected = -1;
+                });
+            },
+
             _onClaimsChange: function () {
                 if(this.claims) {
                     this.$.paperListboxCountry.select(this.claims.country);

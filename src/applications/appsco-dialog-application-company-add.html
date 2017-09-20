@@ -64,7 +64,8 @@
                                 application="[[ applicationTemplate ]]"
                                 authorization-token="[[ authorizationToken ]]"
                                 add-application-api="[[ addApplicationApi ]]"
-                                on-form-error="_onFormError">
+                                on-form-error="_onFormError"
+                                on-iron-overlay-closed="_onSelectInputClosed">
                         </appsco-company-application-add-settings>
                     </div>
                 </div>
@@ -165,6 +166,10 @@
             _onDialogClosed: function() {
                 this._hideLoader();
                 this.reset();
+            },
+
+            _onSelectInputClosed: function (event) {
+                event.stopPropagation();
             },
 
             _onEnter: function() {
