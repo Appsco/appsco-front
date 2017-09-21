@@ -1177,7 +1177,8 @@
                 add-application-api="[[ _companyApplicationsApi ]]"
                 link-api="[[ api.link ]]"
                 item-api="[[ api.item ]]"
-                on-application-added="_onCompanyApplicationAdded">
+                on-application-added="_onCompanyApplicationAdded"
+                on-application-claims-updated="_onCompanyApplicationClaimsUpdated">
         </appsco-company-application-add>
 
         <appsco-company-sso-application-add
@@ -1187,7 +1188,8 @@
                 add-application-api="[[ _companyApplicationsApi ]]"
                 link-api="[[ api.link ]]"
                 item-api="[[ api.item ]]"
-                on-application-added="_onCompanyApplicationAdded">
+                on-application-added="_onCompanyApplicationAdded"
+                on-application-claims-updated="_onCompanyApplicationClaimsUpdated">
         </appsco-company-sso-application-add>
 
         <appsco-import-resources
@@ -1371,6 +1373,7 @@
                 authorization-token="[[ authorizationToken ]]"
                 add-application-api="[[ _companyApplicationsApi ]]"
                 on-application-added="_onCompanyApplicationAdded"
+                on-application-claims-updated="_onCompanyApplicationClaimsUpdated"
         ></appsco-dialog-application-company-add>
 
         <appsco-company-domain-token
@@ -3393,9 +3396,11 @@
 
                 switch (action) {
                     case 'sso-application':
+                        this.$.appscoCompanySSOApplicationsAdd.setAction(action);
                         this.$.appscoCompanySSOApplicationsAdd.toggle();
                         break;
                     case 'catalogue-application':
+                        this.$.appscoCompanyApplicationsAdd.setAction(action);
                         this.$.appscoCompanyApplicationsAdd.toggle();
                         break;
                     default:
@@ -3413,6 +3418,7 @@
 
                             if (200 == request.status) {
                                 this.$.appscoDialogApplicationCompanyAdd.setApplicationTemplate(request.response.application);
+                                this.$.appscoDialogApplicationCompanyAdd.setAction(action);
                                 this.$.appscoDialogApplicationCompanyAdd.toggle();
                             }
 
@@ -3423,11 +3429,15 @@
 
             _onCompanyApplicationAdded: function(event) {
                 var application = event.detail.application,
-                    applications = [application],
                     message = application.title + ' was successfully saved.';
 
-                this.$.appscoResourcesPage.addResources(applications);
                 this._notify(message);
+            },
+
+            _onCompanyApplicationClaimsUpdated: function (event) {
+                var application = event.detail.application,
+                        applications = [application];
+                this.$.appscoResourcesPage.addResources(applications);
             },
 
             _onImportResourcesAction: function() {

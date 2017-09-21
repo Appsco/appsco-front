@@ -95,7 +95,7 @@
                             application="[[ _selectedApplication ]]"
                             authorization-token="[[ authorizationToken ]]"
                             add-application-api="[[ addApplicationApi ]]"
-                            on-form-error="[[ _onFormError ]]"
+                            on-form-error="_onFormError"
                             on-application-added="_onApplicationAdded">
                     </appsco-company-application-add-settings>
 
@@ -409,6 +409,10 @@
             _closeDialog: function() {
                 this.$.addApplicationDialog.close();
                 this.$.addApplicationAction.disabled = false;
+            },
+
+            setAction: function (action) {
+                this.$.appscoApplicationAddSettings.setAction(action);
             },
 
             /**
