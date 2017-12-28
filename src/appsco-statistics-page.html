@@ -716,7 +716,7 @@
 //            },
 
             _handleApplicationSecurityResponse: function(event) {
-                var response = event.detail.response,
+                var response = event.detail.response.application_security,
                     chartOptions = {
                         titlePosition: 'none',
                         backgroundColor: this.getComputedStyleValue('--chart-background-color'),
