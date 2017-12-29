@@ -596,7 +596,7 @@
 
 
             _onEventTypesResponse: function(event) {
-                var response = event.detail.response;
+                var response = event.detail.response.events;
 
                 if (response && response.length > 0) {
                     this.set('_eventTypeList', []);

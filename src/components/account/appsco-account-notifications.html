@@ -322,7 +322,7 @@ Example:
              * @private
              */
             _handleResponse: function(event) {
-                var notifications = event.detail.response,
+                var notifications = event.detail.response.notifications,
                         currentLength = this._notifications.length;
 
                 if (notifications && notifications.length > 0) {
