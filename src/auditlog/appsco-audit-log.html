@@ -767,6 +767,40 @@
                         event = this.localize('org_unit_removed', 'orgunit', item.data.orgunit.name);
                         break;
 
+                    case 'oauth_application_created':
+                        console.log('## CREATED ##');
+                        console.log(item);
+                        event = this.localize('oauth_application_created', 'oauthApp', item.data.oauth_application.title);
+                        console.log(event);
+                        break;
+
+                    case 'oauth_application_updated':
+                        console.log('## MODIFIED ##');
+                        console.log(item);
+                        var data = item.data,
+                                message = '';
+
+                        for (property in data) {
+                            var propertyValue = data[property],
+                                    from = propertyValue.from,
+                                    to = propertyValue.to;
+
+                            var propertyName = property.replace('_updated', '');
+                            message += this.localize('oauth_application_updated', 'property', propertyName, 'fromValue', from, 'toValue', to);
+                        }
+
+                        event = message;
+                        console.log(event);
+
+                        break;
+
+                    case 'oauth_application_removed':
+                        console.log('## REMOVED ##');
+                        console.log(item);
+                        event = this.localize('oauth_application_removed', 'oauthApp', item.data.oauth_application.title);
+                        console.log(event);
+                        break;
+
                     case 'orgunit_added':
                         event = this.localize('account_log_role_added_to_orgunit', 'account', item.data.role.account.name, 'orgunit', item.data.orgunit.name);
                         break;
