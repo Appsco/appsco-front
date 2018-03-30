@@ -127,6 +127,11 @@
                 value: ''
             },
 
+            minSearchTermLength: {
+                type: Number,
+                value: 2
+            },
+
             _filterOrgunit: {
                 type: Object,
                 value: function() {
@@ -964,7 +969,7 @@
             if (!group.activated) {
                 this._listEmpty = false;
 
-                if (this._filterTerm && 3 <= filterTermLength) {
+                if (this._filterTerm && filterTermLength >= this.minSearchTermLength) {
                     var searchedListItems = this._searchedListItems,
                         searchedListItemsLength = searchedListItems.length;
 
@@ -1012,7 +1017,7 @@
 
                 this._listEmpty = false;
 
-                if (this._filterTerm && 3 <= filterTermLength) {
+                if (this._filterTerm && filterTermLength >= this.minSearchTermLength) {
 
                     items.forEach(function(item, index) {
 
@@ -1102,7 +1107,7 @@
                 filterGroup = this._filterGroup,
                 filterType = this._filterType;
 
-            if (term.length < 3) {
+            if (term.length < this.minSearchTermLength) {
                 this.set('_searchedListItems', []);
 
                 if (filterOrgunit.selected) {
@@ -1199,7 +1204,7 @@
             if (!selected) {
                 this._setLoadMoreAction();
 
-                if (this._filterTerm && 3 <= filterTermLength) {
+                if (this._filterTerm && filterTermLength >= this.minSearchTermLength) {
                     var searchedListItems = this._searchedListItems,
                         searchedListItemsLength = searchedListItems.length;
 
@@ -1254,7 +1259,7 @@
                     }
                 }
 
-                if (this._filterTerm && 3 <= filterTermLength) {
+                if (this._filterTerm && filterTermLength >= this.minSearchTermLength) {
                     var searchedListItems = this._searchedListItems,
                         responseListItems = [],
                         responseListItemsLength;

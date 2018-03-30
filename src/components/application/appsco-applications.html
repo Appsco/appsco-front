@@ -327,6 +327,14 @@ Custom property | Description | Default
                     value: ''
                 },
 
+                /**
+                 * Term length to start search
+                 */
+                minSearchTermLength: {
+                    type: Number,
+                    value: 2
+                },
+
                 _loaders: {
                     type: Array,
                     value: function() { return []; }
@@ -826,7 +834,7 @@ Custom property | Description | Default
                     length = this._allApplications.length,
                     filterOrgunit = this._filterOrgunit;
 
-                if (term.length < 3) {
+                if (term.length < this.minSearchTermLength) {
                     this.set('_searchedApplications', []);
 
                     if (filterOrgunit.selected) {
