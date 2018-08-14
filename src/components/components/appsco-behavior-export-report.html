@@ -1,0 +1,109 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script>
+
+    /**
+     * @polymerBehavior
+     */
+    Polymer.AppscoBehaviourExportReport = {
+
+        properties: {
+        },
+
+        exportReport: function(url, method, reportPage) {
+            if (typeof this._showProgressBar === 'function') {
+                this._showProgressBar();
+            }
+
+            var request = document.createElement('iron-request'),
+                options = {
+                    url: url,
+                    method: method.toUpperCase(),
+                    handleAs: 'blob',
+                    headers: {
+                        'Authorization': 'token ' + this.authorizationToken,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: ''
+                };
+
+            if(options.method === 'GET') {
+                options.url += '?' + this.glueStuff(reportPage.getFilters());
+            }
+            if(options.method === 'POST') {
+                options.body += this.glueStuff(reportPage.getFilters());
+            }
+
+            request.send(options).then(function() {
+                var fileReader = new FileReader();
+
+                fileReader.onload = function(event) {
+                    var link = document.createElement('a');
+
+                    link.href = event.target.result;
+                    link.setAttribute('download', reportPage.getFileName());
+                    document.body.appendChild(link);
+
+                    if (link.click) {
+                        link.click();
+                    }
+                    else if (document.createEvent) {
+                        var clickEvent = document.createEvent('MouseEvents');
+
+                        clickEvent.initEvent('click', true, true);
+                        link.dispatchEvent(clickEvent);
+                    }
+                    document.body.removeChild(link);
+                };
+
+                fileReader.readAsDataURL(request.response);
+
+                this.fire(reportPage.getOnSuccessEvent(), {
+                    response: request.response
+                });
+            }.bind(this), function(e) {
+                this.fire(reportPage.getOnFailEvent(), {
+                    error: e,
+                    message: reportPage.getFailMessage()
+                });
+            }.bind(this));
+        },
+
+        _onExportReportFinished: function() {
+            if (typeof this._hideProgressBar === 'function') {
+                this._hideProgressBar();
+            }
+        },
+
+        _onExportReportFailed: function(event) {
+            if (typeof this._hideProgressBar === 'function') {
+                this._hideProgressBar();
+            }
+            if (typeof this._notify === 'function') {
+                this._notify(event.detail.message);
+            }
+        },
+
+        glueStuff: function (data) {
+            var glued = '',
+                glue = '';
+            for (var property in data) {
+                if (data.hasOwnProperty(property) === false) {
+                    continue;
+                }
+                if (Array.isArray(data[property])) {
+                    for (var i in data[property]) {
+                        glued += glue + property + "[]=" + encodeURIComponent(data[property][i]);
+                        glue = '&';
+                    }
+                    continue;
+                }
+                glued += glue + property + "=" + encodeURIComponent(data[property]);
+                glue = '&';
+            }
+            console.log('Glued: ' + glued);
+            return glued;
+        }
+
+    }
+</script>

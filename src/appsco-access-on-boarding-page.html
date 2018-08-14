@@ -276,7 +276,9 @@
 
                     this.fire('export-access-on-boarding-finished');
                 }.bind(this), function() {
-                    this.fire('export-access-on-boarding-failed');
+                    this.fire('export-access-on-boarding-failed', {
+                        message: 'Export of Access On Boarding Report failed. Please contact AppsCo support.'
+                    });
                 }.bind(this));
             },
 

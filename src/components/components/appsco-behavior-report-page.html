@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<script>
+
+    /**
+     * @polymerBehavior
+     */
+    Polymer.AppscoBehaviourReportPage = {
+
+        properties: {
+        },
+
+        getFilters: function() {
+            return {};
+        },
+
+        getMethod: function() {
+            return 'GET';
+        },
+
+        getFileName: function() {
+            return 'report.xlsx';
+        },
+
+        getOnSuccessEvent: function() {
+            return '';
+        },
+
+        getOnFailEvent: function() {
+            return '';
+        },
+
+        getFailMessage: function() {
+            return 'Report export failed';
+        }
+
+    }
+</script>

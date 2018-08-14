@@ -400,11 +400,26 @@
             getFilters: function () {
                 return {
                     term: this.searchTerm,
-                    paymentType: this.paymentType,
+                    payment_type: this.paymentType,
                     period: this.period
                 };
-            }
+            },
 
+            getFailMessage: function() {
+                return 'Export of Billing Report failed. Please contact AppsCo support.';
+            },
+
+            getFileName: function() {
+                return 'Billing Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-billing-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-billing-report-failed';
+            }
         });
     </script>
 </dom-module>

@@ -1666,6 +1666,10 @@
         Polymer({
             is: 'appsco-app',
 
+            behaviors: [
+                Polymer.AppscoBehaviourExportReport
+            ],
+
             properties: {
 
                 _companyPage: {
@@ -2274,21 +2278,28 @@
                 'revoke-authorized-application': '_onRevokeAuthorizedApplication',
                 'token-generated': '_onTokenGenerated',
                 'reset-page-actions': '_onResetPageActions',
+
+                // export
                 'export-access-report': '_onExportAccessReportAction',
                 'export-compliance-report': '_onExportComplianceReportAction',
                 'export-policies-report': '_onExportPoliciesReportAction',
                 'export-billing-report': '_onExportBillingReportAction',
-                'export-access-report-finished': '_onExportAccessReportFinished',
-                'export-compliance-report-finished': '_onExportComplianceReportFinished',
-                'export-policies-report-finished': '_hideProgressBar',
-                'export-access-on-boarding-finished': '_hideProgressBar',
-                'export-company-log-finished' : '_onExportCompanyLogFinished',
-                'export-billing-report-finished': '_onExportBillingReportFinished',
-                'export-access-report-failed': '_onExportAccessReportFailed',
-                'export-compliance-report-failed': '_onExportComplianceReportFailed',
-                'export-policies-report-failed': '_onExportPoliciesReportFailed',
-                'export-access-on-boarding-failed': '_onExportAccessOnBoardingFailed',
-                'export-billing-report-failed': '_onExportBillingReportFailed',
+
+                // success
+                'export-company-log-finished' : '_onExportReportFinished',
+                'export-access-on-boarding-finished': '_onExportReportFinished',
+                'export-access-report-finished': '_onExportReportFinished',
+                'export-compliance-report-finished': '_onExportReportFinished',
+                'export-policies-report-finished': '_onExportReportFinished',
+                'export-billing-report-finished': '_onExportReportFinished',
+
+                // fails
+                'export-access-on-boarding-failed': '_onExportReportFailed',
+                'export-access-report-failed': '_onExportReportFailed',
+                'export-compliance-report-failed': '_onExportReportFailed',
+                'export-policies-report-failed': '_onExportReportFailed',
+                'export-billing-report-failed': '_onExportReportFailed',
+
                 'user-session-expired': '_onUserSessionExpired',
                 'add-item-to-group-event': '_onAddItemToGroupAction',
                 'customer-subscription-state-changed': '_onCustomerSubscriptionStateChanged',
@@ -6384,344 +6395,21 @@
              * Customers page END
              */
 
-            /**
-             * Access Report page START
-             */
-            _computeExportAccessReportApiUrl: function() {
-                var url = this._exportAccessReportApi,
-                    filters = this.$.appscoAccessReportPage.getAccessReportFilters();
-
-                switch (filters.type) {
-                    case 'users':
-                        url += '?company_roles=true&contacts=false';
-                        break;
-
-                    case 'contacts':
-                        url += '?company_roles=false&contacts=true';
-                        break;
-                }
-
-                if (filters.group.alias && 'all' != filters.group.alias) {
-                    url += (-1 < url.indexOf(this._exportAccessReportApi + '?')) ? ('&group=' + filters.group.self) : ('?group=' + filters.group.self);
-                }
-
-                if (3 <= filters.term.length) {
-                    url += (-1 < url.indexOf(this._exportAccessReportApi + '?')) ? ('&term=' + filters.term) : ('?term=' + filters.term);
-                }
-
-                return url;
-            },
-
-            _exportAccessReport: function(url) {
-                var request = document.createElement('iron-request'),
-                    options = {
-                        url: url,
-                        method: 'GET',
-                        handleAs: 'blob',
-                        headers: {
-                            'Authorization': 'token ' + this.authorizationToken
-                        }
-                    };
-
-                request.send(options).then(function() {
-                    var fileReader = new FileReader();
-
-                    fileReader.onload = function(event) {
-                        var link = document.createElement('a');
-
-                        link.href = event.target.result;
-                        link.setAttribute('download', 'Access Report.xlsx');
-                        document.body.appendChild(link);
-
-                        if (link.click) {
-                            link.click();
-                        }
-                        else if (document.createEvent) {
-                            var clickEvent = document.createEvent('MouseEvents');
-
-                            clickEvent.initEvent('click', true, true);
-                            link.dispatchEvent(clickEvent);
-                        }
-
-                        document.body.removeChild(link);
-                    };
-
-                    fileReader.readAsDataURL(request.response);
-
-                    this.fire('export-access-report-finished');
-                }.bind(this), function() {
-                    this.fire('export-access-report-failed');
-                }.bind(this));
-            },
-
-            _computeExportPoliciesReportBody: function() {
-
-                if ('policies-report' != this.page) {
-                    return '';
-                }
-
-                var filters = this.$.appscoPoliciesReportPage.getReportFilters(),
-                    roles = this.$.appscoPoliciesReportPage.getReportRoles(),
-                    body = 'limit=1000';
-
-                body += (filters.policy.policy ? ('&policy=' + filters.policy.policy) : '') +
-                    (filters.dateFrom ? ('&from=' + filters.dateFrom) : '') +
-                    (filters.dateTo ? ('&to=' + filters.dateTo) : '');
-
-                if (0 < roles.length) {
-
-                    roles.forEach(function(role, i) {
-                        body += ('&accounts[]=' + role.account.self);
-                    });
-                }
-
-                return body;
-            },
-
-            _exportPoliciesReport: function(url) {
-                var request = document.createElement('iron-request'),
-                    options = {
-                        url: url,
-                        method: 'POST',
-                        handleAs: 'blob',
-                        headers: {
-                            'Authorization': 'token ' + this.authorizationToken,
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    };
-
-                options.body = this._computeExportPoliciesReportBody();
-
-                request.send(options).then(function() {
-                    var fileReader = new FileReader();
-
-                    fileReader.onload = function(event) {
-                        var link = document.createElement('a');
-
-                        link.href = event.target.result;
-                        link.setAttribute('download', 'Policy Report.xlsx');
-                        document.body.appendChild(link);
-
-                        if (link.click) {
-                            link.click();
-                        }
-                        else if (document.createEvent) {
-                            var clickEvent = document.createEvent('MouseEvents');
-
-                            clickEvent.initEvent('click', true, true);
-                            link.dispatchEvent(clickEvent);
-                        }
-
-                        document.body.removeChild(link);
-                    };
-
-                    fileReader.readAsDataURL(request.response);
-
-                    this.fire('export-policies-report-finished');
-                }.bind(this), function() {
-                    this.fire('export-policies-report-failed');
-                }.bind(this));
-            },
-
-            _exportComplianceReport: function(url) {
-                var request = document.createElement('iron-request'),
-                        options = {
-                            url: url,
-                            method: 'POST',
-                            handleAs: 'blob',
-                            headers: {
-                                'Authorization': 'token ' + this.authorizationToken,
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            }
-                        };
-
-                options.body = this._computeExportComplianceReportBody();
-
-                request.send(options).then(function() {
-                    var fileReader = new FileReader();
-
-                    fileReader.onload = function(event) {
-                        var link = document.createElement('a');
-
-                        link.href = event.target.result;
-                        link.setAttribute('download', 'Compliance Report.xlsx');
-                        document.body.appendChild(link);
-
-                        if (link.click) {
-                            link.click();
-                        }
-                        else if (document.createEvent) {
-                            var clickEvent = document.createEvent('MouseEvents');
-
-                            clickEvent.initEvent('click', true, true);
-                            link.dispatchEvent(clickEvent);
-                        }
-
-                        document.body.removeChild(link);
-                    };
-
-                    fileReader.readAsDataURL(request.response);
-
-                    this.fire('export-compliance-report-finished');
-                }.bind(this), function() {
-                    this.fire('export-compliance-report-failed');
-                }.bind(this));
-            },
-
-            _exportBillingReport: function(url) {
-                var request = document.createElement('iron-request'),
-                        options = {
-                            url: url + '?' + this._computeExportBillingReportBody(),
-                            method: 'GET',
-                            handleAs: 'blob',
-                            headers: {
-                                'Authorization': 'token ' + this.authorizationToken,
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            }
-                        };
-
-                request.send(options).then(function() {
-                    var fileReader = new FileReader();
-
-                    fileReader.onload = function(event) {
-                        var link = document.createElement('a');
-
-                        link.href = event.target.result;
-                        link.setAttribute('download', 'Billing Report.xlsx');
-                        document.body.appendChild(link);
-
-                        if (link.click) {
-                            link.click();
-                        }
-                        else if (document.createEvent) {
-                            var clickEvent = document.createEvent('MouseEvents');
-
-                            clickEvent.initEvent('click', true, true);
-                            link.dispatchEvent(clickEvent);
-                        }
-                        document.body.removeChild(link);
-                    };
-
-                    fileReader.readAsDataURL(request.response);
-
-                    this.fire('export-billing-report-finished');
-                }.bind(this), function(error) {
-                    this.fire('export-billing-report-failed');
-                }.bind(this));
-            },
-
-            _computeExportComplianceReportBody: function() {
-
-                if ('compliance-report' != this.page) {
-                    return '';
-                }
-
-                var filters = this.$.appscoComplianceReportPage.getComplianceReportFilters(),
-                        body = '';
-                switch (filters.type) {
-                    case 'users':
-                        body += 'assignee_type=user';
-                        break;
-
-                    case 'contacts':
-                        body += 'assignee_type=contact';
-                        break;
-                }
-
-                if (filters.group && filters.group.alias && filters.group.alias !== 'all') {
-                    body += ('' !== body) ? '&' : '';
-                    body += 'groups[]=' + filters.group.alias;
-                }
-
-                if (filters.term) {
-                    body += ('' !== body) ? '&' : '';
-                    body += 'term=' + filters.term;
-                }
-                return body;
-            },
-
-            _computeExportBillingReportBody: function() {
-                if ('billing-report' != this.page) {
-                    return '';
-                }
-
-                var filters = this.$.appscoBillingReportPage.getFilters(),
-                        body = '';
-
-                if (filters.term) {
-                      body += 'term=' + encodeURIComponent(filters.term);
-                }
-                if (filters.paymentType) {
-                    body += ('' !== body) ? '&' : '';
-                    body += 'payment_type=' + encodeURIComponent(filters.paymentType);
-                }
-                if (filters.period) {
-                    body += ('' !== body) ? '&' : '';
-                    body += 'period=' + encodeURIComponent(filters.period);
-                }
-
-                return body;
-            },
-
             _onExportAccessReportAction: function() {
-                this._showProgressBar();
-                this._exportAccessReport(('access-report' === this.page) ? this._computeExportAccessReportApiUrl() : this._exportAccessReportApi);
+                this.exportReport(this._exportAccessReportApi, 'GET', this.$.appscoAccessReportPage);
             },
 
             _onExportComplianceReportAction: function() {
-                this._showProgressBar();
-                this._exportComplianceReport(this._exportComplianceReportApi);
+                this.exportReport(this._exportComplianceReportApi, 'POST', this.$.appscoComplianceReportPage);
             },
 
             _onExportPoliciesReportAction: function() {
-                this._showProgressBar();
-                this._exportPoliciesReport(this._exportPoliciesReportApi);
+                this.exportReport(this._exportPoliciesReportApi, 'POST', this.$.appscoPoliciesReportPage);
             },
 
             _onExportBillingReportAction: function() {
-                this._showProgressBar();
-                this._exportBillingReport(this._exportBillingReportApi);
+                this.exportReport(this._exportBillingReportApi, 'GET', this.$.appscoBillingReportPage);
             },
-
-            _onExportAccessReportFinished: function() {
-                this._hideProgressBar();
-            },
-
-            _onExportComplianceReportFinished: function() {
-                this._hideProgressBar();
-            },
-
-            _onExportCompanyLogFinished: function() {
-                this._hideProgressBar();
-            },
-
-            _onExportBillingReportFinished: function () {
-                this._hideProgressBar();
-            },
-
-            _onExportAccessReportFailed: function() {
-                this._hideProgressBar();
-                this._notify('Export of Access Report failed. Please contact AppsCo support.');
-            },
-
-            _onExportComplianceReportFailed: function() {
-                this._hideProgressBar();
-                this._notify('Export of Access Report failed. Please contact AppsCo support.');
-            },
-
-            _onExportPoliciesReportFailed: function() {
-                this._hideProgressBar();
-                this._notify('Export of Policy Report failed. Please contact AppsCo support.');
-            },
-
-            _onExportBillingReportFailed: function() {
-                this._hideProgressBar();
-                this._notify('Export of Billing Report failed. Please contact AppsCo support.');
-            },
-
-            /**
-             * Access Report page END
-             */
 
             /**
              * Oauth page START
@@ -7153,7 +6841,7 @@
                 if (currentActions && currentActions.resetPageActions) {
                     currentActions.resetPageActions();
                 }
-            },
+            }
 
             /**
              * Global END
