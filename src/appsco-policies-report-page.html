@@ -11,6 +11,8 @@
 <link rel="import" href="components/report/appsco-policy-report-roles.html">
 <link rel="import" href="components/report/appsco-policy-report-page-filters.html">
 
+<link rel="import" href="components/components/appsco-behavior-report-page.html">
+
 <dom-module id="appsco-policies-report-page">
     <template>
 
@@ -185,7 +187,8 @@
             },
 
             behaviors: [
-                Polymer.NeonAnimatableBehavior
+                Polymer.NeonAnimatableBehavior,
+                Polymer.AppscoBehaviourReportPage
             ],
 
             observers: [
@@ -218,12 +221,46 @@
                 this.$.appscoContent.toggleSection('resource');
             },
 
-            getReportFilters: function() {
-                return this.$.policyReportPageFilters.getFilters();
+            getFilters: function() {
+                var filters = this.$.policyReportPageFilters.getFilters(),
+                    roles = this.$.appscoPolicyReportRoles.getAllItems(),
+                    data = {
+                        limit: 1000
+                    };
+
+                if(filters.policy.policy) {
+                    data.policy = filters.policy.policy;
+                }
+                if(filters.dateFrom) {
+                    data.from = filters.dateFrom;
+                }
+                if(filters.dateTo) {
+                    data.to = filters.dateTo;
+                }
+
+                if (0 < roles.length) {
+                    data.accounts = [];
+                    roles.forEach(function(role, i) {
+                        data.accounts.push(role.account.self);
+                    });
+                }
+                return data;
             },
 
-            getReportRoles: function() {
-                return this.$.appscoPolicyReportRoles.getAllItems();
+            getFileName: function() {
+                return 'Policy Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-policies-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-policies-report-failed';
+            },
+
+            getFailMessage: function() {
+                return 'Export of Policies Report failed. Please contact AppsCo support.';
             },
 
             _computeRolesApi: function(rolesApi) {

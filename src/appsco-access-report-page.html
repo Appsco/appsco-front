@@ -12,6 +12,8 @@
 <link rel="import" href="components/report/appsco-access-report-accounts.html">
 <link rel="import" href="components/report/appsco-access-report-page-filters.html">
 
+<link rel="import" href="components/components/appsco-behavior-report-page.html">
+
 <dom-module id="appsco-access-report-page">
     <template>
 
@@ -229,7 +231,8 @@
 
             behaviors: [
                 Polymer.NeonAnimatableBehavior,
-                Polymer.NeonAnimationRunnerBehavior
+                Polymer.NeonAnimationRunnerBehavior,
+                Polymer.AppscoBehaviourReportPage
             ],
 
             observers: [
@@ -276,8 +279,39 @@
                 this.$.appscoContent.toggleSection('resource');
             },
 
-            getAccessReportFilters: function() {
-                return this.$.accessReportPageFilters.getFilters();
+            getFilters: function() {
+                var filters = this.$.accessReportPageFilters.getFilters();
+                filters.group = filters.group && filters.group.self ? filters.group.self : '';
+
+                switch (filters.type) {
+                    case 'users':
+                        filters.company_roles = true;
+                        filters.contacts = false;
+                        break;
+
+                    case 'contacts':
+                        filters.company_roles = false;
+                        filters.contacts = true;
+                        break;
+                }
+
+                return filters;
+            },
+
+            getFileName: function() {
+                return 'Access Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-access-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-access-report-failed';
+            },
+
+            getFailMessage: function() {
+                return 'Export of Access Report failed. Please contact AppsCo support.';
             },
 
             _updateScreen: function() {

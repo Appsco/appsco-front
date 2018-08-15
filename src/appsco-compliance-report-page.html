@@ -12,6 +12,8 @@
 <link rel="import" href="components/report/appsco-compliance-report-accounts.html">
 <link rel="import" href="components/report/appsco-compliance-report-page-filters.html">
 
+<link rel="import" href="components/components/appsco-behavior-report-page.html">
+
 <dom-module id="appsco-compliance-report-page">
     <template>
 
@@ -229,7 +231,8 @@
 
             behaviors: [
                 Polymer.NeonAnimatableBehavior,
-                Polymer.NeonAnimationRunnerBehavior
+                Polymer.NeonAnimationRunnerBehavior,
+                Polymer.AppscoBehaviourReportPage
             ],
 
             observers: [
@@ -276,8 +279,42 @@
                 this.$.appscoContent.toggleSection('resource');
             },
 
-            getComplianceReportFilters: function() {
-                return this.$.complianceReportPageFilters.getFilters();
+            getFilters: function() {
+                var filters = this.$.complianceReportPageFilters.getFilters(),
+                    data = {};
+                switch (filters.type) {
+                    case 'users':
+                        data.assignee_type = 'user';
+                        break;
+
+                    case 'contacts':
+                        data.assignee_type = 'contact';
+                        break;
+                }
+                if (filters.group && filters.group.alias && filters.group.alias !== 'all') {
+                    data.groups = [filters.group.alias];
+                }
+                if (filters.term) {
+                    data.term = filters.term;
+                }
+
+                return data;
+            },
+
+            getFileName: function() {
+                return 'Compliance Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-compliance-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-compliance-report-failed';
+            },
+
+            getFailMessage: function() {
+                return 'Export of Compliance Report failed. Please contact AppsCo support.';
             },
 
             _updateScreen: function() {
