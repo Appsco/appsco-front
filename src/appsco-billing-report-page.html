@@ -11,17 +11,14 @@
 
 <link rel="import" href="components/page/appsco-content.html">
 <link rel="import" href="components/components/appsco-page-behavior.html">
-<link rel="import" href="appsco-page-styles.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/customer/appsco-customers-billing.html">
 <link rel="import" href="components/components/appsco-search.html">
 
 <dom-module id="appsco-billing-report-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style appsco-page-styles">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
                 --paper-dropdown-menu: {
                     display: block;
                 }
@@ -29,29 +26,7 @@
             :host paper-item:hover {
                 @apply(--paper-item-hover);
             }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            :host .resource-container {
-                @apply(--layout-vertical);
-                height: 100%;
-            }
-            .customers-container {
-                margin-top: 10px;
-            }
-            :host div[resurce] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
             :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
                 padding: 10px;
                 position: relative;
             }
@@ -95,76 +70,74 @@
 
         <appsco-content id="appscoContent" resource-active on-component-ready="_onPageLoaded">
             <div class="flex-vertical" resource>
-                <div class="resource-container">
-                    <div class="resource-header">
-                        Filters
+                <div class="resource-header">
+                    Filters
+                </div>
+
+                <div class="resource-content filters">
+                    <div class="filter">
+                        <appsco-search id="filterCustomers"
+                                       label="Filter customers"
+                                       float-label
+                                       on-keyup = "_onFilterCustomersKeyup"
+                                       on-search="_onFilterCustomersSearch"
+                                       on-blur="_onFilterCustomersBlur"
+                                       on-search-clear="_onFilterCustomersSearchClear">
+                        </appsco-search>
+                        <paper-listbox id="suggestedCustomers"
+                                       class="dropdown-content searchable"
+                                       attr-for-selected="label"
+                                       on-iron-activate="_onFilterCustomers" hidden>
+                            <template is="dom-repeat" items="{{ _customersList }}">
+                                <paper-item value="[[ item.value ]]"
+                                            label="[[ item.name ]]">[[ item.name ]]</paper-item>
+                            </template>
+                        </paper-listbox>
                     </div>
 
-                    <div class="filters">
-                        <div class="filter">
-                            <appsco-search id="filterCustomers"
-                                           label="Filter customers"
-                                           float-label
-                                           on-keyup = "_onFilterCustomersKeyup"
-                                           on-search="_onFilterCustomersSearch"
-                                           on-blur="_onFilterCustomersBlur"
-                                           on-search-clear="_onFilterCustomersSearchClear">
-                            </appsco-search>
-                            <paper-listbox id="suggestedCustomers"
-                                           class="dropdown-content searchable"
-                                           attr-for-selected="label"
-                                           on-iron-activate="_onFilterCustomers" hidden>
-                                <template is="dom-repeat" items="{{ _customersList }}">
-                                    <paper-item value="[[ item.value ]]"
-                                                label="[[ item.name ]]">[[ item.name ]]</paper-item>
-                                </template>
+                    <div class="filter">
+                        <paper-dropdown-menu id="dropdownPaymentType"
+                                             label="Filter by payment type"
+                                             horizontal-align="left">
+                            <paper-listbox id="paymentType"
+                                           class="dropdown-content"
+                                           attr-for-selected="value"
+                                           on-selected-changed="_onPaymentTypeSelect"
+                                           selected="">
+                                <paper-item value="">All</paper-item>
+                                <paper-item value="paid_by_partner">Paid by partner</paper-item>
+                                <paper-item value="paid_by_customer_cc_monthly">Paid by customer monthly</paper-item>
+                                <paper-item value="paid_by_customer_cc_yearly">Paid by customer yearly</paper-item>
+                                <paper-item value="trial">Trial</paper-item>
                             </paper-listbox>
-                        </div>
-
-                        <div class="filter">
-                            <paper-dropdown-menu id="dropdownPaymentType"
-                                                 label="Filter by payment type"
-                                                 horizontal-align="left">
-                                <paper-listbox id="paymentType"
-                                               class="dropdown-content"
-                                               attr-for-selected="value"
-                                               on-selected-changed="_onPaymentTypeSelect"
-                                               selected="">
-                                    <paper-item value="">All</paper-item>
-                                    <paper-item value="paid_by_partner">Paid by partner</paper-item>
-                                    <paper-item value="paid_by_customer_cc_monthly">Paid by customer monthly</paper-item>
-                                    <paper-item value="paid_by_customer_cc_yearly">Paid by customer yearly</paper-item>
-                                    <paper-item value="trial">Trial</paper-item>
-                                </paper-listbox>
-                            </paper-dropdown-menu>
-                        </div>
-
-                        <div class="filter">
-                            <paper-dropdown-menu id="dropdownPeriod"
-                                                 label="Filter by period"
-                                                 horizontal-align="left">
-                                <paper-listbox id="period"
-                                               class="dropdown-content"
-                                               attr-for-selected="value"
-                                               on-selected-changed="_onPeriodSelect"
-                                               selected="">
-                                    <paper-item value="">All</paper-item>
-                                    <paper-item value="1">1 month</paper-item>
-                                    <paper-item value="2">2 months</paper-item>
-                                    <paper-item value="3">3 months</paper-item>
-                                    <paper-item value="6">6 months</paper-item>
-                                    <paper-item value="9">9 months</paper-item>
-                                    <paper-item value="12">12 months</paper-item>
-                                </paper-listbox>
-                            </paper-dropdown-menu>
-                        </div>
-
+                        </paper-dropdown-menu>
                     </div>
+
+                    <div class="filter">
+                        <paper-dropdown-menu id="dropdownPeriod"
+                                             label="Filter by period"
+                                             horizontal-align="left">
+                            <paper-listbox id="period"
+                                           class="dropdown-content"
+                                           attr-for-selected="value"
+                                           on-selected-changed="_onPeriodSelect"
+                                           selected="">
+                                <paper-item value="">All</paper-item>
+                                <paper-item value="1">1 month</paper-item>
+                                <paper-item value="2">2 months</paper-item>
+                                <paper-item value="3">3 months</paper-item>
+                                <paper-item value="6">6 months</paper-item>
+                                <paper-item value="9">9 months</paper-item>
+                                <paper-item value="12">12 months</paper-item>
+                            </paper-listbox>
+                        </paper-dropdown-menu>
+                    </div>
+
                 </div>
             </div>
 
             <div content>
-                <div class="customers-container">
+                <div class="content-container">
                     <appsco-customers-billing
                             id="appscoCustomers"
                             type="customer"
@@ -400,11 +373,26 @@
             getFilters: function () {
                 return {
                     term: this.searchTerm,
-                    paymentType: this.paymentType,
+                    payment_type: this.paymentType,
                     period: this.period
                 };
-            }
+            },
 
+            getFailMessage: function() {
+                return 'Export of Billing Report failed. Please contact AppsCo support.';
+            },
+
+            getFileName: function() {
+                return 'Billing Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-billing-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-billing-report-failed';
+            }
         });
     </script>
 </dom-module>

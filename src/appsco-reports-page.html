@@ -9,39 +9,20 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/report/appsco-report-details.html">
-<link rel="import" href="appsco-page-styles.html">
 <link rel="import" href="components/report/appsco-reports-list.html">
 <link rel="import" href="components/components/appsco-page-behavior.html">
 <link rel="import" href="components/components/appsco-list-observer-behavior.html">
 
 <dom-module id="appsco-reports-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style appsco-page-styles">
-            :host {
-                display: block;
-
-                --info-width: 318px;
-
-                --content-container: {
-                    margin-top: 0;
-                };
-            }
-            :host .open-action, :host .export-action {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .open-action {
+        <style include="appsco-page-styles">
+            :host .info-actions > .open-action {
                 margin-right: 1px;
             }
-            :host .export-action {
+            :host .info-actions > .export-action {
                 @apply(--secondary-button);
-            }
-            :host([tablet-screen]) {
-                --info-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --info-width: 100%;
             }
         </style>
 

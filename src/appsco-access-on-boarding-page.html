@@ -3,25 +3,22 @@
 <link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/paper-styles/shadow.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-request.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/access-on-boarding/appsco-access-on-boarding-roles.html">
 <link rel="import" href="components/access-on-boarding/appsco-access-on-boarding-page-filters.html">
 
 <dom-module id="appsco-access-on-boarding-page">
     <template>
 
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
+                --content-background-color: #ffffff;
                 --background-color: var(--body-background-color);
-                --collapsible-content-background-color: #fbfbfb;
                 --access-on-boarding-account-initials-background-color: var(--body-background-color-darker);
                 --appsco-access-on-boarding-list-item: {
                     cursor: default;
@@ -30,43 +27,16 @@
                     @apply(--shadow-elevation-2dp);
                 };
             }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
+            :host div[resource] .resource-header, :host div[resource] .resource-actions {
+                padding: 0;
             }
-            :host div[resource] > .resource-content {
-                padding: 30px 10px 10px;
-            }
-            :host div[content] {
-                min-height: 100%;
-                background-color: #ffffff;
-            }
-            .content-container {
-                padding: 10px;
-            }
-            :host *[hidden] {
-                display: none;
+            :host div[resource] .resource-content {
+                padding-top: 30px;
             }
             appsco-access-on-boarding-roles {
                 --list-container: {
                     min-height: 60px;
                 };
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --resource-width: 200px;
             }
         </style>
 
@@ -276,7 +246,9 @@
 
                     this.fire('export-access-on-boarding-finished');
                 }.bind(this), function() {
-                    this.fire('export-access-on-boarding-failed');
+                    this.fire('export-access-on-boarding-failed', {
+                        message: 'Export of Access On Boarding Report failed. Please contact AppsCo support.'
+                    });
                 }.bind(this));
             },
 

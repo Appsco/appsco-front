@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/application/appsco-applications.html">
 <link rel="import" href="components/application/appsco-application-info.html">
 <link rel="import" href="components/application/appsco-application-security.html">
@@ -18,11 +19,8 @@
 
 <dom-module id="appsco-home-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --info-width: 318px;
 
                 --appsco-application-item: {
                      color: var(--primary-text-color);
@@ -48,23 +46,14 @@
 
                 --subscriber-initials-background-color: var(--body-background-color-darker);
             }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
+            :host .content-container {
+                margin-bottom: 20px;
             }
-            :host div[info] > * {
-                padding: 10px;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .application-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                box-sizing: border-box;
-                @apply(--layout-flex-none);
-            }
-            :host div[content] > *:first-child {
-                padding-top: 10px;
+            :host .content-container .subtitle {
+                margin-top: 0;
+                margin-bottom: 10px;
+                font-weight: normal;
+                color: var(--secondary-text-color);
             }
             appsco-application-security {
                 --security-score: {
@@ -72,13 +61,6 @@
                      height: 32px;
                      font-size: 14px;
                  };
-            }
-            :host div[info] appsco-application-subscribers {
-                height: 90px;
-                padding-top: 14px;
-                color: var(--primary-text-color);
-                box-sizing: border-box;
-                @apply(--layout-flex-none);
             }
             :host .info {
                 margin-top: 20px;
@@ -88,9 +70,6 @@
                 margin: 0;
                 font-size: 14px;
             }
-            :host div[info] .details-log {
-                height: calc(100% - 50px - 65px);
-            }
             :host div[info] .info-details-section {
                 margin-top: 6px;
                 height: calc(100% - 48px - 35px - 6px);
@@ -98,21 +77,10 @@
             .tab-content {
                 @apply(--paper-tabs-content-style);
             }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .view-button, :host .share-button, :host .revoke-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .view-button {
+            :host .info-actions > .view-button {
                 margin-right: 1px;
             }
-            :host .share-button {
+            :host .info-actions > .share-button {
                 @apply(--secondary-button);
             }
             appsco-application-share {
@@ -128,16 +96,6 @@
             }
             appsco-application-details {
                 --appsco-application-icons-color: var(--primary-text-color);
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
             }
             :host([laptop-screen]) {
                 --appsco-application-item: {
@@ -168,7 +126,6 @@
                 --info-width: 300px;
             }
             :host([mobile-screen]) {
-                --info-width: 100%;
 
                 --applications-container: {
                      margin-right: -25px;
@@ -176,15 +133,6 @@
                      @apply(--layout-horizontal);
                      @apply(--layout-around-justified);
                  };
-            }
-            :host .items-container {
-                margin-bottom: 30px;
-            }
-            :host .items-container .subtitle {
-                margin-top: 0;
-                margin-bottom: 10px;
-                font-weight: normal;
-                color: var(--secondary-text-color);
             }
         </style>
 
@@ -198,7 +146,7 @@
 
             <div content>
 
-                <div class="items-container folders-container"
+                <div class="content-container folders-container"
                      hidden$="[[ _foldersEmpty ]]">
                     <h4 class="subtitle">Folders</h4>
                     <appsco-folders
@@ -212,10 +160,10 @@
                             on-item="_onFolderAction"></appsco-folders>
                 </div>
 
-                <div class="items-container resources-container">
+                <div class="content-container resources-container">
                     <h4 class="subtitle"
                         hidden$="[[ _foldersEmpty ]]">Resources</h4>
-                <appsco-applications
+                    <appsco-applications
                         id="appscoApplications"
                         size="100"
                         load-more
@@ -232,8 +180,7 @@
             </div>
 
             <div class="flex-vertical" info>
-
-                <div class="application-info flex-horizontal">
+                <div class="info-header flex-horizontal">
                     <appsco-application-info
                             class="flex"
                             application="[[ application ]]">
@@ -264,7 +211,7 @@
                     </div>
                 </template>
 
-                <div class="details-log flex-vertical">
+                <div class="info-content flex-vertical">
 
                     <template is="dom-if" if="[[ !_shared ]]">
                         <paper-tabs id="paperTabs" selected="{{ _selectedTab }}">

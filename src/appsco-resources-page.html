@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/application/appsco-application-info.html">
 <link rel="import" href="components/application/appsco-application-analytics-security.html">
 <link rel="import" href="components/application/appsco-application-analytics-info.html">
@@ -21,12 +22,8 @@
 
 <dom-module id="appsco-resources-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
-                --info-width: 318px;
 
                 --application-log-item: {
                      padding-bottom: 6px;
@@ -42,28 +39,16 @@
 
                 --subscriber-initials-background-color: var(--body-background-color-darker);
             }
-            :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
-                padding-bottom: 10px;
+            appsco-company-groups {
+                margin-top: 20px;
+
+                --appsco-company-group-item: {
+                    padding: 4px;
+                    margin-bottom: 5px;
+                };
             }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .application-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                @apply(--layout-flex-none);
+            .resource-content {
+                margin-top: 20px;
             }
             appsco-application-analytics-security {
                 --security-score: {
@@ -72,14 +57,8 @@
                      font-size: 14px;
                  };
             }
-            :host div[info] appsco-application-assignees {
-                height: 90px;
-                padding-top: 14px;
-                color: var(--primary-text-color);
-                @apply(--layout-flex-none);
-            }
             :host div[info] .details-log {
-                height: calc(100% - 50px - 90px - 34px);
+                height: calc(100% - 50px - 70px - 34px);
             }
             :host .details-log paper-tabs {
                 height: 32px;
@@ -94,21 +73,10 @@
                 margin-top: 20px;
                 @apply(--paper-tabs-content-style);
             }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .view-button, :host .share-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .view-button {
+            :host .info-actions > .view-button {
                 margin-right: 1px;
             }
-            :host .share-button {
+            :host .info-actions > .share-button {
                 @apply(--secondary-button);
             }
             appsco-application-share {
@@ -125,38 +93,8 @@
             appsco-application-details {
                 --appsco-application-icons-color: var(--primary-text-color);
             }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-                --info-width: 250px;
-            }
             :host([mobile-screen]) {
                 --resource-width: 100%;
-                --info-width: 100%;
-            }
-            .resource-container {
-                @apply(--layout-vertical);
-                height: 100%;
-            }
-            appsco-company-groups {
-                margin-top: 20px;
-
-                --appsco-company-group-item: {
-                    padding: 4px;
-                    margin-bottom: 5px;
-                };
-            }
-            .groups {
-                margin-top: 20px;
             }
         </style>
 
@@ -167,59 +105,54 @@
 
             <template is="dom-if" if="[[ !resourceAdmin ]]">
                 <div class="flex-vertical" resource>
-
-                    <div class="resource-container">
-
-                        <div class="resource-header">
-                            Groups
-                        </div>
-
-                        <div class="groups">
-                            <appsco-search id="appscoSearch"
-                                           label="Search groups"
-                                           on-search="_onSearchGroups"
-                                           on-search-clear="_onSearchGroupsClear"></appsco-search>
-
-                            <appsco-company-groups id="appscoCompanyGroups"
-                                                   list-api="[[ groupsApi ]]"
-                                                   authorization-token="[[ authorizationToken ]]"
-                                                   size="100"
-                                                   type="group"
-                                                   preview
-                                                   on-item="_onGroupSelected"></appsco-company-groups>
-                        </div>
-
+                    <div class="resource-header">
+                        Groups
                     </div>
 
+                    <div class="resource-content">
+                        <appsco-search id="appscoSearch"
+                                       label="Search groups"
+                                       on-search="_onSearchGroups"
+                                       on-search-clear="_onSearchGroupsClear"></appsco-search>
+
+                        <appsco-company-groups id="appscoCompanyGroups"
+                                               list-api="[[ groupsApi ]]"
+                                               authorization-token="[[ authorizationToken ]]"
+                                               size="100"
+                                               type="group"
+                                               preview
+                                               on-item="_onGroupSelected"></appsco-company-groups>
+                    </div>
                 </div>
             </template>
 
             <div content>
-                <appsco-company-resources
-                        id="appscoResources"
-                        type="resource"
-                        size="100"
-                        min-search-term-length="2"
-                        load-more
-                        selectable
-                        authorization-token="[[ authorizationToken ]]"
-                        list-api="[[ companyResourcesApi ]]"
-                        api-errors="[[ apiErrors ]]"
-                        resource-admin="[[ resourceAdmin ]]"
-                        on-item="_onResourceAction"
-                        on-select-item="_onResourceSelectAction"
-                        on-edit-item="_onResourceEditAction"
-                        on-items-removed="_onResourcesRemoved"
-                        on-list-loaded="_pageLoaded"
-                        on-list-empty="_onResourcesEmptyLoad"
-                        on-observable-list-empty="_onObservableItemListChange"
-                        on-observable-list-filled="_onObservableItemListChange"></appsco-company-resources>
+                <div class="content-container">
+                    <appsco-company-resources
+                            id="appscoResources"
+                            type="resource"
+                            size="100"
+                            min-search-term-length="2"
+                            load-more
+                            selectable
+                            authorization-token="[[ authorizationToken ]]"
+                            list-api="[[ companyResourcesApi ]]"
+                            api-errors="[[ apiErrors ]]"
+                            resource-admin="[[ resourceAdmin ]]"
+                            on-item="_onResourceAction"
+                            on-select-item="_onResourceSelectAction"
+                            on-edit-item="_onResourceEditAction"
+                            on-items-removed="_onResourcesRemoved"
+                            on-list-loaded="_pageLoaded"
+                            on-list-empty="_onResourcesEmptyLoad"
+                            on-observable-list-empty="_onObservableItemListChange"
+                            on-observable-list-filled="_onObservableItemListChange"></appsco-company-resources>
+                </div>
             </div>
 
             <template is="dom-if" if="[[ !resourceAdmin ]]" restamp>
                 <div class="flex-vertical" info>
-
-                    <div class="application-info flex-horizontal">
+                    <div class="info-header flex-horizontal">
                         <appsco-application-info class="flex"
                                                  application="[[ resource ]]"
                                                  company>
@@ -229,42 +162,41 @@
                                 application="[[ resource ]]"></appsco-application-analytics-security>
                     </div>
 
-                    <appsco-application-assignees id="appscoApplicationAssignees"
-                                                  application="[[ resource ]]"
-                                                  authorization-token="[[ authorizationToken ]]"
-                                                  api-errors="[[ apiErrors ]]"
-                                                  size="5"
-                                                  preview
-                                                  auto-load></appsco-application-assignees>
+                    <div class="info-content">
+                        <appsco-application-assignees id="appscoApplicationAssignees"
+                                                      application="[[ resource ]]"
+                                                      authorization-token="[[ authorizationToken ]]"
+                                                      api-errors="[[ apiErrors ]]"
+                                                      size="5"
+                                                      preview
+                                                      auto-load></appsco-application-assignees>
 
-                    <div class="details-log flex-vertical">
+                        <div class="details-log flex-vertical">
+                            <paper-tabs id="paperTabs" selected="{{ _selectedTab }}">
+                                <paper-tab name="info">Info</paper-tab>
+                                <paper-tab name="log">Log</paper-tab>
+                            </paper-tabs>
 
-                        <paper-tabs id="paperTabs" selected="{{ _selectedTab }}">
-                            <paper-tab name="info">Info</paper-tab>
-                            <paper-tab name="log">Log</paper-tab>
-                        </paper-tabs>
+                            <neon-animated-pages
+                                    selected="{{ _selectedTab }}"
+                                    entry-animation="fade-in-animation"
+                                    exit-animation="fade-out-animation"
+                                    class="info-details-section">
 
-                        <neon-animated-pages
-                                selected="{{ _selectedTab }}"
-                                entry-animation="fade-in-animation"
-                                exit-animation="fade-out-animation"
-                                class="info-details-section">
+                                <div name="info" class="tab-content details">
+                                    <appsco-application-analytics-info
+                                            application="[[ resource ]]"></appsco-application-analytics-info>
+                                </div>
 
-                            <div name="info" class="tab-content details">
-                                <appsco-application-analytics-info
-                                        application="[[ resource ]]"></appsco-application-analytics-info>
-                            </div>
-
-                            <div name="log" class="tab-content log">
-                                <appsco-application-log
-                                        application="[[ resource ]]"
-                                        authorization-token="[[ authorizationToken ]]"
-                                        company>
-                                </appsco-application-log>
-                            </div>
-
-                        </neon-animated-pages>
-
+                                <div name="log" class="tab-content log">
+                                    <appsco-application-log
+                                            application="[[ resource ]]"
+                                            authorization-token="[[ authorizationToken ]]"
+                                            company>
+                                    </appsco-application-log>
+                                </div>
+                            </neon-animated-pages>
+                        </div>
                     </div>
 
                     <div class="info-actions flex-horizontal">

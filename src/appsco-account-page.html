@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/account/appsco-account-image-settings.html">
 <link rel="import" href="account/appsco-account-components-page.html">
 <link rel="import" href="account/appsco-account-settings-page.html">
@@ -20,14 +21,8 @@
 
 <dom-module id="appsco-account-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --appsco-content-sections: {
-                     padding: 0;
-                 };
-
                 --resource-width: 300px;
             }
             :host paper-icon-button::shadow paper-ripple {
@@ -39,12 +34,18 @@
             :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
+            }
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
+            }
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
             }
             :host div[content] {
                 height: 100%;
             }
-            :host .content-components, :host .content-components neon-animated-pages {
+            :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
             appsco-account-components-page {
@@ -52,11 +53,6 @@
             }
             appsco-account-image-settings {
                 display: block;
-            }
-            .resource-header {
-                padding: 20px 10px 30px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
             }
             .account-info {
                 margin-top: 10px;
@@ -68,31 +64,11 @@
             .account-managed-by {
                 margin-top: 10px;
             }
-            div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .change-password-button {
-                @apply(--primary-button);
+            :host .resource-actions > .change-password-button {
                 @apply(--secondary-button);
-                border-radius: 0;
             }
-            :host .delete-account-button {
-                @apply(--primary-button);
+            :host .resource-actions > .delete-account-button {
                 @apply(--danger-button);
-                border-radius: 0;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -144,7 +120,7 @@
                     </appsco-account-image-settings>
                 </div>
 
-                <div class="account-info">
+                <div class="resource-content account-info">
                     <template is="dom-if" if="[[ _accountName ]]">
                         <div class="account-name">[[ _accountName ]]</div>
                     </template>
@@ -181,7 +157,7 @@
 
             <div content>
 
-                <div class="content-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="[[ _selected ]]"
                                          attr-for-selected="name"

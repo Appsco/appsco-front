@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/application/company/appsco-application-assignees.html">
 <link rel="import" href="application/appsco-application-log-page.html">
 <link rel="import" href="applications/appsco-company-resource-settings-page.html">
@@ -20,17 +21,9 @@
 
 <dom-module id="appsco-manage-resource-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: #000;
-
-                --appsco-content-sections: {
-                     padding: 0;
-                 };
-
                 --resource-width: 300px;
-
                 --account-initials-background-color: var(--body-background-color-darker);
             }
             :host paper-icon-button::shadow paper-ripple {
@@ -42,21 +35,19 @@
             :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
             }
-            :host div[content] {
-                height: 100%;
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
             }
-            :host .application-components, :host .application-components neon-animated-pages {
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
+            }
+            :host div[content], :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
             appsco-manage-application-components-page {
                 padding: 10px;
-            }
-            :host .resource-header {
-                padding: 20px 10px 40px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
             }
             :host .resource-header .action-share {
                 color: var(--app-secondary-color);
@@ -97,26 +88,8 @@
                 @apply(--paper-font-body1);
                 margin-top: 10px;
             }
-            :host div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .remove-button {
-                @apply(--primary-button);
+            :host .resource-actions > .remove-button {
                 @apply(--danger-button);
-                border-radius: 0;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -166,55 +139,55 @@
                     <appsco-account-image account="[[ account ]]"></appsco-account-image>
                 </div>
 
-                <p class="application-title">[[ application.title ]]</p>
+                <div class="resource-content">
+                    <p class="application-title">[[ application.title ]]</p>
 
-                <template is="dom-if" if="[[ !resourceAdmin ]]" restamp>
-                    <appsco-application-assignees id="appscoApplicationAssignees"
-                                                  class="appsco-application-assignees"
-                                                  application="[[ application ]]"
-                                                  authorization-token="[[ authorizationToken ]]"
-                                                  api-errors="[[ apiErrors ]]"
-                                                  size="5"
-                                                  preview
-                                                  auto-load></appsco-application-assignees>
-                </template>
+                    <template is="dom-if" if="[[ !resourceAdmin ]]" restamp>
+                        <appsco-application-assignees id="appscoApplicationAssignees"
+                                                      class="appsco-application-assignees"
+                                                      application="[[ application ]]"
+                                                      authorization-token="[[ authorizationToken ]]"
+                                                      api-errors="[[ apiErrors ]]"
+                                                      size="5"
+                                                      preview
+                                                      auto-load></appsco-application-assignees>
+                    </template>
 
-                <div class="info">
-                        Created by: [[ application.added_by.display_name ]]
-                </div>
-
-                <div class="info">
-                    Last modified: [[ _lastEditedDate ]] by [[ application.last_modified.account ]].
-                </div>
-
-                <div class="info">
-                    [[ _setByInfo ]]
-                </div>
-
-                <template is="dom-if" if="[[ application.tutorial.length ]]">
-                    <div class="info tutorial">
-                        <div class="help-title">Need help?</div>
-                        <template is="dom-repeat" items="[[ application.tutorial ]]" as="tutorial">
-                            <a href="[[ tutorial.url ]]" target="_blank" rel="noopener noreferrer">[[ tutorial.content ]]</a>
-                        </template>
+                    <div class="info">
+                            Created by: [[ application.added_by.display_name ]]
                     </div>
-                </template>
 
-                <template is="dom-if" if="[[ !resourceAdmin ]]" restamp>
-                    <div class="resource-actions flex-horizontal">
-                        <paper-button
-                                class="remove-button flex"
-                                on-tap="_onRemoveApplication">
-                            Remove
-                        </paper-button>
+                    <div class="info">
+                        Last modified: [[ _lastEditedDate ]] by [[ application.last_modified.account ]].
                     </div>
-                </template>
 
+                    <div class="info">
+                        [[ _setByInfo ]]
+                    </div>
+
+                    <template is="dom-if" if="[[ application.tutorial.length ]]">
+                        <div class="info tutorial">
+                            <div class="help-title">Need help?</div>
+                            <template is="dom-repeat" items="[[ application.tutorial ]]" as="tutorial">
+                                <a href="[[ tutorial.url ]]" target="_blank" rel="noopener noreferrer">[[ tutorial.content ]]</a>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template is="dom-if" if="[[ !resourceAdmin ]]" restamp>
+                        <div class="resource-actions flex-horizontal">
+                            <paper-button
+                                    class="remove-button flex"
+                                    on-tap="_onRemoveApplication">
+                                Remove
+                            </paper-button>
+                        </div>
+                    </template>
+                </div>
             </div>
 
             <div content>
-
-                <div class="application-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="{{ _selected }}"
                                          attr-for-selected="name"

@@ -9,30 +9,32 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/customer/appsco-manage-customer-components-page.html">
 <link rel="import" href="components/customer/appsco-customer-partner-admins-page.html">
 
 <dom-module id="appsco-manage-customer-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: var(--app-primary-color);
-
                 --resource-width: 300px;
             }
-            div[resource] {
+            :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
             }
-            div[content] {
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
+            }
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
+            }
+            :host div[content], :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
-            .resource-header {
-                padding: 20px 10px 30px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
+            appsco-manage-customer-components-page {
+                padding: 10px;
             }
             .customer-info {
                 margin-top: 10px;
@@ -40,31 +42,6 @@
             }
             .customer-info p {
                 margin: 4px 0;
-            }
-            div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .customer-components, :host .customer-components neon-animated-pages {
-                height: 100%;
-            }
-            .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            .flex {
-                @apply(--layout-flex);
-            }
-            :host([medium-screen]) {
-                --resource-width: 240px;
-            }
-            :host([mobile-screen]) {
-                --resource-width: 180px;
             }
             :host div[label] {
                 color: var(--secondary-text-color);
@@ -99,16 +76,15 @@
                 margin-bottom: 16px;
                 @apply(--text-wrap-break);
             }
-            .delete-button {
-                @apply(--primary-button);
+            :host .resource-actions > .delete-button {
                 @apply(--danger-button);
-                border-radius: 0;
             }
-
-            appsco-manage-customer-components-page {
-                padding: 10px;
+            :host([medium-screen]) {
+                --resource-width: 240px;
             }
-
+            :host([mobile-screen]) {
+                --resource-width: 180px;
+            }
         </style>
 
         <iron-media-query query="(max-width: 1200px)" query-matches="{{ mediumScreen }}"></iron-media-query>
@@ -130,7 +106,7 @@
                     </div>
                 </div>
 
-                <div class="customer-info">
+                <div class="resource-content customer-info">
                     <div class="customer-name">[[ customer.name ]]</div>
                     <div label>Customer ID</div>
                     <div class="customer-id">[[ customer.company_uuid ]]</div>
@@ -148,8 +124,7 @@
             </div>
 
             <div content>
-
-                <div class="customer-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="{{ _selected }}"
                                          attr-for-selected="name">

@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/components/appsco-page-behavior.html">
 <link rel="import" href="components/components/appsco-list-observer-behavior.html">
 <link rel="import" href="components/policy/appsco-policies.html">
@@ -16,42 +17,9 @@
 
 <dom-module id="appsco-policies-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
-            :host {
-                display: block;
-
-                --resource-width: 318px;
-                --info-width: 318px;
-            }
-            :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
-            }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            div[resource] > .resource-content {
+        <style include="appsco-page-styles">
+            :host div[resource] > .resource-content {
                 padding-top: 20px;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .info-header {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                @apply(--layout-flex-none);
-                color: var(--primary-text-color);
-            }
-            :host div[info] .info-content {
-                height: calc(100% - 50px - 40px);
-                margin-top: 10px;
             }
             paper-tabs {
                 height: 32px;
@@ -69,45 +37,14 @@
                 margin-top: 0;
                 margin-bottom: 10px;
             }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .info-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .enable-button {
+            :host .info-actions > .enable-button {
                 margin-right: 1px;
             }
-            :host .disable-button {
+            :host .info-actions > .disable-button {
                 @apply(--danger-button);
-            }
-            appsco-policies {
-                --list-container: {
-                    padding-top: 10px;
-                };
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-                --info-width: 250px;
             }
             :host([mobile-screen]) {
                 --resource-width: 100%;
-                --info-width: 100%;
             }
         </style>
 

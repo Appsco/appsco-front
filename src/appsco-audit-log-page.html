@@ -12,18 +12,15 @@
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/components/appsco-search.html">
 <link rel="import" href="auditlog/appsco-audit-log.html">
 
 <dom-module id="appsco-audit-log-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                background-color: #ffffff;
-
-                --resource-width: 318px;
-                --resource-background-color: var(--body-background-color);
+                --content-background-color: #ffffff;
 
                 --paper-dropdown-menu: {
                      width: 100%;
@@ -42,26 +39,11 @@
                      cursor: pointer;
                  };
             }
+            :host .content-container {
+                padding-top: 0;
+            }
             appsco-audit-log {
                 min-width: 730px;
-            }
-            :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
-            }
-            :host div[content] {
-                height: 100%;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-                height: calc(100% - 10px);
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
             }
             .filter {
                 position: relative;
@@ -131,7 +113,7 @@
                     Filters
                 </div>
 
-                <div class="filters">
+                <div class="resource-content filters">
                     <div class="filter">
 
                         <appsco-search id="filterAccount"
@@ -191,13 +173,15 @@
             </div>
 
             <div content>
-                <appsco-audit-log id="appscoAuditLog"
-                                  authorization-token="[[ authorizationToken ]]"
-                                  audit-log-api="[[ auditLogApi ]]"
-                                  size="30"
-                                  load-more
-                                  on-loaded="_onLogLoaded"
-                                  on-empty-load="_onLogLoaded"></appsco-audit-log>
+                <div class="content-container">
+                    <appsco-audit-log id="appscoAuditLog"
+                                      authorization-token="[[ authorizationToken ]]"
+                                      audit-log-api="[[ auditLogApi ]]"
+                                      size="30"
+                                      load-more
+                                      on-loaded="_onLogLoaded"
+                                      on-empty-load="_onLogLoaded"></appsco-audit-log>
+                </div>
             </div>
 
         </appsco-content>

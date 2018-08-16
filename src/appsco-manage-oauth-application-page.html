@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/oauth-application/appsco-manage-oauth-application-components-page.html">
 <link rel="import" href="components/oauth-application/appsco-oauth-application-settings-page.html">
 <link rel="import" href="components/oauth-application/appsco-oauth-application-certificates-page.html">
@@ -14,35 +15,26 @@
 
 <dom-module id="appsco-manage-oauth-application-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: #000;
-
-                --appsco-content-sections: {
-                     padding: 0;
-                 };
-
                 --resource-width: 300px;
             }
             :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
             }
-            :host div[content] {
-                height: 100%;
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
             }
-            :host .application-components, :host .application-components neon-animated-pages {
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
+            }
+            :host div[content], :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
             appsco-manage-oauth-application-components-page {
                 padding: 10px;
-            }
-            :host .resource-header {
-                padding: 20px 10px 40px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
             }
             :host .application-icon {
                 width: 64px;
@@ -59,29 +51,11 @@
                 @apply(--paper-font-body1);
                 margin-top: 10px;
             }
-            :host div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .remove-button {
-                @apply(--primary-button);
+            :host .resource-actions > .remove-button {
                 @apply(--danger-button);
-                border-radius: 0;
             }
             :host appsco-oauth-application-info {
                 margin-top: 20px;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -111,10 +85,12 @@
                                 sizing="cover"></iron-image>
                 </div>
 
-                <p class="application-title">[[ application.title ]]</p>
+                <div class="resource-content">
+                    <p class="application-title">[[ application.title ]]</p>
 
-                <appsco-oauth-application-info o-auth-application="[[ application ]]"
-                                               display-copy-values-only></appsco-oauth-application-info>
+                    <appsco-oauth-application-info o-auth-application="[[ application ]]"
+                                                   display-copy-values-only></appsco-oauth-application-info>
+                </div>
                 
                 <div class="resource-actions flex-horizontal">
                     <paper-button
@@ -126,8 +102,7 @@
             </div>
 
             <div content>
-
-                <div class="application-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="{{ _selected }}"
                                          attr-for-selected="name"

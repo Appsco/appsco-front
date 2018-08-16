@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/application/appsco-applications.html">
 <link rel="import" href="components/application/appsco-application-info.html">
 <link rel="import" href="components/application/appsco-application-security.html">
@@ -16,12 +17,9 @@
 
 <dom-module id="appsco-contact-home-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
                 --paper-tabs-selection-bar-color: var(--app-primary-color);
-                --info-width: 318px;
 
                 --appsco-application-item: {
                     color: var(--primary-text-color);
@@ -50,26 +48,6 @@
                     background-color: var(--divider-color);
                 };
             }
-
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-
-            :host div[info] > * {
-                padding: 10px;
-            }
-
-            :host div[info] {
-                height: 100%;
-            }
-
-            :host div[info] .application-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                box-sizing: border-box;
-                @apply(--layout-flex-none);
-            }
-
             appsco-application-security {
                 --security-score: {
                     width: 32px;
@@ -77,66 +55,39 @@
                     font-size: 14px;
                 };
             }
-
-            :host div[info] appsco-application-subscribers {
-                height: 90px;
-                padding-top: 14px;
-                color: var(--primary-text-color);
-                box-sizing: border-box;
-                @apply(--layout-flex-none);
-            }
-
             :host .info {
                 margin-top: 20px;
                 color: var(--primary-text-color);
             }
-
             :host .info p {
                 margin: 0;
                 font-size: 14px;
             }
-
             :host div[info] .details-log {
                 height: calc(100% - 50px - 65px);
             }
-
             :host .details-log paper-tabs {
                 height: 38px;
                 color: var(--primary-text-color);
             }
-
             :host div[info] .info-details-section {
                 margin-top: 6px;
                 height: calc(100% - 48px - 35px - 6px);
             }
-
             .tab-content {
                 margin-right: -10px;
                 padding-right: 10px;
                 overflow: auto;
             }
-
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-
             :host .view-button, :host .share-button, :host .revoke-button {
                 @apply(--primary-button);
-                border-radius: 0;
             }
-
             :host .view-button {
                 margin-right: 1px;
             }
-
             :host .share-button {
                 @apply(--secondary-button);
             }
-
             appsco-application-share {
                 --appsco-application-share-button: {
                     border-radius: 0;
@@ -148,24 +99,9 @@
                     height: 34px;
                 };
             }
-
             appsco-application-details {
                 --appsco-application-icons-color: var(--primary-text-color);
             }
-
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-
-            :host .flex {
-                @apply(--layout-flex);
-            }
-
             :host([laptop-screen]) {
                 --appsco-application-item: {
                     width: 131px;
@@ -194,13 +130,9 @@
                 --appsco-application-item: {
                     width: 140px;
                 };
-
-                --info-width: 300px;
             }
 
             :host([mobile-screen]) {
-                --info-width: 100%;
-
                 --applications-container: {
                     margin-right: -25px;
                     display: block;

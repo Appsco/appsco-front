@@ -1,0 +1,97 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel="import" href="../../shared-styles.html">
+<link rel="import" href="../../webkit-scrollbar-style.html">
+
+<dom-module id="appsco-page-styles">
+    <template>
+        <style include="shared-styles webkit-scrollbar-style">
+            :host {
+                display: block;
+                font-size: 14px;
+                color: var(--primary-text-color);
+
+                --resource-width: 318px;
+                --info-width: 318px;
+                --collapsible-content-background-color: #fbfbfb;
+            }
+            :host div[resource] {
+                height: 100%;
+                overflow: auto;
+            }
+            :host div[resource] > *:not(.resource-actions), :host div[info] > *:not(.info-actions) {
+                padding: 10px;
+                box-sizing: border-box;
+            }
+            :host .resource-header {
+                font-size: 16px;
+                border-bottom: 1px solid var(--divider-color);
+            }
+            :host .resource-actions, :host .info-actions {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            :host .resource-actions > paper-button, :host .info-actions > paper-button {
+                @apply(--primary-button);
+                border-radius: 0;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            :host div[content] {
+                min-height: 100%;
+            }
+            :host .content-container {
+                padding: 10px;
+                @apply(--content-container);
+            }
+            :host div[info] {
+                height: 100%;
+            }
+            :host .info-header {
+                border-bottom: 1px solid var(--divider-color);
+                height: 50px;
+                color: var(--primary-text-color);
+                @apply(--layout-flex-none);
+            }
+            :host .info-header .info-icon {
+                width: 32px;
+                height: 32px;
+                margin-right: 5px;
+            }
+            :host .info-header .info-title {
+                @apply(--paper-font-subhead);
+                font-size: 18px;
+            }
+            :host .info-content {
+                height: calc(100% - 50px - 40px);
+                margin-top: 10px;
+                overflow: auto;
+            }
+            :host *[hidden] {
+                display: none;
+            }
+            :host .flex-horizontal {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+            :host .flex-vertical {
+                @apply(--layout-vertical);
+            }
+            :host .flex {
+                @apply(--layout-flex);
+            }
+            :host([tablet-screen]) {
+                --resource-width: 250px;
+                --info-width: 300px;
+            }
+            :host([mobile-screen]) {
+                --resource-width: 200px;
+                --info-width: 100%;
+            }
+        </style>
+    </template>
+</dom-module>

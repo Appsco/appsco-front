@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/folder/appsco-folders.html">
 <link rel="import" href="components/application/appsco-applications.html">
 <link rel="import" href="components/application/appsco-application-item.html">
@@ -19,12 +20,9 @@
 
 <dom-module id="appsco-dashboard-folder-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
                 --paper-tabs-selection-bar-color: var(--app-primary-color);
-                --info-width: 318px;
 
                 --appsco-application-item: {
                     color: var(--primary-text-color);
@@ -56,24 +54,6 @@
                 margin: 0 10px 10px 0;
                 @apply(--appsco-applications-item);
             }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            :host div[content] > *:first-child {
-                padding-top: 10px;
-            }
-            :host div[info] > * {
-                padding: 10px;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .application-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                box-sizing: border-box;
-                @apply(--layout-flex-none);
-            }
             appsco-application-security {
                 --security-score: {
                     width: 32px;
@@ -104,21 +84,10 @@
                 padding-right: 10px;
                 overflow: auto;
             }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .view-button, :host .share-button, :host .revoke-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .view-button {
+            :host .info-actions > .view-button {
                 margin-right: 1px;
             }
-            :host .share-button {
+            :host .info-actions > .share-button {
                 @apply(--secondary-button);
             }
             appsco-application-details {
@@ -149,16 +118,6 @@
                 background: var(--primary-text-color);
                 color: var(--secondary-text-color);
             }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
             :host([laptop-screen]) {
                 --appsco-application-item: {
                     width: 131px;
@@ -184,12 +143,8 @@
                 --appsco-application-item: {
                     width: 140px;
                 };
-
-                --info-width: 300px;
             }
             :host([mobile-screen]) {
-                --info-width: 100%;
-
                 --applications-container: {
                     margin-right: -25px;
                     display: block;
@@ -225,51 +180,51 @@
         <appsco-content id="appscoContent">
 
             <div content>
+                <div class="content-container">
+                    <div class="breadcrumbs">
+                        <h3 class="breadcrumb"
+                            on-tap="_onBreadcrumbAction"
+                            data-page="company-home"
+                            data-drop-to-zone>Dashboard</h3>
+                        <h3>/</h3>
+                        <h3 class="breadcrumb">[[ folder.title ]]</h3>
+                    </div>
 
-                <div class="breadcrumbs">
-                    <h3 class="breadcrumb"
-                        on-tap="_onBreadcrumbAction"
-                        data-page="company-home"
-                        data-drop-to-zone>Dashboard</h3>
-                    <h3>/</h3>
-                    <h3 class="breadcrumb">[[ folder.title ]]</h3>
+                    <div class="items-container resources-container">
+                        <appsco-applications
+                                id="appscoApplications"
+                                size="100"
+                                load-more
+                                is-on-company
+                                authorization-token="[[ authorizationToken ]]"
+                                applications-api="[[ _applicationsApi ]]"
+                                account="[[ account ]]"
+                                current-folder="[[ folder ]]"
+                                on-info="_onViewApplicationInfo"
+                                on-edit="_onApplicationEdit"
+                                on-application="_onApplication"
+                                on-application-removed="_onApplicationRemoved"
+                                on-loaded="_pageLoaded"
+                                on-empty-load="_pageLoaded"></appsco-applications>
+                    </div>
+
+                    <template is="dom-repeat"
+                              items="{{ _applications }}">
+
+                        <appsco-application-item id="appscoApplicationItem_[[ index ]]"
+                                                 class="application-item citrix-item"
+                                                 application="{{ item }}"
+                                                 on-application="_onCitrixResourceAction"
+                                                 on-info="_onViewApplicationInfo"
+                        ></appsco-application-item>
+
+                    </template>
                 </div>
-
-                <div class="items-container resources-container">
-                    <appsco-applications
-                            id="appscoApplications"
-                            size="100"
-                            load-more
-                            is-on-company
-                            authorization-token="[[ authorizationToken ]]"
-                            applications-api="[[ _applicationsApi ]]"
-                            account="[[ account ]]"
-                            current-folder="[[ folder ]]"
-                            on-info="_onViewApplicationInfo"
-                            on-edit="_onApplicationEdit"
-                            on-application="_onApplication"
-                            on-application-removed="_onApplicationRemoved"
-                            on-loaded="_pageLoaded"
-                            on-empty-load="_pageLoaded"></appsco-applications>
-                </div>
-
-                <template is="dom-repeat"
-                          items="{{ _applications }}">
-
-                    <appsco-application-item id="appscoApplicationItem_[[ index ]]"
-                                             class="application-item citrix-item"
-                                             application="{{ item }}"
-                                             on-application="_onCitrixResourceAction"
-                                             on-info="_onViewApplicationInfo"
-                    ></appsco-application-item>
-
-                </template>
-
             </div>
 
             <div class="flex-vertical" info>
 
-                <div class="application-info flex-horizontal">
+                <div class="info-header flex-horizontal">
                     <appsco-application-info
                             class="flex"
                             application="[[ application ]]">

@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/account/appsco-account-image.html">
 <link rel="import" href="provisioning/appsco-manage-integration-components-page.html">
 <link rel="import" href="provisioning/appsco-integration-settings-page.html">
@@ -15,25 +16,26 @@
 
 <dom-module id="appsco-manage-integration-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: var(--app-primary-color);
-
                 --resource-width: 300px;
             }
-            div[resource] {
+            :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
             }
-            div[content] {
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
+            }
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
+            }
+            :host div[content], :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
-            .resource-header {
-                padding: 20px 10px 30px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
+            appsco-manage-integration-components-page {
+                padding: 10px;
             }
             .integration-image {
                 width: 96px;
@@ -54,32 +56,11 @@
                 left: 0;
                 margin: auto;
             }
-            div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
+            :host .resource-actions > .reauthorize {
+                @apply(--secondary-button);
             }
-            .remove-action {
-                @apply(--primary-button);
+            :host .resource-actions > .remove-action {
                 @apply(--danger-button);
-                border-radius: 0;
-            }
-            :host .integration-components, :host .integration-components neon-animated-pages {
-                height: 100%;
-            }
-            .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            .flex {
-                @apply(--layout-flex);
-            }
-            appsco-manage-integration-components-page {
-                padding: 10px;
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -134,14 +115,6 @@
             .integration-info {
                 padding-top: 10px;
             }
-            .reauthorize {
-                @apply(--primary-button);
-                @apply(--secondary-button);
-                border-radius: 0;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
 
         </style>
 
@@ -176,7 +149,7 @@
                     </template>
                 </div>
 
-                <div class="integration-info">
+                <div class="resource-content integration-info">
                     <p>[[ integration.name ]]</p>
                 </div>
 
@@ -239,8 +212,7 @@
             </div>
 
             <div content>
-
-                <div class="integration-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="{{ _selected }}"
                                          attr-for-selected="name">

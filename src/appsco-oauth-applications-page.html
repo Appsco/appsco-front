@@ -11,17 +11,15 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/oauth-application/appsco-oauth-applications.html">
 <link rel="import" href="components/oauth-application/appsco-oauth-application-info.html">
 <link rel="import" href="components/components/appsco-page-behavior.html">
 
 <dom-module id="appsco-oauth-applications-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style appsco-page-styles">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --info-width: 318px;
 
                 --details-label: {
                     font-size: 12px;
@@ -30,45 +28,8 @@
                     font-size: 14px;
                 };
             }
-            :host([tablet-screen]) {
-                --info-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --info-width: 100%;
-            }
-
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-
-            .oauth-applications-container {
-                margin-top: 10px;
-            }
-            :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
-            }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            div[resource] > .resource-content {
+            :host div[resource] > .resource-content {
                 padding-top: 20px;
-                font-size: 13.5px;
-            }
-            appsco-oauth-applications {
-                margin-left: 10px;
-                margin-right: 10px;
             }
             .application-image {
                 width: 32px;
@@ -89,34 +50,9 @@
                 margin: auto;
                 --iron-icon-fill-color: var(--primary-text-color, #ffffff);
             }
-            :host div[info] {
-                height: 100%;
-            }
-            :host .info-content {
-                height: calc(100% - 50px - 40px);
-                margin-top: 10px;
-                overflow: auto;
-            }
-            :host .info-header {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                @apply(--layout-flex-none);
-                color: var(--primary-text-color);
-            }
             :host .application-name {
                 @apply(--paper-font-subhead);
                 font-size: 18px;
-            }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .edit-action{
-                @apply(--primary-button);
-                border-radius: 0;
             }
         </style>
 
@@ -149,7 +85,7 @@
             </div>
 
             <div content>
-                <div class="oauth-applications-container">
+                <div class="content-container">
                     <appsco-oauth-applications
                             id="oAuthApplications"
                             size="100"

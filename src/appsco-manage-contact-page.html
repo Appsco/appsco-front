@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/account/appsco-account-image.html">
 <link rel="import" href="components/contact/appsco-manage-contact-components-page.html">
 <link rel="import" href="components/contact/appsco-contact-applications-page.html">
@@ -14,25 +15,26 @@
 
 <dom-module id="appsco-manage-contact-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: var(--app-primary-color);
-
                 --resource-width: 300px;
             }
-            div[resource] {
+            :host div[resource] {
                 padding: 10px;
                 height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
             }
-            div[content] {
+            :host div[resource] > .resource-header {
+                padding: 20px 10px 30px;
+                position: relative;
+            }
+            :host div[resource] > .resource-content, :host .content-container {
+                padding: 0;
+            }
+            :host div[content], :host .content-container, :host .content-container neon-animated-pages {
                 height: 100%;
             }
-            .resource-header {
-                padding: 20px 10px 30px;
-                border-bottom: 1px solid var(--divider-color);
-                position: relative;
+            appsco-manage-contact-components-page {
+                padding: 10px;
             }
             appsco-account-image {
                 --account-image: {
@@ -52,37 +54,14 @@
             .account-info p {
                 margin: 4px 0;
             }
-            div[resource] .resource-actions {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            .convert-to-user-button {
-                @apply(--primary-button);
+            :host .resource-actions > .convert-to-user-button {
                 @apply(--secondary-button);
-                border-radius: 0;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
             }
-            .delete-button {
-                @apply(--primary-button);
+            :host .resource-actions > .delete-button {
                 @apply(--danger-button);
-                border-radius: 0;
-            }
-            :host .contact-components, :host .contact-components neon-animated-pages {
-                height: 100%;
-            }
-            .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            .flex {
-                @apply(--layout-flex);
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -109,7 +88,7 @@
                     <appsco-account-image account="[[ contact.account ]]"></appsco-account-image>
                 </div>
 
-                <div class="account-info">
+                <div class="resource-content account-info">
                     <div class="account-name">[[ contact.display_name ]]</div>
                     <div class="account-email">[[ contact.email ]]</div>
                 </div>
@@ -130,7 +109,7 @@
 
             <div content>
 
-                <div class="contact-components">
+                <div class="content-container">
                     <neon-animated-pages class="flex"
                                          selected="{{ _selected }}"
                                          attr-for-selected="name">

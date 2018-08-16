@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/account/appsco-contacts.html">
 <link rel="import" href="components/account/appsco-invitations.html">
 <link rel="import" href="components/components/appsco-search.html">
@@ -20,12 +21,8 @@
 
 <dom-module id="appsco-contacts-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
-                --info-width: 318px;
 
                 --account-details-label: {
                     font-size: 12px;
@@ -43,35 +40,8 @@
                     padding-top: 0;
                 };
             }
-            :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
-            }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            div[resource] > .resource-content {
+            :host div[resource] .resource-content {
                 padding-top: 20px;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .account-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                @apply(--layout-flex-none);
-                color: var(--primary-text-color);
-            }
-            :host div[info] .details-log {
-                height: calc(100% - 50px - 40px);
-                margin-top: 10px;
             }
             paper-tabs {
                 height: 32px;
@@ -92,9 +62,6 @@
                     margin-bottom: 5px;
                 };
             }
-            .contacts-container {
-                margin-top: 10px;
-            }
             appsco-account-image {
                 --account-image: {
                     width: 32px;
@@ -108,24 +75,6 @@
             :host .account-name {
                 @apply(--paper-font-subhead);
                 font-size: 18px;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-                --info-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --resource-width: 100%;
-                --info-width: 100%;
             }
             :host([screen992]) {
                 --account-basic-info: {
@@ -173,7 +122,7 @@
             </div>
 
             <div content>
-                <div class="contacts-container">
+                <div class="content-container">
 
                     <neon-animated-pages selected="[[ _page ]]"
                                          attr-for-selected="name"
@@ -217,12 +166,12 @@
             </div>
 
             <div class="flex-vertical" info>
-                <div class="account-info flex-horizontal">
+                <div class="info-header flex-horizontal">
                     <appsco-account-image account="[[ _account ]]"></appsco-account-image>
                     <span class="account-name flex">[[ contact.display_name ]]</span>
                 </div>
 
-                <div class="details-log flex-vertical">
+                <div class="info-content flex-vertical">
 
                     <paper-tabs id="paperTabs" selected="{{ _selectedTab }}">
                         <paper-tab name="info">Info</paper-tab>

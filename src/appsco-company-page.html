@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="company/appsco-company-components-page.html">
 <link rel="import" href="company/appsco-company-settings-page.html">
 <link rel="import" href="company/appsco-company-brand-settings-page.html">
@@ -18,26 +19,9 @@
 
 <dom-module id="appsco-company-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-                color: var(--primary-text-color);
-
-                --appsco-content-sections: {
-                    padding: 0;
-                };
-
                 --resource-width: 300px;
-            }
-            :host div[resource] {
-                height: calc(100% - 32px - 20px - 10px);
-                overflow: auto;
-            }
-            :host div[resource] > * {
-                padding: 10px;
-            }
-            :host div[content] {
-                height: 100%;
             }
             :host .content-components, :host .content-components neon-animated-pages {
                 height: 100%;
@@ -46,27 +30,19 @@
                 padding: 10px;
             }
             :host .resource-header {
-                border-bottom: 1px solid var(--divider-color);
                 margin-bottom:20px;
                 font-size: 18px;
                 @apply(--text-wrap-break);
             }
-            .company-info {
+            .resource-content {
                 margin-top: 10px;
                 font-size: 14px;
             }
+            :host div[content] {
+                height: 100%;
+            }
             .info-icon {
                 margin-right: 4px;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
             }
             :host([medium-screen]) {
                 --resource-width: 240px;
@@ -97,7 +73,7 @@
                     [[ company.name ]]
                 </div>
 
-                <div class="company-info">
+                <div class="resource-content">
                     <div class="company-contact-email">
                         <iron-icon icon="communication:email"
                                    class="info-icon"></iron-icon>

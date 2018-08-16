@@ -4,24 +4,23 @@
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animatable-behavior.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/paper-styles/shadow.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/report/appsco-access-report-accounts.html">
 <link rel="import" href="components/report/appsco-access-report-page-filters.html">
+
+<link rel="import" href="components/components/appsco-behavior-report-page.html">
 
 <dom-module id="appsco-access-report-page">
     <template>
 
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
+                --content-background-color: #ffffff;
                 --background-color: var(--body-background-color);
-                --collapsible-content-background-color: #fbfbfb;
                 --access-report-account-initials-background-color: var(--body-background-color-darker);
                 --appsco-access-report-list-item: {
                     cursor: default;
@@ -30,43 +29,13 @@
                     @apply(--shadow-elevation-2dp);
                 };
             }
-            :host div[resource] {
-                height: 100%;
-                overflow: auto;
-            }
-            :host div[resource] > .resource-content {
-                padding: 30px 10px 10px;
-            }
-            :host div[content] {
-                min-height: 100%;
-                background-color: #ffffff;
-            }
-            .content-container {
-                padding: 10px;
-            }
-            :host *[hidden] {
-                display: none;
+            :host div[resource] .resource-content {
+                padding-top: 30px;
             }
             appsco-access-report-accounts {
                 --list-container: {
                     min-height: 60px;
                 };
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --resource-width: 200px;
             }
         </style>
 
@@ -229,11 +198,12 @@
 
             behaviors: [
                 Polymer.NeonAnimatableBehavior,
-                Polymer.NeonAnimationRunnerBehavior
+                Polymer.NeonAnimationRunnerBehavior,
+                Polymer.AppscoBehaviourReportPage
             ],
 
             observers: [
-                '_updateScreen(mobileScreen, tabletScreen, screen992)',
+                '_updateScreen(mobileScreen, tabletScreen)',
                 '_toggleFilters(mobileScreen)'
             ],
 
@@ -276,8 +246,39 @@
                 this.$.appscoContent.toggleSection('resource');
             },
 
-            getAccessReportFilters: function() {
-                return this.$.accessReportPageFilters.getFilters();
+            getFilters: function() {
+                var filters = this.$.accessReportPageFilters.getFilters();
+                filters.group = filters.group && filters.group.self ? filters.group.self : '';
+
+                switch (filters.type) {
+                    case 'users':
+                        filters.company_roles = true;
+                        filters.contacts = false;
+                        break;
+
+                    case 'contacts':
+                        filters.company_roles = false;
+                        filters.contacts = true;
+                        break;
+                }
+
+                return filters;
+            },
+
+            getFileName: function() {
+                return 'Access Report.xlsx';
+            },
+
+            getOnSuccessEvent: function() {
+                return 'export-access-report-finished';
+            },
+
+            getOnFailEvent: function() {
+                return 'export-access-report-failed';
+            },
+
+            getFailMessage: function() {
+                return 'Export of Access Report failed. Please contact AppsCo support.';
             },
 
             _updateScreen: function() {

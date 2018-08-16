@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/account/appsco-accounts.html">
 <link rel="import" href="components/account/appsco-account-details.html">
 <link rel="import" href="components/account/appsco-account-security.html">
@@ -22,12 +23,8 @@
 
 <dom-module id="appsco-directory-page">
     <template>
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --resource-width: 318px;
-                --info-width: 318px;
 
                 --appsco-list-item-message: {
                     font-size: 14px;
@@ -50,32 +47,8 @@
                      padding-top: 0;
                  };
             }
-            :host div[resource] {
+            :host .resource-content {
                 height: 100%;
-                overflow: auto;
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            .resource-container {
-                @apply(--layout-vertical);
-                height: 100%;
-            }
-            .directory-container {
-                margin-top: 10px;
-            }
-            :host div[resource] > *, :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] .account-info {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-                @apply(--layout-flex-none);
-                color: var(--primary-text-color);
             }
             appsco-account-security {
                 --security-score: {
@@ -83,10 +56,6 @@
                     height: 32px;
                     font-size: 14px;
                 };
-            }
-            :host div[info] .details-log {
-                height: calc(100% - 50px - 40px);
-                margin-top: 10px;
             }
             paper-tabs {
                 height: 32px;
@@ -107,17 +76,6 @@
                     margin-bottom: 5px;
                 };
             }
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .edit-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
             appsco-account-image {
                 --account-image: {
                     width: 32px;
@@ -133,26 +91,8 @@
                 @apply(--paper-font-common-nowrap);
                 font-size: 18px;
             }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host *[hidden] {
-                display: none;
-            }
-            :host([tablet-screen]) {
-                --resource-width: 250px;
-                --info-width: 250px;
-            }
             :host([mobile-screen]) {
                 --resource-width: 100%;
-                --info-width: 100%;
             }
             :host([screen992]) {
                 --account-basic-info: {
@@ -199,7 +139,7 @@
 
             <div class="flex-vertical" resource>
 
-                <div class="resource-container">
+                <div class="resource-content flex-vertical">
                     <paper-tabs id="paperTabs" selected="{{ _selectedFilter }}">
                         <paper-tab name="organization-units">Organization units</paper-tab>
                         <paper-tab name="groups">Groups</paper-tab>
@@ -235,12 +175,10 @@
 
                     </neon-animated-pages>
                 </div>
-
             </div>
 
             <div content>
-
-                <div class="directory-container">
+                <div class="content-container">
 
                     <appsco-invitations
                             hidden$="[[ !_invitationsVisible ]]"
@@ -271,18 +209,16 @@
                             on-observable-list-empty="_onObservableItemListChange"
                             on-observable-list-filled="_onObservableItemListChange"></appsco-accounts>
                 </div>
-
             </div>
 
             <div class="flex-vertical" info>
-
-                <div class="account-info flex-horizontal">
+                <div class="info-header flex-horizontal">
                     <appsco-account-image account="[[ role.account ]]"></appsco-account-image>
                     <span class="account-name flex">[[ role.account.name ]]</span>
                     <appsco-account-security role="[[ role ]]"></appsco-account-security>
                 </div>
 
-                <div class="details-log flex-vertical">
+                <div class="info-content flex-vertical">
 
                     <paper-tabs id="paperTabs" selected="{{ _selectedTab }}">
                         <paper-tab name="info">Info</paper-tab>
@@ -320,9 +256,7 @@
                         Edit
                     </paper-button>
                 </div>
-
             </div>
-
         </appsco-content>
 
     </template>

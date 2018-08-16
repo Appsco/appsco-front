@@ -10,37 +10,19 @@
 <link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/components/appsco-loader.html">
-
-
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
-
-<link rel="import" href="shared-styles.html">
 
 <dom-module id="appsco-statistics-page">
     <template>
-        <style include="webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
                 --chart-background-color: #ffffff;
-                display: block;
-                color: var(--primary-text-color);
-                font-size: 14px;
-
-                --appsco-content-sections: {
-                    padding: 0;
-                };
 
                 --chart-container-width: {
                     width: 50%;
                 };
-            }
-            :host div[content] {
-                padding: 10px;
-                color: var(--primary-text-color);
-            }
-            :host div[info] {
-                padding: 10px;
-                color: var(--primary-text-color);
             }
             .one-chart {
                 @apply(--layout-horizontal);

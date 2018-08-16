@@ -63,10 +63,6 @@ Custom property | Description | Default
                 box-sizing: border-box;
             @apply(--appsco-content-sections);
             }
-            :host .content {
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
             :host .resource {
                 width: var(--resource-width, 25%);
                 background-color: var(--resource-background-color, transparent);
@@ -75,9 +71,11 @@ Custom property | Description | Default
                 display: none;
             }
             :host .content {
-            @apply(--layout-flex);
+                @apply(--layout-flex);
                 background-color: var(--content-background-color, transparent);
                 color: var(--content-color, #000);
+                overflow-x: hidden;
+                overflow-y: auto;
             }
             :host .info {
                 width: var(--info-width, 25%);

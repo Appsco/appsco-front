@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="components/page/appsco-content.html">
+<link rel="import" href="components/page/appsco-page-styles.html">
 <link rel="import" href="components/components/appsco-search.html">
 <link rel="import" href="components/group/appsco-company-groups.html">
 <link rel="import" href="components/group/appsco-company-group-roles.html">
@@ -19,38 +20,16 @@
 <dom-module id="appsco-groups-page">
     <template>
 
-        <style include="shared-styles webkit-scrollbar-style">
+        <style include="appsco-page-styles">
             :host {
-                display: block;
-
-                --info-width: 318px;
-
                 --group-role-initials-background-color: var(--body-background-color-darker);
                 --group-contact-initials-background-color: var(--body-background-color-darker);
-            }
-            :host div[info] {
-                height: 100%;
-            }
-            :host div[info] > * {
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            :host .info-content {
-                height: calc(100% - 50px - 40px);
-                margin-top: 10px;
-                overflow: auto;
             }
             :host .info-content > * {
                 height: 78px;
             }
             :host .group-items {
                 @apply(--layout-flex-none);
-            }
-            :host div[content] > * {
-                padding: 0 10px 10px 10px;
-            }
-            .groups-container {
-                margin-top: 10px;
             }
             appsco-company-group-image {
                 --group-image-preview: {
@@ -61,41 +40,9 @@
 
                 --group-image-background-color: var(--body-background-color-darker);
             }
-            :host div[info] .info-header {
-                border-bottom: 1px solid var(--divider-color);
-                height: 50px;
-            }
             :host .info-header .group-name {
                 @apply(--paper-font-subhead);
                 font-size: 18px;
-            }
-
-            :host div[info] .info-actions {
-                padding: 0;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-            :host .edit-button {
-                @apply(--primary-button);
-                border-radius: 0;
-            }
-            :host .flex-horizontal {
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            :host .flex-vertical {
-                @apply(--layout-vertical);
-            }
-            :host .flex {
-                @apply(--layout-flex);
-            }
-            :host([tablet-screen]) {
-                --info-width: 250px;
-            }
-            :host([mobile-screen]) {
-                --info-width: 100%;
             }
             :host([screen992]) {
                 --account-basic-info: {
@@ -121,7 +68,7 @@
         <appsco-content id="appscoContent">
 
             <div content>
-                <div class="groups-container">
+                <div class="content-container">
                     <appsco-company-groups id="appscoGroups"
                                            type="group"
                                            list-api="[[ groupsApi ]]"
@@ -139,7 +86,6 @@
             </div>
 
             <div class="flex-vertical" info>
-
                 <div class="info-header flex-horizontal">
                     <appsco-company-group-image group="[[ group ]]" preview></appsco-company-group-image>
                     <span class="group-name flex">[[ group.name ]]</span>
