@@ -34,8 +34,7 @@
                 },
 
                 saveApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _headers: {
@@ -81,6 +80,7 @@
             },
 
             _sendClientData: function() {
+                return;
                 var client = new ClientJS(),
                     request = document.createElement('iron-request'),
                     options = {
@@ -90,17 +90,20 @@
                         headers: this._headers
                     },
                     accountName = this.account.name ? this.account.name : '',
-                    unavailable = 'unavailable';
+                    unavailable = 'unavailable'
+                ;
 
-                options.body = ('byod[name]=' + encodeURIComponent(client.getFingerprint() ?
-                    (accountName + ' ' + client.getFingerprint()) : accountName)) +
+                var fingerprint = client.getFingerprint();
+
+                options.body = ('byod[name]=' + encodeURIComponent(fingerprint ?
+                    (accountName + ' ' + fingerprint) : accountName)) +
                     '&byod[device]=' + (client.getDevice() ? encodeURIComponent(client.getDevice()) : unavailable) +
                     '&byod[device_type]=' + encodeURIComponent(client.getDeviceType() ? client.getDeviceType() : 'desktop') +
                     '&byod[device_vendor]=' + (client.getDeviceVendor() ? encodeURIComponent(client.getDeviceVendor()) : unavailable) +
                     '&byod[user_agent]=' + (client.getUserAgent() ? encodeURIComponent(client.getUserAgent()) : unavailable) +
                     '&byod[browser]=' + (client.getBrowser() ? encodeURIComponent(client.getBrowser()) : unavailable) +
                     '&byod[browser_version]=' + (client.getBrowserVersion() ? encodeURIComponent(client.getBrowserVersion()) : unavailable) +
-                    '&byod[browser_fingerprint]=' + (client.getFingerprint() ? encodeURIComponent(client.getFingerprint()) : unavailable) +
+                    '&byod[browser_fingerprint]=' + (fingerprint ? encodeURIComponent(fingerprint) : unavailable) +
                     '&byod[operating_system]=' + (client.getOS() ? encodeURIComponent(client.getOS()) : unavailable) +
                     '&byod[operating_system_version]=' + (client.getOSVersion() ? encodeURIComponent(client.getOSVersion()) : unavailable);
 

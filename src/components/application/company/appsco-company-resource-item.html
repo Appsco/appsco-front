@@ -169,7 +169,7 @@ Custom property | Description | Default
             },
 
             _computeResourceIcon: function(resource) {
-                return resource.application_url ? resource.application_url : (resource.icon_url ? resource.icon_url : '');
+                return resource.application_url ? resource.application_url : (resource.icon_url ? resource.icon_url : null);
             },
 
             _computeResourceType: function(resource) {

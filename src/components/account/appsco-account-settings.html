@@ -687,7 +687,7 @@ Custom property | Description | Default
             },
 
             _computeAccountEmailNotificationsApi: function(accountSettingsApi) {
-                return accountSettingsApi ? accountSettingsApi + '/notification-settings' : '';
+                return accountSettingsApi ? accountSettingsApi + '/notification-settings' : null;
             },
 
             _computeSharedResourceNotifications: function (account) {

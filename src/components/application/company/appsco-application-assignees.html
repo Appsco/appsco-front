@@ -230,8 +230,7 @@ Contains info about application assignees (accounts to whom app is shared).
                  * Next page of assignees to load.
                  */
                 _nextListPageApiUrl: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -368,25 +367,25 @@ Contains info about application assignees (accounts to whom app is shared).
             _computeListApi: function(application, size) {
 
                 for (key in application) {
-                    return (application.meta && size) ? application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : '';
+                    return (application.meta && size) ? application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : null;
                 }
 
-                return '';
+                return null;
             },
 
             _computeSearchListApi: function(application) {
 
                 for (key in application) {
-                    return application.meta ? application.meta.subscribers + '?page=1&limit=100&extended=1' : '';
+                    return application.meta ? application.meta.subscribers + '?page=1&limit=100&extended=1' : null;
                 }
 
-                return '';
+                return null;
             },
 
             _clearList: function() {
                 this.set('_assignees', []);
                 this.set('_allAssignees', []);
-                this._nextListPageApiUrl = '';
+                this._nextListPageApiUrl = null;
                 this._totalAssignees = 0;
             },
 

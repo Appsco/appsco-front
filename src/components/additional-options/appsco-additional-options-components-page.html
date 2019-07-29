@@ -59,8 +59,7 @@
             properties: {
 
                 getCompanyIdpConfigListApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 authorizationToken: {
@@ -177,7 +176,7 @@
             },
 
             _computeGetCompanyIdpConfigListApi: function(api) {
-                return api ? (api + '?extended=1&page=1&limit=100') : '';
+                return api ? (api + '?extended=1&page=1&limit=100') : null;
             },
 
             _updateScreen: function() {

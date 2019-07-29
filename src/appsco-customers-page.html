@@ -173,13 +173,11 @@
                 },
 
                 customersApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 customersExportApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -327,7 +325,7 @@
             },
 
             _computeCustomerLogApi: function(customer) {
-                return (customer.meta && customer.meta.customer_log) ? customer.meta.customer_log : '';
+                return (customer.meta && customer.meta.customer_log) ? customer.meta.customer_log : null;
             },
 
             _onObservableItemListChange: function(event, data) {

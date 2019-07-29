@@ -151,7 +151,7 @@ Shows dialog screen with confirmation to deactivate IdP settings.
             },
 
             _computeDeactivateApi: function(domain) {
-                return (domain.meta && domain.meta.idpConfig) ? domain.meta.idpConfig : '';
+                return (domain.meta && domain.meta.idpConfig) ? domain.meta.idpConfig : null;
             },
 
             _showLoader: function() {

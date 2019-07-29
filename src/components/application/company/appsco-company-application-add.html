@@ -79,18 +79,6 @@ Custom property | Description | Default
             }
         </style>
 
-        <iron-ajax auto
-                   url="[[ linkApi ]]"
-                   on-response="_onLinkResponse"
-                   headers="[[ _computedHeaders ]]">
-        </iron-ajax>
-
-        <iron-ajax auto
-                   url="[[ itemApi ]]"
-                   on-response="_onItemResponse"
-                   headers="[[ _computedHeaders ]]">
-        </iron-ajax>
-
         <paper-dialog
                 with-backdrop
                 id="addApplicationDialog"
@@ -177,7 +165,7 @@ Custom property | Description | Default
                 /**
                  * Link application resource.
                  */
-                _link: {
+                link: {
                     type: Object,
                     value: function() {
                         return {};
@@ -187,7 +175,7 @@ Custom property | Description | Default
                 /**
                  * Item application resource.
                  */
-                _item: {
+                item: {
                     type: Object,
                     value: function() {
                         return {};
@@ -215,22 +203,6 @@ Custom property | Description | Default
                  * API on which dashboard to save new application as icon.
                  */
                 addApplicationApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom link resource API link.
-                 * API to get custom link resource.
-                 */
-                linkApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom item API link.
-                 * API to get custom item resource.
-                 */
-                itemApi: {
                     type: String
                 },
 
@@ -324,21 +296,6 @@ Custom property | Description | Default
                 this._hideLoader();
             },
 
-            _onLinkResponse: function(event) {
-                var link = event.detail.response;
-
-                link.title = 'Link';
-                this.set('_link', link);
-            },
-
-            _onItemResponse: function(event) {
-                var customApp = event.detail.response;
-
-                customApp.title = 'Application title';
-                customApp.custom_application = true;
-                this.set('_item', customApp);
-            },
-
             /**
              * Called after selected page has been changed.
              * According to selected page it shows / hides add application action (_addAction).
@@ -390,8 +347,9 @@ Custom property | Description | Default
              * @private
              */
             _onAddItem: function(event) {
-                this._item.title = event.detail.searchTerm;
-                this.set('_selectedApplication', this._item);
+                this.item.custom_application = true;
+                this.item.title = event.detail.searchTerm;
+                this.set('_selectedApplication', this.item);
                 this._onApplicationSelect();
                 this._dialogTitle = 'Add custom application';
             },
@@ -402,7 +360,8 @@ Custom property | Description | Default
              * @private
              */
             _onAddLink: function() {
-                this.set('_selectedApplication', this._link);
+                this.link.title = 'Link';
+                this.set('_selectedApplication', this.link);
                 this._onApplicationSelect();
                 this._dialogTitle = 'Add link';
             },

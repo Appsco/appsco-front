@@ -23,8 +23,7 @@
             },
 
             listApi: {
-                type: String,
-                value: ''
+                type: String
             },
 
             size: {
@@ -68,8 +67,7 @@
             },
 
             _nextListPageApi: {
-                type: String,
-                value: ''
+                type: String
             },
 
             _searchListApi: {
@@ -563,7 +561,7 @@
                 ((sort && sort.orderBy && 'undefined' !== typeof sort.ascending) ?
                     ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                     '')) :
-                '';
+                null;
         },
 
         _computeSearchListApi: function(listApi, term, sort) {
@@ -572,7 +570,7 @@
                 ((sort && sort.orderBy && 'undefined' !== typeof sort.ascending) ?
                     ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                     '')) :
-                '';
+                null;
         },
 
         _computeNextPageListApi: function(nextPageApi, size, sort) {
@@ -581,7 +579,7 @@
                 ((sort && sort.orderBy && 'undefined' !== typeof sort.ascending) ?
                     ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                     '')) :
-                '';
+                null;
         },
 
         _computeTypeDisplay: function(type) {
@@ -1059,7 +1057,7 @@
                     break;
 
                 default:
-                    return '';
+                    return null;
             }
 
             return this._computeListApi(url, this.size, this._sort);

@@ -169,8 +169,7 @@ Custom property | Description | Default
                  * Route to retrieve company domains
                  */
                 domainsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -287,7 +286,7 @@ Custom property | Description | Default
             ],
 
             _computeDomainsApiUrl: function(domainsApi, size) {
-                return (domainsApi && size) ? (domainsApi + '&page=1&limit=' + size) : '';
+                return (domainsApi && size) ? (domainsApi + '&page=1&limit=' + size) : null;
             },
 
             _computeHeaders: function(authorizationToken) {

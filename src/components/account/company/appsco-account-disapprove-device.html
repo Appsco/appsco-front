@@ -146,7 +146,7 @@
             },
 
             _computeDisapproveApi: function(device) {
-                return device.meta ? device.meta.disapprove : '';
+                return device.meta ? device.meta.disapprove : null;
             },
 
             _computeHeaders: function(authorizationToken) {

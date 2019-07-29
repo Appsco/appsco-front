@@ -128,7 +128,7 @@
             },
 
             _computeResetTwoFAApi: function(role) {
-                return (role.meta && role.meta.reset_2fa) ? role.meta.reset_2fa : '';
+                return (role.meta && role.meta.reset_2fa) ? role.meta.reset_2fa : null;
             },
 
             _computeHeaders: function(authorizationToken) {

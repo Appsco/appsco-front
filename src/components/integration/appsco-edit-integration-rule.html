@@ -790,15 +790,15 @@
             },
 
             _computeGetIntegrationPSOSApi: function(integration) {
-                return integration.self ? (integration.self + '/pso') : '';
+                return integration.self ? (integration.self + '/pso') : null;
             },
 
             _computeGetAppscoPSOSApi: function(integration) {
-                return integration.self ? (integration.self + '/pso/appsco') : '';
+                return integration.self ? (integration.self + '/pso/appsco') : null;
             },
 
             _computeEditIntegrationRuleApi: function(rule) {
-                return rule.self ? rule.self : '';
+                return rule.self ? rule.self : null;
             },
 
             _computeIntegrationKindRA: function(integration) {

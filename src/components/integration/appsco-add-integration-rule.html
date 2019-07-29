@@ -758,15 +758,15 @@
             },
 
             _computeGetIntegrationPSOSApi: function(integration) {
-                return integration.self ? (integration.self + '/pso') : '';
+                return integration.self ? (integration.self + '/pso') : null;
             },
 
             _computeGetAppscoPSOSApi: function(integration) {
-                return integration.self ? (integration.self + '/pso/appsco') : '';
+                return integration.self ? (integration.self + '/pso/appsco') : null;
             },
 
             _computeAddIntegrationRuleApi: function(integration) {
-                return integration.meta ? integration.meta.recipes : '';
+                return integration.meta ? integration.meta.recipes : null;
             },
 
             _computeIntegrationKindRA: function(integration) {

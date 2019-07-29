@@ -59,11 +59,6 @@
             }
         </style>
 
-        <iron-ajax auto
-                   url="[[ itemApi ]]"
-                   on-response="_onItemResponse"
-                   headers="[[ _computedHeaders ]]"></iron-ajax>
-
         <paper-dialog
                 with-backdrop
                 id="addApplicationDialog"
@@ -161,11 +156,16 @@
                 /**
                  * Item application resource.
                  */
-                _item: {
+                item: {
                     type: Object,
                     value: function() {
                         return {};
                     }
+                },
+
+                _itemTemplate: {
+                    type: Object,
+                    computed: '_computeItemTemplate(item)'
                 },
 
                 /**
@@ -189,22 +189,6 @@
                  * API on which dashboard to save new application as icon.
                  */
                 addApplicationApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom link resource API link.
-                 * API to get custom link resource.
-                 */
-                linkApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom item API link.
-                 * API to get custom item resource.
-                 */
-                itemApi: {
                     type: String
                 },
 
@@ -309,11 +293,9 @@
                 this._hideLoader();
             },
 
-            _onItemResponse: function(event) {
-                var customApp = event.detail.response;
-
-                customApp.title = 'Application title';
-                this.set('_item', customApp);
+            _computeItemTemplate: function(item) {
+                item.title = 'Application title';
+                return item;
             },
 
             _onSearch: function(event) {
@@ -399,7 +381,7 @@
              * @private
              */
             _onAddItem: function() {
-                this.set('_selectedApplication', this._item);
+                this.set('_selectedApplication', this._itemTemplate);
                 this._onApplicationSelect();
                 this._dialogTitle = 'Add custom application';
             },

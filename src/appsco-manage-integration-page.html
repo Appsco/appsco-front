@@ -327,7 +327,6 @@
                  */
                 integrationApi: {
                     type: String,
-                    value: '',
                     observer: '_onIntegrationApiChanged'
                 },
 
@@ -604,11 +603,11 @@
             },
 
             _computeWebhookApi: function(integration) {
-                return integration && integration.meta && integration.meta.webHooks ? integration.meta.webHooks : '';
+                return integration && integration.meta && integration.meta.webHooks ? integration.meta.webHooks : null;
             },
 
             _computeIntegrationTemplatesApi: function(integration) {
-                return (integration && integration.meta && integration.meta.templates) ? integration.meta.templates : '';
+                return (integration && integration.meta && integration.meta.templates) ? integration.meta.templates : null;
             },
             
             _computeIsIntegrationRA: function(integration) {

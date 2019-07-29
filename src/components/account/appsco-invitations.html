@@ -162,8 +162,7 @@ Custom property | Description | Default
                  * Route to retrieve accounts for current user
                  */
                 invitationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -297,11 +296,11 @@ Custom property | Description | Default
             },
 
             _computeInvitationsApiUrl: function(invitationsApi, size, type) {
-                return (invitationsApi && size) ? (invitationsApi + '?page=1&extended=1&limit=' + size + '&type=' + type) : '';
+                return (invitationsApi && size) ? (invitationsApi + '?page=1&extended=1&limit=' + size + '&type=' + type) : null;
             },
 
             _computeSearchInvitationsApiUrl: function(invitationsApi, type, term) {
-                return (invitationsApi && term) ? (invitationsApi + '?page=1&extended=1&limit=100&type=' + type + '&term=' + term) : '';
+                return (invitationsApi && term) ? (invitationsApi + '?page=1&extended=1&limit=100&type=' + type + '&term=' + term) : null;
             },
 
             _onInvitationsApiUrlChanged: function(url) {

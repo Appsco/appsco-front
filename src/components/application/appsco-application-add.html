@@ -82,18 +82,6 @@ Custom property | Description | Default
             }
         </style>
 
-        <iron-ajax auto
-                   url="[[ linkApi ]]"
-                   on-response="_onLinkResponse"
-                   headers="[[ _computedHeaders ]]">
-        </iron-ajax>
-
-        <iron-ajax auto
-                   url="[[ itemApi ]]"
-                   on-response="_onItemResponse"
-                   headers="[[ _computedHeaders ]]">
-        </iron-ajax>
-
         <paper-dialog
                 with-backdrop
                 id="addApplicationDialog"
@@ -136,7 +124,7 @@ Custom property | Description | Default
                     <appsco-application-add-link
                             id="appscoApplicationAddLink"
                             name="appsco-application-add-link"
-                            link="[[ _link ]]"
+                            link="[[ link ]]"
                             authorization-token="[[ authorizationToken ]]"
                             dashboard-api="[[ dashboardApi ]]"
                             on-link-added="_onLinkAdded">
@@ -187,19 +175,9 @@ Custom property | Description | Default
                 },
 
                 /**
-                 * Link application resource.
-                 */
-                _link: {
-                    type: Object,
-                    value: function() {
-                        return {};
-                    }
-                },
-
-                /**
                  * Item application resource.
                  */
-                _item: {
+                item: {
                     type: Object,
                     value: function() {
                         return {};
@@ -227,22 +205,6 @@ Custom property | Description | Default
                  * API on which dashboard to save new application as icon.
                  */
                 dashboardApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom link resource API link.
-                 * API to get custom link resource.
-                 */
-                linkApi: {
-                    type: String
-                },
-
-                /**
-                 * Get custom item API link.
-                 * API to get custom item resource.
-                 */
-                itemApi: {
                     type: String
                 },
 
@@ -329,14 +291,6 @@ Custom property | Description | Default
                 this._loader = false;
             },
 
-            _onLinkResponse: function(event) {
-                this.set('_link', event.detail.response);
-            },
-
-            _onItemResponse: function(event) {
-                this.set('_item', event.detail.response);
-            },
-
             /**
              * Called after selected page has been changed.
              * According to selected page it shows / hides add application action (_addAction).
@@ -388,8 +342,8 @@ Custom property | Description | Default
              * @private
              */
             _onAddItem: function(event) {
-                this._item.title = event.detail.searchTerm;
-                this.set('_selectedApplication', this._item);
+                this.item.title = event.detail.searchTerm;
+                this.set('_selectedApplication', this.item);
                 this._onApplicationSelect();
                 this._dialogTitle = 'Add custom application';
             },

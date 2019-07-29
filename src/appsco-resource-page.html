@@ -256,8 +256,7 @@
                 },
 
                 iconsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 company: {
@@ -296,8 +295,7 @@
                  * Get accounts link.
                  */
                 accountsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -431,7 +429,7 @@
             },
 
             _computeResourceImageSettingsApi: function (resource) {
-                return resource.application && resource.application.meta ? resource.application.meta.change_application_image : '';
+                return resource.application && resource.application.meta ? resource.application.meta.change_application_image : null;
             },
 
             _pageLoaded: function() {

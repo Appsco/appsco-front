@@ -170,7 +170,7 @@
             _computeGetAvailableResourcesApi: function(idp, company) {
                 return (idp.alias && company.self) ?
                     (company.self + '/applications/idp-available/' + idp.alias) :
-                    '';
+                    null;
             },
 
             _onBack: function() {

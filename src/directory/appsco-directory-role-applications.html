@@ -231,7 +231,7 @@ Contains info about resources shared to company role.
             },
 
             _computeAction: function (companyRole, nextPage, size) {
-                this._computedAction = companyRole.meta ? companyRole.meta.applications + '?page=' + nextPage + '&limit=' + size + '&extended=1' : '';
+                this._computedAction = companyRole.meta ? companyRole.meta.applications + '?page=' + nextPage + '&limit=' + size + '&extended=1' : null;
             },
 
             /**

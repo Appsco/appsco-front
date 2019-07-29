@@ -157,8 +157,7 @@
                 },
 
                 foldersApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 currentFolder: {
@@ -253,7 +252,7 @@
                 if (company && company != undefined && company.company) {
                     return company.company.self + '/dashboard-groups?extended=1';
                 }
-                return foldersApi ? foldersApi + '?extended=1' : '';
+                return foldersApi ? foldersApi + '?extended=1' : null;
             },
 
             _onSearch: function(event) {

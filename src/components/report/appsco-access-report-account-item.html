@@ -202,13 +202,11 @@
                 },
 
                 _secondResourcesPageApiUrl: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _nextResourcesPageApiUrl: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _loadMore: {
@@ -243,7 +241,7 @@
             },
 
             _computeGetResourcesApiUrl: function(item, numberOfResourcesToDisplay) {
-                return (item.meta && numberOfResourcesToDisplay) ? (item.meta.applications + '?extended=1&limit=' + numberOfResourcesToDisplay) : '';
+                return (item.meta && numberOfResourcesToDisplay) ? (item.meta.applications + '?extended=1&limit=' + numberOfResourcesToDisplay) : null;
             },
 
             _updateScreen: function() {
@@ -333,7 +331,7 @@
 
             _onLoadMoreAction: function() {
                 this._showLoadMoreProgressBar();
-                this._setApiRequestUrl('');
+                this._setApiRequestUrl(null);
                 this._setApiRequestUrl(this._nextResourcesPageApiUrl);
             },
 

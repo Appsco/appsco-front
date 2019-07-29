@@ -150,8 +150,7 @@ Custom property | Description | Default
             properties: {
 
                 listApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 authorizationToken: {
@@ -237,7 +236,7 @@ Custom property | Description | Default
                     customer.partner :
                     (customer.alias && listApi) ?
                     (listApi + '/' + customer.alias + '/partner-admins') :
-                    '';
+                    null;
             },
 
             _computeLicencesApiUrl: function (customer, listApi) {
@@ -245,7 +244,7 @@ Custom property | Description | Default
                     customer.partner :
                     (customer.alias && listApi) ?
                         (listApi + '/' + customer.alias + '/licences') :
-                        '';
+                        null;
             },
 
             _onPartnerAdminsError: function() {

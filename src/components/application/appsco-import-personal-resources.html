@@ -57,8 +57,7 @@
                 },
 
                 applicationTemplateApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _importPersonalResourcesApi: {
@@ -82,7 +81,7 @@
             },
 
             _computeImportPersonalResourcesApi: function(applicationTemplateApi) {
-                return applicationTemplateApi ? applicationTemplateApi + '/import' : '';
+                return applicationTemplateApi ? applicationTemplateApi + '/import' : null;
             }
         });
     </script>

@@ -404,27 +404,27 @@ Example:
         },
 
         _computeCompaniesAccountIsContactInApi: function(me) {
-            return me ? (me + '/contact/companies?extended=1') : '';
+            return me ? (me + '/contact/companies?extended=1') : null;
         },
 
         _computeIsUserLoggedInApi: function(me) {
-            return me ? (me + '/is-logged-in') : '';
+            return me ? (me + '/is-logged-in') : null;
         },
 
         _computeIsUserPassing2FAVerificationApi: function(me) {
-            return me ? (me + '/is-passing-2fa-verification') : '';
+            return me ? (me + '/is-passing-2fa-verification') : null;
         },
 
         _computeLoginURL: function (index, domain) {
-            return domain ? (domain + '/' + (index == '' ? '' : index + '/' ) + 'login') : '';
+            return domain ? (domain + '/' + (index == '' ? '' : index + '/' ) + 'login') : null;
         },
 
         _computeSetupTwoFAURL: function (index, domain) {
-            return domain ? (domain + '/' + (index == '' ? '' : index + '/' ) + 'force/configure-2fa') : '';
+            return domain ? (domain + '/' + (index == '' ? '' : index + '/' ) + 'force/configure-2fa') : null;
         },
 
         _computeSaveClientDataApi: function (me) {
-            return me ? (me + '/byod/register') : '';
+            return me ? (me + '/byod/register') : null;
         },
 
         _computePartners: function(index, domain) {
@@ -436,15 +436,15 @@ Example:
         },
 
         _computeGetUserPrivilegesApi: function (me) {
-            return me ? (me + '/acl') : '';
+            return me ? (me + '/acl') : null;
         },
 
         _computeTutorialsApi: function (me) {
-            return me ? (me + '/tutorial') : '';
+            return me ? (me + '/tutorial') : null;
         },
 
         _computePageConfigApi: function(me) {
-            return me ? (me + '/page-config') : '';
+            return me ? (me + '/page-config') : null;
         }
     });
 </script>

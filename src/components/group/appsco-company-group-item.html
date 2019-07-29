@@ -244,15 +244,15 @@ Custom property | Description | Default
             },
 
             _computeGroupRolesApiUrl: function(group) {
-                return group.meta ? group.meta.company_roles : '';
+                return group.meta ? group.meta.company_roles : null;
             },
 
             _computeGroupResourcesApiUrl: function (group) {
-                return group.meta ? group.meta.applications : '';
+                return group.meta ? group.meta.applications : null;
             },
 
             _computeGroupContactsApiUrl: function(group) {
-                return group.meta ? group.meta.contacts : '';
+                return group.meta ? group.meta.contacts : null;
             },
 
             _onGroupRolesError: function() {

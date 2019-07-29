@@ -140,18 +140,15 @@
                 },
 
                 transferTokenApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 sendTransferTokenApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 partnersApiUrl: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -249,7 +246,7 @@
             },
 
             _computePartnersApiUrl: function(partnersApiUrl) {
-                return partnersApiUrl ? (partnersApiUrl + '?extended=1') : '';
+                return partnersApiUrl ? (partnersApiUrl + '?extended=1') : null;
             },
 
             _showGenerateTokenLoader: function() {

@@ -111,8 +111,7 @@ Domains are loaded inside component through iron-ajax.
                  * Route to retrieve company domains
                  */
                 domainsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -235,7 +234,7 @@ Domains are loaded inside component through iron-ajax.
             },
 
             _computeDomainsApiUrl: function(domainsApi, size) {
-                return (domainsApi && size) ? (domainsApi + '&page=1&limit=' + size) : '';
+                return (domainsApi && size) ? (domainsApi + '&page=1&limit=' + size) : null;
             },
 
             _computeHeaders: function(authorizationToken) {

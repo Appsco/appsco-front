@@ -172,23 +172,19 @@
                  * Get company transfer token link.
                  */
                 transferTokenApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 sendTransferTokenApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 partnersApiUrl: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 saveIpWhiteListApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -351,15 +347,15 @@
             },
 
             _computeSettingsApi: function(company) {
-                return (company.meta && company.meta.settings) ? company.meta.settings : '';
+                return (company.meta && company.meta.settings) ? company.meta.settings : null;
             },
 
             _computeBrandSettingsApi: function(company) {
-                return company.self ? (company.self + '/branding') : '';
+                return company.self ? (company.self + '/branding') : null;
             },
 
             _computeImageSettingsApi: function(company) {
-                return (company.meta && company.meta.logo) ? company.meta.logo : '';
+                return (company.meta && company.meta.logo) ? company.meta.logo : null;
             },
 
             _computeDashboardImageSettingsApi: function(company) {
@@ -367,15 +363,15 @@
             },
 
             _computeDomainsApi: function(company) {
-                return (company.meta && company.meta.domains) ? company.meta.domains + '?extended=1' : '';
+                return (company.meta && company.meta.domains) ? company.meta.domains + '?extended=1' : null;
             },
 
             _computeGroupsApi: function(company) {
-                return company.self ? (company.self + '/groups') : '';
+                return company.self ? (company.self + '/groups') : null;
             },
 
             _computeIdPIntegrationsApi: function(company) {
-                return company.self ? (company.self + '/settings/idps/integrations') : '';
+                return company.self ? (company.self + '/settings/idps/integrations') : null;
             },
 
             _updateScreen: function(medium, tablet, mobile) {

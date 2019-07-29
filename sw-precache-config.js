@@ -14,7 +14,7 @@ module.exports = {
     '/bower_components/webcomponentsjs/webcomponents-lite.min.js'
   ],
   navigateFallback: '/index.html',
-  cacheId: "appscoo",
+  cacheId: "appsco",
   clientsClaim: true,
   handleFetch: true,
   skipWaiting: true

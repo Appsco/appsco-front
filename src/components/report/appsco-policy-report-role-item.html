@@ -134,8 +134,7 @@
                 },
 
                 policiesReportApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 screen800: {
@@ -215,7 +214,7 @@
             },
 
             _computeGetPoliciesApiUrl: function(item, policiesReportApi) {
-                return policiesReportApi ? (policiesReportApi + '?extended=1&limit=1000&account=' + encodeURIComponent(item.account.self)) : '';
+                return policiesReportApi ? (policiesReportApi + '?extended=1&limit=1000&account=' + encodeURIComponent(item.account.self)) : null;
             },
 
             _updateScreen: function() {

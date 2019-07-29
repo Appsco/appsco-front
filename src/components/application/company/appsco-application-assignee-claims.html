@@ -343,7 +343,7 @@ Shows dialog screen with form for changing claims for application instance.
             },
 
             _computeAction: function(application) {
-                return application.meta ? application.meta.account_claims : '';
+                return application.meta ? application.meta.account_claims : null;
             },
 
             _showLoader: function() {

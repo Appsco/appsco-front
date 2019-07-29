@@ -573,10 +573,7 @@
                 },
 
                 companyApi: {
-                    type: String,
-                    value: function() {
-                        return '';
-                    }
+                    type: String
                 },
 
                 currentCompany: {
@@ -954,19 +951,19 @@
             },
 
             _computeCreditCardApi: function(companyApi) {
-                return companyApi ? companyApi + '/billing/cc' : '';
+                return companyApi ? companyApi + '/billing/cc' : null;
             },
 
             _computeSubscriptionApi: function(companyApi) {
-                return companyApi ? companyApi + '/billing/subscriptions' : '';
+                return companyApi ? companyApi + '/billing/subscriptions' : null;
             },
 
             _computeUpcomingInvoiceApi: function(companyApi, subscription) {
-                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/upcoming/' + subscription.id : '';
+                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/upcoming/' + subscription.id : null;
             },
 
             _computeInvoiceListApi: function(companyApi, subscription) {
-                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/list/' + subscription.id : '';
+                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/list/' + subscription.id : null;
             },
 
             _computeSubscriptionCanceled: function(subscription) {

@@ -162,7 +162,7 @@
             },
 
             _computeIntegrationWebhooksApi: function(integration) {
-                return integration.meta ? integration.meta.webHooks : '';
+                return integration.meta ? integration.meta.webHooks : null;
             },
 
             _computeHeaders: function(authorizationToken) {

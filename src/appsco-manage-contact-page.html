@@ -151,7 +151,6 @@
 
                 contactsApi: {
                     type: String,
-                    value: '',
                     observer: '_onContactsApiChanged'
                 },
 
@@ -282,11 +281,11 @@
             },
 
             _computeLogApi: function(contact) {
-                return contact.meta ? contact.meta.log : '';
+                return contact.meta ? contact.meta.log : null;
             },
 
             _computeGroupsApi: function(contact) {
-                return contact.meta ? contact.meta.groups + '?extended=1' : '';
+                return contact.meta ? contact.meta.groups + '?extended=1' : null;
             },
 
             _computeHeaders: function (authorizationToken) {

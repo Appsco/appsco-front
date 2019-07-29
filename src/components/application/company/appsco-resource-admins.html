@@ -359,19 +359,19 @@
             _computeListApi: function(application, size) {
 
                 for (key in application) {
-                    return (application.meta && size) ? application.meta.resource_admins + '?page=1' + '&limit=' + this.size + '&extended=1' : '';
+                    return (application.meta && size) ? application.meta.resource_admins + '?page=1' + '&limit=' + this.size + '&extended=1' : null
                 }
 
-                return '';
+                return null;
             },
 
             _computeSearchListApi: function(application) {
 
                 for (key in application) {
-                    return application.meta ? application.meta.resource_admins + '?page=1&limit=100&extended=1' : '';
+                    return application.meta ? application.meta.resource_admins + '?page=1&limit=100&extended=1' : null;
                 }
 
-                return '';
+                return null;
             },
 
             _clearList: function() {

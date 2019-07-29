@@ -353,7 +353,7 @@ Custom property | Description | Default
             },
 
             _computeResendApi: function(invitation) {
-                return invitation && invitation.self ? invitation.self + '/resend' : '';
+                return invitation && invitation.self ? invitation.self + '/resend' : null;
             },
 
             _showProgressBar: function() {

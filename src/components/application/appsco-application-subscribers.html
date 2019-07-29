@@ -263,12 +263,12 @@ Custom property | Description | Default
             },
 
             attached: function() {
-                this._computedAction = this.application.meta ? this.application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : '';
+                this._computedAction = this.application.meta ? this.application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : null;
                 this.load();
             },
 
             _computeAction: function() {
-                this._computedAction = this.application.meta ? this.application.meta.subscribers + '?page=' + this._nextPage + '&limit=' + this.size + '&extended=1' : '';
+                this._computedAction = this.application.meta ? this.application.meta.subscribers + '?page=' + this._nextPage + '&limit=' + this.size + '&extended=1' : null;
             },
 
             _computeHeaders: function (authorizationToken) {
@@ -278,7 +278,7 @@ Custom property | Description | Default
             },
 
             _computeSearchAccountsApi: function(application) {
-                return application.meta ? application.meta.subscribers + '?page=1&limit=100&extended=1' : '';
+                return application.meta ? application.meta.subscribers + '?page=1&limit=100&extended=1' : null;
             },
 
             _showLoadMoreAction: function() {
@@ -318,7 +318,7 @@ Custom property | Description | Default
             _onApplicationChanged: function(application, applicationOld) {
 
                 if (application && applicationOld && application.self != applicationOld.self) {
-                    this._computedAction = application.meta ? application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : '';
+                    this._computedAction = application.meta ? application.meta.subscribers + '?page=1' + '&limit=' + this.size + '&extended=1' : null;
                     this.load();
                 }
             },

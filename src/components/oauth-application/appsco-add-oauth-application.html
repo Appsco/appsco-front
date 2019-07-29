@@ -161,8 +161,7 @@
                 },
 
                 oauthApplicationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 company: {
@@ -201,8 +200,7 @@
                 },
 
                 _applicationIcon: {
-                    type: String,
-                    value: ''
+                    type: String
                 }
             },
 
@@ -265,7 +263,7 @@
             },
 
             _onCompanyChanged: function(company) {
-                this._applicationIcon = company.image ? company.image : '';
+                this._applicationIcon = company.image ? company.image : null;
             },
 
             _onIconInputValueChanged: function(event) {

@@ -135,8 +135,7 @@
             properties: {
 
                 policiesApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 authorizationToken: {
@@ -252,11 +251,11 @@
             },
 
             _computePoliciesApi: function(policiesApi) {
-                return (policiesApi ? (policiesApi + '?page=1&extended=1&limit=1000') : '');
+                return (policiesApi ? (policiesApi + '?page=1&extended=1&limit=1000') : null);
             },
 
             _computeSearchPoliciesApi: function(policiesApi, term) {
-                return (policiesApi && term) ? (policiesApi + '&term=' + term) : '';
+                return (policiesApi && term) ? (policiesApi + '&term=' + term) : null;
             },
 
             _isInPath: function(path, element) {

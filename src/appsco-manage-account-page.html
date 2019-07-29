@@ -288,7 +288,6 @@
 
                 companyApi: {
                     type: String,
-                    value: '',
                     observer: '_onCompanyApiChanged'
                 },
 
@@ -489,7 +488,7 @@
             },
 
             _computeLogApi: function(role) {
-                return role.meta ? role.meta.log : '';
+                return role.meta ? role.meta.log : null;
             },
 
             _computeTwoFaApi: function(role) {
@@ -497,11 +496,11 @@
             },
 
             _computeGroupsForRole: function(role) {
-                return role.meta ? role.meta.groups + '?extended=1' : '';
+                return role.meta ? role.meta.groups + '?extended=1' : null;
             },
 
             _computeDevicesForRole: function(role) {
-                return role.meta ? role.meta.devices + '?extended=1' : '';
+                return role.meta ? role.meta.devices + '?extended=1' : null;
             },
 
             _computeChangePasswordApi: function(role) {
@@ -509,7 +508,7 @@
             },
 
             _computeCanBeManagedApi: function(role) {
-                return role.self ? role.self + '/can-be-managed' : '';
+                return role.self ? role.self + '/can-be-managed' : null;
             },
 
             _pageLoaded: function() {

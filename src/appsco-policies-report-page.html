@@ -89,23 +89,19 @@
                 },
 
                 policiesApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 rolesApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 policiesReportApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 exportAccessReportApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -237,7 +233,7 @@
             },
 
             _computeRolesApi: function(rolesApi) {
-                return rolesApi ? (rolesApi + '?filter=managed') : '';
+                return rolesApi ? (rolesApi + '?filter=managed') : null;
             },
 
             _updateScreen: function() {

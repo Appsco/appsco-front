@@ -121,7 +121,7 @@ Shows dialog screen with confirmation for invitation removal.
             },
 
             _computeRemoveApi: function(invitation) {
-                return invitation && invitation.self ? invitation.self : '';
+                return invitation && invitation.self ? invitation.self : null;
             },
 
             setInvitation: function(invitation) {

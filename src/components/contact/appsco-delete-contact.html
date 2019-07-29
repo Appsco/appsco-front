@@ -154,7 +154,7 @@ Shows dialog screen with confirmation for contact deleting.
             },
 
             _computeDeleteContactApi: function(contact) {
-                return contact.self ? contact.self : '';
+                return contact.self ? contact.self : null;
             },
 
             _showLoader: function() {

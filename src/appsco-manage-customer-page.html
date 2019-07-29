@@ -150,13 +150,11 @@
 
                 customersApi: {
                     type: String,
-                    value: '',
                     observer: '_onCustomersApiChanged'
                 },
 
                 partnerAdminsApi: {
                     type: String,
-                    value: '',
                     computed: '_computePartnerAdminsApi(customer)'
                 },
 
@@ -322,7 +320,7 @@
             },
 
             _computePartnerAdminsApi: function(customer) {
-                return (customer && customer.meta) ? customer.meta.list_partner_admins : '';
+                return (customer && customer.meta) ? customer.meta.list_partner_admins : null;
             },
 
             _computeHeaders: function (authorizationToken) {

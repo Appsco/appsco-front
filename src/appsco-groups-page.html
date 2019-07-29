@@ -202,8 +202,7 @@
                  * Get groups.
                  */
                 groupsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _groupExists: {
@@ -422,15 +421,15 @@
             },
 
             _computeGroupRolesApi: function(group) {
-                return group.meta ? group.meta.company_roles + '?extended=1' : '';
+                return group.meta ? group.meta.company_roles + '?extended=1' : null;
             },
 
             _computeGroupContactsApi: function(group) {
-                return group.meta ? group.meta.contacts + '?extended=1' : '';
+                return group.meta ? group.meta.contacts + '?extended=1' : null;
             },
 
             _computeGroupResourcesApi: function(group) {
-                return group.meta ? group.meta.applications + '?extended=1' : '';
+                return group.meta ? group.meta.applications + '?extended=1' : null;
             },
 
             _updateScreen: function() {

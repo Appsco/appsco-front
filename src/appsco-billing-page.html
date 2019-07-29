@@ -565,8 +565,7 @@
                 },
 
                 companyApi: {
-                    type: String,
-                    value: function() { return ''; }
+                    type: String
                 },
 
                 _computedHeaders: {
@@ -788,23 +787,23 @@
             },
 
             _computeSubscriptionApi: function(companyApi) {
-                return companyApi ? companyApi + '/billing/subscriptions' : '';
+                return companyApi ? companyApi + '/billing/subscriptions' : null;
             },
 
             _computePlansApi: function(companyApi) {
-                return companyApi ? companyApi + '/billing/plans' : '';
+                return companyApi ? companyApi + '/billing/plans' : null;
             },
 
             _computeCreditCardApi: function(companyApi) {
-                return companyApi ? companyApi + '/billing/cc' : '';
+                return companyApi ? companyApi + '/billing/cc' : null;
             },
 
             _computeUpcomingInvoiceApi: function(companyApi, subscription) {
-                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/upcoming/' + subscription.id : '';
+                return companyApi && subscription && subscription.id ? companyApi + '/billing/invoice/upcoming/' + subscription.id : null;
             },
 
             _computeInvoiceListApi: function(companyApi, subscription) {
-                return companyApi ? companyApi + '/billing/invoice/list/' + subscription.id : '';
+                return companyApi ? companyApi + '/billing/invoice/list/' + subscription.id : null;
             },
 
             _computeTrialPeriod: function(account, subscription) {

@@ -152,7 +152,7 @@ Shows dialog screen with confirmation for group removal.
             },
 
             _computeRemoveGroupApi: function(group) {
-                return group.meta ? group.meta.self : '';
+                return group.meta ? group.meta.self : null;
             },
 
             _showLoader: function() {

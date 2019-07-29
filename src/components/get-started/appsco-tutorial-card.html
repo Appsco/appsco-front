@@ -78,12 +78,6 @@
                     reflectToAttribute: true
                 },
 
-                _tutorialIcon: {
-                    type: String,
-                    value: '',
-                    computed: '_computeTutorialIcon(tutorial)'
-                },
-
                 _isDone: {
                     type: Boolean,
                     value: false,
@@ -111,10 +105,6 @@
                 Polymer.NeonAnimationRunnerBehavior,
                 Polymer.AppscoListItemBehavior
             ],
-
-            _computeTutorialIcon: function(tutorial) {
-                return tutorial.icon ? tutorial.icon : '';
-            },
 
             _onStartAction: function(evt) {
                 var scrollElement = document.querySelector('* app-header-layout #contentContainer');

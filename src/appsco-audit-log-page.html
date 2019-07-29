@@ -206,8 +206,7 @@
                  * Get audit log link.
                  */
                 auditLogApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -462,7 +461,7 @@
             },
 
             _computeAuditLogEventTypesApi: function(companyApi) {
-                return companyApi ? companyApi + '/log/events' : '';
+                return companyApi ? companyApi + '/log/events' : null;
             },
 
             _computeHeaders: function (authorizationToken) {
@@ -473,7 +472,7 @@
             },
 
             _computeSearchAccountsApi: function(companyApi, term) {
-                return (companyApi && term) ? companyApi + '/directory/roles?extended=1&limit=50&term=' + term : '';
+                return (companyApi && term) ? companyApi + '/directory/roles?extended=1&limit=50&term=' + term : null;
             },
 
             _setupDatePicker: function() {

@@ -151,7 +151,7 @@ Shows dialog screen with confirmation for integration removal.
             },
 
             _computeRemoveIntegrationApi: function(integration) {
-                return integration ? integration.self : '';
+                return integration ? integration.self : null;
             },
 
             _showLoader: function() {

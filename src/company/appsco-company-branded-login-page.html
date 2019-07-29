@@ -365,11 +365,11 @@
             },
 
             _computeCompanyLogoApi: function(company) {
-                return (company.meta && company.meta.branded_login) ? company.meta.branded_login + '/logo' : '';
+                return (company.meta && company.meta.branded_login) ? company.meta.branded_login + '/logo' : null;
             },
 
             _computeCompanyBackgroundApi: function(company) {
-                return (company.meta && company.meta.branded_login) ? company.meta.branded_login + '/background' : '';
+                return (company.meta && company.meta.branded_login) ? company.meta.branded_login + '/background' : null;
             },
 
             _showLoader: function() {

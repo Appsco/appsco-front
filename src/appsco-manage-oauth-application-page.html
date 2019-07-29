@@ -147,13 +147,11 @@
                 },
 
                 oauthApplicationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 uploadOAuthApplicationIconApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -278,7 +276,7 @@
             },
 
             _computeCertificatesApi: function(application) {
-                return application.self ? (application.self + '/certificates') : '';
+                return application.self ? (application.self + '/certificates') : null;
             },
 
             _onPageLoaded: function() {

@@ -144,7 +144,7 @@
             },
 
             _computeRemoveCustomerApi: function(customer) {
-                return customer.meta ? customer.meta.remove_customer : '';
+                return customer.meta ? customer.meta.remove_customer : null;
             },
 
             _showLoader: function() {

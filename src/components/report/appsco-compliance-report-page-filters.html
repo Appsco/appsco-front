@@ -129,8 +129,7 @@
             properties: {
 
                 groupsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 authorizationToken: {
@@ -238,11 +237,11 @@
             },
 
             _computeGroupsApi: function(groupsApi) {
-                return groupsApi ? groupsApi + '?extended=1' : '';
+                return groupsApi ? groupsApi + '?extended=1' : null;
             },
 
             _computeSearchGroupsApi: function(groupsApi, term) {
-                return (groupsApi && term) ? (groupsApi + '?extended=1&limit=10&term=' + term) : '';
+                return (groupsApi && term) ? (groupsApi + '?extended=1&limit=10&term=' + term) : null;
             },
 
             _isInPath: function(path, element) {

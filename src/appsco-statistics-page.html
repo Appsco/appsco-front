@@ -618,26 +618,26 @@
             },
 
             _computeApplicationSecurityApi: function(companyApi) {
-                return companyApi ? companyApi + '/statistics/application-security' : '';
+                return companyApi ? companyApi + '/statistics/application-security' : null;
             },
 
             _computeUserSecurityApi: function(companyApi) {
-                return companyApi ? companyApi + '/statistics/user-password-scores' : '';
+                return companyApi ? companyApi + '/statistics/user-password-scores' : null;
             },
 
             _computeLoginAttemptsApi: function(companyApi, filterAccountType) {
                 return companyApi ?
                     ((companyApi + '/statistics/login-attempts') +
                     (filterAccountType ? ('?type=' + filterAccountType) : ''))
-                    : '';
+                    : null;
             },
 
             _computeTwoFaApi: function(companyApi) {
-                return companyApi ? companyApi + '/statistics/twofa' : '';
+                return companyApi ? companyApi + '/statistics/twofa' : null;
             },
 
             _computeLicenceApi: function(companyApi) {
-                return companyApi ? companyApi + '/statistics/licences' : '';
+                return companyApi ? companyApi + '/statistics/licences' : null;
             },
 
             _pageLoaded: function() {

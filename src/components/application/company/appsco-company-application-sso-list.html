@@ -106,8 +106,7 @@
                  * API to get applications.
                  */
                 applicationsTemplateApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -213,7 +212,7 @@
             },
 
             _computeGetResourceApi: function(applicationsTemplateApi) {
-                return applicationsTemplateApi ? (applicationsTemplateApi + '?status=3&extended=1') : '';
+                return applicationsTemplateApi ? (applicationsTemplateApi + '?status=3&extended=1') : null;
             },
 
             _showLoader: function() {

@@ -56,7 +56,7 @@
             ],
 
             _computeResourceIcon: function(resource) {
-                return resource.application_url ? resource.application_url : (resource.icon_url ? resource.icon_url : '');
+                return resource.application_url ? resource.application_url : (resource.icon_url ? resource.icon_url : null);
             },
 
             _onAddItemAction: function(event) {

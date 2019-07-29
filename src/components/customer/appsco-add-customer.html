@@ -256,13 +256,11 @@
                 },
 
                 customersApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 companyConvertToCustomerApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -273,13 +271,11 @@
                 },
 
                 rolesApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 checkIfCustomerExistsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _rolesApi: {
@@ -485,7 +481,7 @@
             },
 
             _computeRolesApi: function(rolesApi) {
-                return rolesApi ? (rolesApi + '?limit=100&extended=1') : '';
+                return rolesApi ? (rolesApi + '?limit=100&extended=1') : null;
             },
 
             _loadRoles: function() {

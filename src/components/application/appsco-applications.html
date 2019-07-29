@@ -156,7 +156,6 @@ Custom property | Description | Default
                  */
                 applicationsApi: {
                     type: String,
-                    value: '',
                     notify: true,
                     observer: '_onApplicationsApiChanged'
                 },
@@ -181,8 +180,7 @@ Custom property | Description | Default
                 },
 
                 _searchApplicationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 /**
@@ -249,13 +247,11 @@ Custom property | Description | Default
 
                 _currentUrl: {
                     type: String,
-                    value: '',
                     notify: true
                 },
 
                 _next: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _totalApplications: {
@@ -528,7 +524,7 @@ Custom property | Description | Default
                     ((sort && sort.orderBy && 'undefined' !== typeof sort.ascending) ?
                         ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                         '')) :
-                    '';
+                    null;
             },
 
             _computeNextPageListApi: function(nextPageApi, size, sort) {
@@ -537,7 +533,7 @@ Custom property | Description | Default
                     ((sort && sort.orderBy && 'undefined' !== typeof sort.ascending) ?
                         ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                         '')) :
-                    '';
+                    null;
             },
 
             _computeSearchListApi: function(listApi, sort) {
@@ -547,7 +543,7 @@ Custom property | Description | Default
                         ('&order_by=' + sort.orderBy + '&ascending=' + (sort.ascending ? 1 : 0)) :
                         '') +
                     '&term=') :
-                    '';
+                    null;
             },
 
             _onApplicationAction: function(event) {
@@ -687,7 +683,7 @@ Custom property | Description | Default
             },
 
             reloadApplications: function() {
-                this.set('_currentUrl', '');
+                this.set('_currentUrl', null);
                 this._loadApplications();
             },
 

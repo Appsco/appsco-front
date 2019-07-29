@@ -125,7 +125,7 @@
             },
 
             _getAddResourceToFolderApi: function(resource) {
-                return (this.item.self && resource.alias) ? (this.item.self + '/resource/' + resource.alias) : '';
+                return (this.item.self && resource.alias) ? (this.item.self + '/resource/' + resource.alias) : null;
             },
 
             _addResourceToFolder: function(item) {

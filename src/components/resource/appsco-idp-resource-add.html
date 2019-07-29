@@ -43,12 +43,6 @@
             }
         </style>
 
-        <iron-ajax auto
-                   url="[[ linkApi ]]"
-                   headers="[[ _headers ]]"
-                   on-response="_onLinkResponse">
-        </iron-ajax>
-
         <paper-dialog
                 with-backdrop
                 id="addResourceDialog"
@@ -73,7 +67,7 @@
                           headers="[[ _headers ]]"
                           on-iron-form-error="_onFormError"
                           on-iron-form-response="_onFormResponse">
-                        <paper-input type="text" name="application_templates[]" value="[[ _link.self ]]"></paper-input>
+                        <paper-input type="text" name="application_templates[]" value="[[ link.self ]]"></paper-input>
                     </form>
 
                     <form is="iron-form"
@@ -132,13 +126,7 @@
                 },
 
                 addResourceApi: {
-                    type: String,
-                    value: ''
-                },
-
-                linkApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 resource: {
@@ -155,7 +143,7 @@
                     }
                 },
 
-                _link: {
+                link: {
                     type: Object,
                     value: function() {
                         return {};
@@ -231,10 +219,6 @@
                 this._hideLoader();
                 this._hideError();
                 this.set('resource', {});
-            },
-
-            _onLinkResponse: function(event) {
-                this.set('_link', event.detail.response);
             },
 
             _onEnter: function() {

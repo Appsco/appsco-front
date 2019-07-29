@@ -363,7 +363,6 @@
 
                 foldersApi: {
                     type: String,
-                    value: '',
                     observer: '_onFoldersApiChanged'
                 },
 
@@ -414,8 +413,7 @@
                 },
 
                 netscalerApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _applications: {
@@ -520,7 +518,7 @@
             },
 
             _computeApplicationsApi: function(folder) {
-                return folder.meta ? folder.meta.applications : '';
+                return folder.meta ? folder.meta.applications : null;
             },
 
             _computeApplicationShared: function(application) {
@@ -773,7 +771,7 @@
             },
 
             _getRemoveResourceFromFolderApi: function(resource) {
-                return (this.folder.self && resource.alias) ? (this.folder.self + '/resource/' + resource.alias) : '';
+                return (this.folder.self && resource.alias) ? (this.folder.self + '/resource/' + resource.alias) : null;
             },
 
             _removeResourceFromFolder: function(item) {

@@ -183,7 +183,7 @@
             },
 
             _computeSubscriptionPaidStateApi: function(customer) {
-                return customer ? (customer.self + '/paid-externally') : '';
+                return customer ? (customer.self + '/paid-externally') : null;
             }
 
         });

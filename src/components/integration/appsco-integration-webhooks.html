@@ -108,7 +108,7 @@
             },
 
             _computeWatcherListApi: function(integration) {
-                return integration.meta ? (integration.meta.watchers + '?extended=1') : '';
+                return integration.meta ? (integration.meta.watchers + '?extended=1') : null;
             },
 
             _getWatcherList: function() {

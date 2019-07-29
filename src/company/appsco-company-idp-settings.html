@@ -153,8 +153,7 @@
                 },
 
                 idPIntegrationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 apiErrors: {
@@ -165,8 +164,7 @@
                 },
 
                 _settingsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _idPConfig: {
@@ -259,7 +257,7 @@
             },
 
             _computeIdPIntegrationsApi: function(settingsApi) {
-                return settingsApi ? (settingsApi + '/integrations') : '';
+                return settingsApi ? (settingsApi + '/integrations') : null;
             },
 
             _computeFormPrefix: function(activeForm) {

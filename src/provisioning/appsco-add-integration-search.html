@@ -132,8 +132,7 @@
                 },
 
                 availableIntegrationsApi: {
-                    type: String,
-                    value: ''
+                    type: String
                 },
 
                 _headers: {
@@ -239,11 +238,11 @@
             },
 
             _computeAvailableIntegrationsApi: function(availableIntegrationsApi) {
-                return availableIntegrationsApi ? availableIntegrationsApi + '?extended=1' : '';
+                return availableIntegrationsApi ? availableIntegrationsApi + '?extended=1' : null;
             },
 
             _computeSearchAvailableIntegrationsApi: function(availableIntegrationsApi, term) {
-                return (availableIntegrationsApi && term) ? (availableIntegrationsApi + '?extended=1&limit=10&term=' + term) : '';
+                return (availableIntegrationsApi && term) ? (availableIntegrationsApi + '?extended=1&limit=10&term=' + term) : null;
             },
 
             _showMessage: function(message) {

@@ -154,7 +154,7 @@ Shows dialog screen with confirmation for contact converting.
             },
 
             _computeConvertContactApi: function(contact) {
-                return contact.meta ? contact.meta.promote_to_user : '';
+                return contact.meta ? contact.meta.promote_to_user : null;
             },
 
             _showLoader: function() {
