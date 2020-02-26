@@ -1683,57 +1683,57 @@
             }
 
             _addListeners() {
-                this.addEventListener('show-page-progress-bar', this._showProgressBar);
-                this.addEventListener('hide-page-progress-bar', this._hideProgressBar);
-                this.addEventListener('notify', this._onNotify);
-                this.addEventListener('notify-about-error', this._onNotify);
-                this.addEventListener('page-global-info', this._onInfoAction);
-                this.addEventListener('page-global-filters', this._onFiltersAction);
-                this.addEventListener('page-global-toggle-additional-options', this._onToggleAdditionalOptionsAction);
-                this.addEventListener('page-loaded', this._onPageLoaded);
-                this.addEventListener('filter-done', this._onPageLoaded);
-                this.addEventListener('cancel-subscription', this._onCancelSubscription);
-                this.addEventListener('reload-account-log', this._onReloadAccountLog);
-                this.addEventListener('edit-application', this._onEditApplication);
-                this.addEventListener('info-edit-application', this._onInfoEditApplication);
-                this.addEventListener('edit-resource', this._onEditCompanyResource);
-                this.addEventListener('info-edit-resource', this._onInfoEditCompanyResource);
-                this.addEventListener('reload-applications', this._onReloadApplications);
-                this.addEventListener('reload-accounts', this._onReloadAccounts);
-                this.addEventListener('application-settings-saved', this._onApplicationUpdated);
-                this.addEventListener('copied-application-attribute', this._onCopiedApplicationAttribute);
-                this.addEventListener('enable-advanced-settings', this._onEnableAccountAdvancedSettings);
-                this.addEventListener('disable-advanced-settings', this._onDisableAccountAdvancedSettings);
-                this.addEventListener('twofa-enabled', this._onTwoFaEnabled);
-                this.addEventListener('token-generated', this._onTokenGenerated);
+                this.addEventListener('show-page-progress-bar', this._showProgressBar, {passive: true});
+                this.addEventListener('hide-page-progress-bar', this._hideProgressBar, {passive: true});
+                this.addEventListener('notify', this._onNotify, {passive: true});
+                this.addEventListener('notify-about-error', this._onNotify, {passive: true});
+                this.addEventListener('page-global-info', this._onInfoAction, {passive: true});
+                this.addEventListener('page-global-filters', this._onFiltersAction, {passive: true});
+                this.addEventListener('page-global-toggle-additional-options', this._onToggleAdditionalOptionsAction, {passive: true});
+                this.addEventListener('page-loaded', this._onPageLoaded, {passive: true});
+                this.addEventListener('filter-done', this._onPageLoaded, {passive: true});
+                this.addEventListener('cancel-subscription', this._onCancelSubscription, {passive: true});
+                this.addEventListener('reload-account-log', this._onReloadAccountLog, {passive: true});
+                this.addEventListener('edit-application', this._onEditApplication, {passive: true});
+                this.addEventListener('info-edit-application', this._onInfoEditApplication, {passive: true});
+                this.addEventListener('edit-resource', this._onEditCompanyResource, {passive: true});
+                this.addEventListener('info-edit-resource', this._onInfoEditCompanyResource, {passive: true});
+                this.addEventListener('reload-applications', this._onReloadApplications, {passive: true});
+                this.addEventListener('reload-accounts', this._onReloadAccounts, {passive: true});
+                this.addEventListener('application-settings-saved', this._onApplicationUpdated, {passive: true});
+                this.addEventListener('copied-application-attribute', this._onCopiedApplicationAttribute, {passive: true});
+                this.addEventListener('enable-advanced-settings', this._onEnableAccountAdvancedSettings, {passive: true});
+                this.addEventListener('disable-advanced-settings', this._onDisableAccountAdvancedSettings, {passive: true});
+                this.addEventListener('twofa-enabled', this._onTwoFaEnabled, {passive: true});
+                this.addEventListener('token-generated', this._onTokenGenerated, {passive: true});
 
                 // export
-                this.addEventListener('export-access-report', this._onExportAccessReportAction);
-                this.addEventListener('export-compliance-report', this._onExportComplianceReportAction);
-                this.addEventListener('export-policies-report', this._onExportPoliciesReportAction);
-                this.addEventListener('export-billing-report', this._onExportBillingReportAction);
+                this.addEventListener('export-access-report', this._onExportAccessReportAction, {passive: true});
+                this.addEventListener('export-compliance-report', this._onExportComplianceReportAction, {passive: true});
+                this.addEventListener('export-policies-report', this._onExportPoliciesReportAction, {passive: true});
+                this.addEventListener('export-billing-report', this._onExportBillingReportAction, {passive: true});
 
                 // success
-                this.addEventListener('export-company-log-finished', this._onExportReportFinished);
-                this.addEventListener('export-access-report-finished', this._onExportReportFinished);
-                this.addEventListener('export-compliance-report-finished', this._onExportReportFinished);
-                this.addEventListener('export-policies-report-finished', this._onExportReportFinished);
-                this.addEventListener('export-billing-report-finished', this._onExportReportFinished);
+                this.addEventListener('export-company-log-finished', this._onExportReportFinished, {passive: true});
+                this.addEventListener('export-access-report-finished', this._onExportReportFinished, {passive: true});
+                this.addEventListener('export-compliance-report-finished', this._onExportReportFinished, {passive: true});
+                this.addEventListener('export-policies-report-finished', this._onExportReportFinished, {passive: true});
+                this.addEventListener('export-billing-report-finished', this._onExportReportFinished, {passive: true});
 
                 // fails
-                this.addEventListener('export-access-report-failed', this._onExportReportFailed);
-                this.addEventListener('export-compliance-report-failed', this._onExportReportFailed);
-                this.addEventListener('export-policies-report-failed', this._onExportReportFailed);
-                this.addEventListener('export-billing-report-failed', this._onExportReportFailed);
+                this.addEventListener('export-access-report-failed', this._onExportReportFailed, {passive: true});
+                this.addEventListener('export-compliance-report-failed', this._onExportReportFailed, {passive: true});
+                this.addEventListener('export-policies-report-failed', this._onExportReportFailed, {passive: true});
+                this.addEventListener('export-billing-report-failed', this._onExportReportFailed, {passive: true});
 
-                this.addEventListener('user-session-expired', this._onUserSessionExpired);
+                this.addEventListener('user-session-expired', this._onUserSessionExpired, {passive: true});
 
-                this.addEventListener('notifications-seen', this._onNotificationsSeen);
-                this.addEventListener('resource-moved-to-folder', this._onResourceMovedToFolder);
-                this.addEventListener('resource-removed-from-folder', this._onResourceRemovedFromFolder);
-                this.addEventListener('reload-access-of-boarding', this._onReloadAccessOnBoarding);
-                this.addEventListener('groups-added-to-resources', this._onGroupsAddedToResources);
-                this.addEventListener('page-settings-changed', this._onPageSettingsChanged);
+                this.addEventListener('notifications-seen', this._onNotificationsSeen, {passive: true});
+                this.addEventListener('resource-moved-to-folder', this._onResourceMovedToFolder, {passive: true});
+                this.addEventListener('resource-removed-from-folder', this._onResourceRemovedFromFolder, {passive: true});
+                this.addEventListener('reload-access-of-boarding', this._onReloadAccessOnBoarding, {passive: true});
+                this.addEventListener('groups-added-to-resources', this._onGroupsAddedToResources, {passive: true});
+                this.addEventListener('page-settings-changed', this._onPageSettingsChanged, {passive: true});
             }
 
             _updateScreen(mobile, tablet) {
