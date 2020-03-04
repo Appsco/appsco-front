@@ -10,7 +10,7 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-icon-item.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
-import '../vaadin-context-menu/vaadin-context-menu-override.js';
+import '@vaadin/vaadin-context-menu/vaadin-context-menu.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
@@ -53,6 +53,22 @@ class AppscoFolders extends mixinBehaviors([
                 margin: 0 10px 10px 0;
                 @apply --appsco-folders-item;
             }
+            .popup-menu-item-list {
+                padding: 0;
+            }
+            .popup-menu-item {
+                align-items: center;                    
+                cursor:pointer;
+                font-size: 14px;
+                height: 40px;
+                line-height: 24px;
+                min-height: 40px;
+                padding: 0 16px;
+                position: relative;
+                user-select: none;
+                width: 168px;
+                -webkit-font-smoothing: antialiased;
+            }
         </style>
 
         <iron-ajax id="getListApiRequest" url="[[ _listApi ]]" on-error="_onGetListError" on-response="_onGetListResponse" headers="[[ _headers ]]" debounce-duration="300"></iron-ajax>
@@ -67,15 +83,15 @@ class AppscoFolders extends mixinBehaviors([
 
             <template is="dom-if" if="[[ !_listEmpty ]]">
 
-                <vaadin-context-menu-override selector="appsco-folders-item">
+                <vaadin-context-menu selector="appsco-folders-item">
 
                     <template>
-                        <paper-listbox>
+                        <paper-listbox class="popup-menu-item-list">
                             <paper-icon-item class="popup-menu-item" list-item="[[ target ]]" on-click="_openRenameDialog">
                                 <iron-icon icon="create" list-item="[[ target ]]" item-icon="" slot="item-icon"></iron-icon> Rename
                             </paper-icon-item>
 
-                            <paper-icon-item list-item="[[ target ]]" on-click="_openRemoveDialog">
+                            <paper-icon-item class="popup-menu-item" list-item="[[ target ]]" on-click="_openRemoveDialog">
                                 <iron-icon icon="delete" list-item="[[ target ]]" item-icon="" slot="item-icon"></iron-icon> Remove
                             </paper-icon-item>
                         </paper-listbox>
@@ -89,7 +105,7 @@ class AppscoFolders extends mixinBehaviors([
                         </template>
                     </div>
 
-                </vaadin-context-menu-override>
+                </vaadin-context-menu>
             </template>
         </div>
 

@@ -6,7 +6,6 @@ import '@polymer/neon-animation/animations/fade-in-animation.js';
 import '@polymer/neon-animation/animations/fade-out-animation.js';
 import '@polymer/iron-media-query/iron-media-query.js';
 import '@polymer/iron-ajax/iron-request.js';
-import '../vaadin-context-menu/vaadin-context-menu-override.js';
 import { AppscoListItemBehavior } from '../components/appsco-list-item-behavior.js';
 import '../components/appsco-list-item-styles.js';
 import { AppscoDropHTMLElementBehavior } from '../components/appsco-drop-html-element-behavior.js';
