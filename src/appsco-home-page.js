@@ -292,6 +292,7 @@ class AppscoHomePage extends mixinBehaviors([
             dashboard-api="[[ dashboardApi ]]"
             item="[[ item ]]"
             on-application-added="_onApplicationAdded"
+            on-application-settings-saved="_stopPropagation"
             disable-upgrade>
         </appsco-application-add>
 
@@ -300,6 +301,7 @@ class AppscoHomePage extends mixinBehaviors([
             authorization-token="[[ authorizationToken ]]"
             dashboard-api="[[ dashboardApi ]]"
             on-application-added="_onApplicationAdded"
+            on-application-settings-saved="_stopPropagation"
             disable-upgrade>
         </appsco-dialog-application-add>
 
@@ -615,7 +617,7 @@ class AppscoHomePage extends mixinBehaviors([
                 setTimeout(function() {
                     dialog.setApplicationTemplate(request.response.application);
                     dialog.toggle();
-                }, 0);
+                }.bind(this), 0);
             }
 
         }.bind(this));
@@ -645,6 +647,10 @@ class AppscoHomePage extends mixinBehaviors([
             dialog.setOnPersonal();
             dialog.open();
         }, 0);
+    }
+
+    _stopPropagation(e) {
+        e.stopPropagation();
     }
 
     _onFolderAdded(event) {
@@ -823,6 +829,7 @@ class AppscoHomePage extends mixinBehaviors([
     }
 
     reloadApplications() {
+        this._applicationsLoaded = false;
         this.$.appscoApplications.reloadApplications();
     }
 

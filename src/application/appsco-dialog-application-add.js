@@ -57,7 +57,13 @@ class AppscoDialogApplicationAdd extends DisableUpgradeMixin(PolymerElement) {
             <paper-dialog-scrollable>
                 <div class="dialog-container">
                     <div>
-                        <appsco-application-add-settings id="appscoApplicationAddSettings" application-template="[[ applicationTemplate ]]" authorization-token="[[ authorizationToken ]]" dashboard-api="[[ dashboardApi ]]" on-form-error="_onFormError"></appsco-application-add-settings>
+                        <appsco-application-add-settings
+                            id="appscoApplicationAddSettings"
+                            application-template="[[ applicationTemplate ]]"
+                            authorization-token="[[ authorizationToken ]]"
+                            dashboard-api="[[ dashboardApi ]]"
+                            on-form-error="_onFormError">
+                        </appsco-application-add-settings>
                     </div>
                 </div>
             </paper-dialog-scrollable>

@@ -384,9 +384,13 @@ class AppscoApplicationSettings extends mixinBehaviors([Appsco.HeadersMixin], Po
 
     _submitNewClaims(application) {
         const me = this,
-            form = dom(me.root).querySelector('[data-claims]');
+            form = this.shadowRoot.querySelector('[data-claims]');
 
         return new Promise(function(resolve, reject){
+            if(!form) {
+                reject('No claims form');
+                return;
+            }
             if(form.didFieldsChanged()) {
                 const options = {
                     url: application.self,
@@ -401,7 +405,6 @@ class AppscoApplicationSettings extends mixinBehaviors([Appsco.HeadersMixin], Po
                     if (request.succeeded) {
                         resolve(request.response.icon);
                     }
-
                 });
             } else {
                 me._loader = false;

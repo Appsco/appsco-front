@@ -50,11 +50,19 @@ class AppscoApplicationAddSettings extends mixinBehaviors([
 
             <iron-form id="addApplicationForm" headers="[[ _headers ]]" on-iron-form-response="_onFormResponse">
                 <form hidden="" method="POST" action\$="[[ _computedAction ]]">
-                    <input type="text" name="application[resource]" value\$="[[ applicationTemplate.self ]]">
+                    <paper-input name="application[resource]" value="[[ applicationTemplate.self ]]" hidden></paper-input>
                 </form>
             </iron-form>
 
-            <appsco-application-settings id="applicationSettings" show-save-button="[[ _saveButton ]]" on-application-settings-no-changes="_fireNoChangesInSettings" on-application-settings-saved="_fireSettingsChanged" authorization-token="[[ authorizationToken ]]" application-tpl="[[ applicationTemplate ]]" application="[[ application ]]"></appsco-application-settings>
+            <appsco-application-settings
+                id="applicationSettings"
+                show-save-button="[[ _saveButton ]]"
+                on-application-settings-no-changes="_fireNoChangesInSettings"
+                on-application-settings-saved="_fireSettingsChanged"
+                authorization-token="[[ authorizationToken ]]"
+                application-tpl="[[ applicationTemplate ]]"
+                application="[[ application ]]">
+            </appsco-application-settings>
 
         </div>
 `;
@@ -70,10 +78,7 @@ class AppscoApplicationAddSettings extends mixinBehaviors([
             },
 
             applicationTemplate: {
-                type: Object,
-                value: function () {
-                    return {};
-                }
+                type: Object
             },
 
             application: {

@@ -355,6 +355,7 @@ class AppscoApp extends mixinBehaviors([
                          on-folder-tapped="_onFolderTapped"
                          on-application-shared="_onApplicationShared"
                          on-application-settings-saved="_onApplicationSettingsSaved"
+                         on-application-settings-no-changes="_onApplicationSettingsNoChanges"
                          on-applications-removed="_onApplicationsRemovedFromHomePage">
                      </appsco-home-page>
 
@@ -3793,14 +3794,11 @@ class AppscoApp extends mixinBehaviors([
         this._toastPersistence = persistent;
         toast.duration = persistent ? 0 : 5000;
 
-        if (toast.opened) {
-            toast.cancel();
-            this._toastMessage = message;
-        }
-        else {
-            this._toastMessage = message;
+        if (!toast.opened) {
             toast.open();
         }
+
+        this._toastMessage = message;
     }
 
     _closeToastMessage() {
