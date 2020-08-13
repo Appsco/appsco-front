@@ -63,15 +63,15 @@ class AppscoContent extends mixinBehaviors([NeonAnimationRunnerBehavior], Polyme
         </custom-style>
 
         <div class="container flex-horizontal">
-            <div id="resource" class="resource"><slot name="resource" old-content-selector="[resource]"></slot></div>
+            <div id="resource" class="resource"><slot name="resource"></slot></div>
             <div id="content" class="content">
                 <iron-collapse id="contentTop" content-top="">
                     <slot name="content-top" old-content-selector="[content-top]"></slot>
                 </iron-collapse>
 
-                <slot name="content" old-content-selector="[content]"></slot>
+                <slot name="content"></slot>
             </div>
-            <div id="info" class="info"><slot name="info" old-content-selector="[info]"></slot></div>
+            <div id="info" class="info"><slot name="info"></slot></div>
         </div>
 `;
     }
@@ -153,22 +153,23 @@ class AppscoContent extends mixinBehaviors([NeonAnimationRunnerBehavior], Polyme
             this.animationConfig = {
                 'entry': {
                     name: 'slide-from-right-animation',
-                    node: this.$.info,
+                    node: this.shadowRoot.getElementById('info'),
                     timing: {
                         duration: 200
                     }
                 },
                 'exit': {
                     name: 'slide-right-animation',
-                    node: this.$.info,
+                    node: this.shadowRoot.getElementById('info'),
                     timing: {
                         duration: 100
                     }
                 }
             };
         });
-
-        active ? this.showSection('info') : this.hideSection('info');
+        setTimeout(function() {
+            active ? this.showSection('info') : this.hideSection('info');
+        }.bind(this));
     }
 
     _onContentTopActiveChanged(active) {
@@ -194,7 +195,7 @@ class AppscoContent extends mixinBehaviors([NeonAnimationRunnerBehavior], Polyme
         }
 
         this.shadowRoot.getElementById(section).style.display = 'inline-block';
-        afterNextRender(this, () => this.playAnimation('entry'));
+        this.playAnimation('entry');
     }
 
     /**
