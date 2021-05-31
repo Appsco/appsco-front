@@ -151,7 +151,7 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
         <iron-ajax id="ironAjaxGetIntegration" on-error="_onIntegrationError" on-response="_onIntegrationResponse" headers="[[ _headers ]]">
         </iron-ajax>
 
-        <appsco-content id="appscoContent" resource-active="" info-active\$="[[ _infoSectionActive ]]">
+        <appsco-content id="appscoContent" resource-active="">
 
             <div class="flex-vertical" resource="" slot="resource">
 
@@ -223,8 +223,6 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
                     </template>
 
                 </div>
-
-
 
                 <div class="resource-actions flex-horizontal">
                     <paper-button class="button secondary-button flex" on-tap="_onReauthorizeIntegration">
@@ -416,7 +414,7 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
 
             _infoSectionActive: {
                 type: Boolean,
-                value: false
+                observer: '_infoActiveChanged'
             }
         };
     }
@@ -569,6 +567,20 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
             this.$.ironAjaxGetIntegration.url = this.integrationApi + '/active' + this.route.path;
             this.$.ironAjaxGetIntegration.generateRequest();
         }
+    }
+
+
+    _infoActiveChanged(infoActive) {
+        if (undefined === infoActive) {
+            return;
+        }
+
+        if (infoActive) {
+            this.shadowRoot.getElementById('appscoContent').showSection('info');
+            return;
+        }
+
+        this.shadowRoot.getElementById('appscoContent').hideSection('info');
     }
 
     _onIntegrationApiChanged() {
