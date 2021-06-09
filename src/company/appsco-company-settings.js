@@ -96,6 +96,12 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
                             <paper-toggle-button name="company_settings[sendEmailToAdminOnNewUser]" id="newUserInfoAdminEmail" checked\$="[[ company.mail_admin_on_new_user ]]" on-change="_mailAdminOnNewUserChanged">
                                 Send email notification to admins when user/contact invite is accepted.
                             </paper-toggle-button>
+                            <paper-toggle-button name="company_settings[sendEmailToAdminOnWebhookIntegration]"
+                                                 id="sendEmailToAdminOnWebhookIntegration"
+                                                 checked\$="[[ company.mail_admin_on_new_webhook ]]"
+                                                 on-change="_mailAdminOnNewWebhookChanged">
+                                Send email notification to admins when webhook is triggered.
+                            </paper-toggle-button>
                             <template is="dom-if" if="[[ _showAdminEmailField ]]">
                                 <paper-input id="sendEmailToAdminOnNewDevice" label="Admin email" name="company_settings[newDeviceInfoAdminEmail]" value="[[ company.notify_admin_email ]]" on-keyup="_onKeyUp"></paper-input>
                             </template>
@@ -304,6 +310,11 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
                 value: false
             },
 
+            _emailAdminOnNewWebhook: {
+                type: Boolean,
+                value: false
+            },
+
             _disableResourcePasswordCopy: {
                 type: Boolean,
                 value: false
@@ -311,7 +322,7 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
 
             _showAdminEmailField: {
                 type: Boolean,
-                computed: '_computeShowAdminEmailField(_emailAdminOnNewDevice, _emailAdminOnNewUser)'
+                computed: '_computeShowAdminEmailField(_emailAdminOnNewDevice, _emailAdminOnNewUser, _emailAdminOnNewWebhook)'
             }
         };
     }
@@ -330,6 +341,7 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
         this.$.billingEmail.invalid = false;
         this._emailAdminOnNewDevice = this.company ? this.company.mail_admin_on_new_device : false;
         this._emailAdminOnNewUser = this.company ? this.company.mail_admin_on_new_user : false;
+        this._emailAdminOnNewWebhook = this.company ? this.company.mail_admin_on_new_webhook : false;
         this._disableResourcePasswordCopy = this.company ? this.company.disable_resource_copy_button : false;
     }
 
@@ -413,6 +425,10 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
         this._emailAdminOnNewUser = this.$.newUserInfoAdminEmail.checked;
     }
 
+    _mailAdminOnNewWebhookChanged() {
+        this._emailAdminOnNewWebhook = this.$.sendEmailToAdminOnWebhookIntegration.checked;
+    }
+
     _companyEmailNotificationChanged(e) {
         this.companyNotification[e.currentTarget.id] = e.currentTarget.checked;
     }
@@ -425,8 +441,8 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
         this._disableResourcePasswordCopy = this.$.disableCopyButtonOnResources.checked;
     }
 
-    _computeShowAdminEmailField(_emailAdminOnNewDevice, _emailAdminOnNewUser) {
-        return _emailAdminOnNewDevice || _emailAdminOnNewUser;
+    _computeShowAdminEmailField(_emailAdminOnNewDevice, _emailAdminOnNewUser, _emailAdminOnNewWebhook) {
+        return _emailAdminOnNewDevice || _emailAdminOnNewUser || _emailAdminOnNewWebhook;
     }
 
     setup() {
