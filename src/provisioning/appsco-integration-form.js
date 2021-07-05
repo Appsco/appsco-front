@@ -100,6 +100,12 @@ class AppscoIntegrationForm extends PolymerElement {
         </template>
 
         <div class="input-container">
+            <p class="input-info">Comma-separated list of email accounts that are to be excluded by this integration.</p>
+            <paper-input type="text" label="Whitelist" name="activate_integration[excluded_emails]" value="[[ integration.excluded_emails ]]" required="">
+            </paper-input>
+        </div>
+
+        <div class="input-container">
             <p>
                 When integration is active, integration rules will be applied according to sync interval.
             </p>
