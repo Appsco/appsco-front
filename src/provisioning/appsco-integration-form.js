@@ -66,7 +66,7 @@ class AppscoIntegrationForm extends PolymerElement {
             </paper-dropdown-menu>
         </div>
 
-        <div class="input-container">
+        <div class="input-container" style="display: none;">
             <p class="input-info">
                 Schedule sync interval implies synchronization interval between AppsCo and [[ integration.integration.title ]].
                 Synchronization will run at 00:00 at the start of the schedule sync interval.
@@ -84,7 +84,7 @@ class AppscoIntegrationForm extends PolymerElement {
         </div>
 
         <template is="dom-if" if="[[ _canForceSync ]]">
-            <div class="input-container">
+            <div class="input-container" style="display: none;">
                 <p class="input-info">
                     Resync interval implies interval in which provisioned users from RA
                     which are no longer found in RA will be removed from AppsCo.
