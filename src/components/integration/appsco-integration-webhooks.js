@@ -128,6 +128,10 @@ class AppscoIntegrationWebhooks extends mixinBehaviors([
         this.set('_watcherList', watchers);
     }
 
+    reloadWebhooksList() {
+        this._generateNewRequest();
+    }
+
     _removeUnActiveWebhooks() {
         const webhooks = JSON.parse(JSON.stringify(this._allListItems)),
             webhooksLength = webhooks.length,

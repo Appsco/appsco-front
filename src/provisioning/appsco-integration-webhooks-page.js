@@ -147,6 +147,10 @@ class AppscoIntegrationWebhooksPage extends mixinBehaviors([
         this.$.appscoIntegrationWebhooks.removeIntegrationWatcher(watcher);
     }
 
+    reloadWebhooksList() {
+        this.$.appscoIntegrationWebhooks.reloadWebhooksList();
+    }
+
     _computeIntegrationWebhooksApi(integration) {
         return integration.meta ? integration.meta.webHooks : null;
     }

@@ -248,7 +248,15 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
                         <appsco-integration-rules-page id="appscoIntegrationRulesPage" name="appsco-integration-rules-page" integration="[[ integration ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]" on-add-integration-rule="_onAddIntegrationRuleAction" on-edit-integration-rule="_onEditIntegrationRuleAction" on-run-integration-rule="_onRunIntegrationRuleAction" on-remove-integration-rule="_onRemoveIntegrationRuleAction" on-back="_onResourceBack">
                         </appsco-integration-rules-page>
 
-                        <appsco-integration-webhooks-page id="appscoIntegrationWebhooksPage" name="appsco-integration-webhooks-page" integration="[[ integration ]]" authorization-token="[[ authorizationToken ]]" on-register-integration-webhook="_onRegisterIntegrationWebhook" on-unregister-integration-webhook="_onUnregisterIntegrationWebhook" api-errors="[[ apiErrors ]]" on-back="_onResourceBack">
+                        <appsco-integration-webhooks-page
+                            id="appscoIntegrationWebhooksPage"
+                            name="appsco-integration-webhooks-page"
+                            authorization-token="[[ authorizationToken ]]"
+                            api-errors="[[ apiErrors ]]"
+                            integration="[[ integration ]]"
+                            on-register-integration-webhook="_onRegisterIntegrationWebhook"
+                            on-unregister-integration-webhook="_onUnregisterIntegrationWebhook"
+                            on-back="_onResourceBack">
                         </appsco-integration-webhooks-page>
 
                     </neon-animated-pages>
@@ -503,6 +511,10 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
         this.$.appscoIntegrationWebhooksPage.removeIntegrationWatcher(watcher);
     }
 
+    reloadWebhooksList() {
+        this.$.appscoIntegrationWebhooksPage.reloadWebhooksList();
+    }
+
     _onPageLoaded() {
         this.pageLoaded = true;
         this.dispatchEvent(new CustomEvent('page-loaded', { bubbles: true, composed: true }));
@@ -731,6 +743,7 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
 
     _onIntegrationRuleAdded(event) {
         this.addIntegrationRule(event.detail.rule);
+        this.reloadWebhooksList();
         this._notify('Rule for ' + event.detail.integration.name + ' has been successfully added.');
     }
 
