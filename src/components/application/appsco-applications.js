@@ -965,11 +965,12 @@ class AppscoApplications extends mixinBehaviors([
     }
 
     _applicationsCountChanged(count, applicationsEmpty) {
+        const applicationsLength = this._applications && this._applications.length ? this._applications.length : 0;
         this.dispatchEvent(new CustomEvent('applications-count-changed', {
             bubbles: true,
             composed: true,
             detail: {
-                count: this._applicationsEmpty ? 0 : this._applications.length
+                count: this._applicationsEmpty ? 0 : applicationsLength
             }
         }));
     }
