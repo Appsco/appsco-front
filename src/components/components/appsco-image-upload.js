@@ -18,7 +18,9 @@ class AppscoImageUpload extends mixinBehaviors([AppscoUploadImageBehavior], Poly
 
             <appsco-loader active="[[ _loader ]]" loader-alt="[[ loaderAlt]]" multi-color=""></appsco-loader>
 
-            <iron-image class="item-image" src\$="[[ image ]]" alt="[[ imageAlt ]]" sizing="contain"></iron-image>
+            <template is="dom-if" if="[[ image ]]">
+                <iron-image class="item-image" src\$="[[ image ]]" alt="[[ imageAlt ]]" sizing="contain"></iron-image>
+            </template>
 
             <template is="dom-if" if="[[ !previewOnly ]]">
                 <label for="imageInput" class\$="item-image-upload [[ _imagePreview ]]">
@@ -43,7 +45,6 @@ class AppscoImageUpload extends mixinBehaviors([AppscoUploadImageBehavior], Poly
         return {
             image: {
                 type: String,
-                value: '',
                 notify: true
             },
 
@@ -65,7 +66,7 @@ class AppscoImageUpload extends mixinBehaviors([AppscoUploadImageBehavior], Poly
     }
 
     reset() {
-        this.set('image', '');
+        this.set('image', null);
     }
 
     _computeImagePreviewClass(image) {
@@ -93,7 +94,7 @@ class AppscoImageUpload extends mixinBehaviors([AppscoUploadImageBehavior], Poly
     }
 
     _setStateAfterImageIsRemoved(response) {
-        this.set('image', '');
+        this.set('image', null);
         this._fireChangeEvent(JSON.stringify(response));
         this._hideLoader();
     }
