@@ -76,11 +76,13 @@ class AppscoApplicationInfo extends PolymerElement {
     }
 
     _computeApplicationIcon(company, application) {
-        if (!application) {
+        if (!application || 0 === Object.keys(application).length) {
             return '';
         }
 
-        return company ? application.application_url : application.icon_url;
+        const url = company ? application.application_url : application.icon_url;
+
+        return url ? url : '';
     }
 }
 window.customElements.define(AppscoApplicationInfo.is, AppscoApplicationInfo);
