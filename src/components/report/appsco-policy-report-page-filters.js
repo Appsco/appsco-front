@@ -210,7 +210,6 @@ class AppscoPolicyReportPageFilters extends mixinBehaviors([Appsco.HeadersMixin]
     reset() {
         this.$.appscoSearch.reset();
         this.$.filterListPolicies.selected = 0;
-        this.$.filterList.selected = 0;
         this._hidePolicyList();
         this._filterFromDate = this._defaultFromDateValue;
         this.$.filterDateFrom.value = this._defaultFromDateValue;
