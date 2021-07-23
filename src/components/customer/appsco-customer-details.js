@@ -49,11 +49,11 @@ class AppscoCustomerDetails extends mixinBehaviors([NeonAnimationRunnerBehavior]
         <div class="details-info">
             <div class="details-label">Status</div>
             <template is="dom-if" if="[[ customer.active ]]">
-                <div class="details-value status-value">Active</div>
+                <div class="details-value status-value">Premium</div>
             </template>
 
             <template is="dom-if" if="[[ !customer.active ]]">
-                <div class="details-value status-value">Trial</div>
+                <div class="details-value status-value">Free</div>
             </template>
         </div>
 

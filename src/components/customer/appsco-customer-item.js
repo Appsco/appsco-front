@@ -117,11 +117,11 @@ class AppscoCustomerItem extends mixinBehaviors([
                     <div class="info">
                         <span class="info-label">Status:&nbsp;</span>
                         <template is="dom-if" if="[[ !item.trial_period ]]">
-                            <span class="info-value">active</span>
+                            <span class="info-value">premium</span>
                         </template>
     
                         <template is="dom-if" if="[[ item.trial_period ]]">
-                            <span class="info-value">trial</span>
+                            <span class="info-value">free</span>
                         </template>
                     </div>
                 </div>
