@@ -75,7 +75,7 @@ class AppscoIntegrationForm extends PolymerElement {
                 During the sync action, only stand-alone rules (rules that can run on their own) will run.
             </p>
             <paper-dropdown-menu id="integrationScheduleSyncSelect" label="Schedule sync interval" name="activate_integration[scheduleSyncInterval]" horizontal-align="left" on-iron-overlay-closed="_onSelectClosed" required="" error-message="Please select schedule sync interval." auto-validate="">
-                <paper-listbox id="integrationScheduleSyncList" class="dropdown-content filter" attr-for-selected="value" selected="[[ integration.scheduleSyncInterval ]]" slot="dropdown-content">
+                <paper-listbox id="integrationScheduleSyncList" class="dropdown-content filter" attr-for-selected="value" selected="[[ _scheduleSyncInterval ]]" slot="dropdown-content">
                     <template is="dom-repeat" items="[[ _integrationScheduleSyncList ]]">
                         <paper-item value="[[ item.value ]]">[[ item.name ]]</paper-item>
                     </template>
@@ -123,7 +123,7 @@ class AppscoIntegrationForm extends PolymerElement {
                 type: Object,
                 value: function () {
                     return {
-                        forceSyncInterval: 'monthly'
+                        scheduleSyncInterval: 'daily'
                     };
                 }
             },
@@ -195,6 +195,11 @@ class AppscoIntegrationForm extends PolymerElement {
             _canForceSync: {
                 type: Boolean,
                 computed: '_computeCanForceSync(_preselectedIntegrationKind)'
+            },
+
+            _scheduleSyncInterval: {
+                type: String,
+                computed: '_computeScheduleSyncInterval(integration)'
             },
 
             _integrationScheduleSyncList: {
@@ -336,6 +341,10 @@ class AppscoIntegrationForm extends PolymerElement {
 
     _computeCanForceSync(computedKind) {
         return computedKind === 'ra';
+    }
+
+    _computeScheduleSyncInterval(integration) {
+        return integration.hasOwnProperty('scheduleSyncInterval') && integration.scheduleSyncInterval !== '' ? integration.scheduleSyncInterval : 'daily';
     }
 
     getIntegrationActive() {
