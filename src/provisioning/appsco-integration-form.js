@@ -122,7 +122,9 @@ class AppscoIntegrationForm extends PolymerElement {
             integration: {
                 type: Object,
                 value: function () {
-                    return {};
+                    return {
+                        forceSyncInterval: 'monthly'
+                    };
                 }
             },
 
