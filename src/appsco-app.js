@@ -191,6 +191,9 @@ class AppscoApp extends mixinBehaviors([
                             <div class="section">
                                 <span class="menu-text">Management</span>
                             </div>
+                            <a name="provisioning-log" href="#">
+                                <iron-icon icon="icons:compare-arrows"></iron-icon> <span class="menu-text">Provisioning Log</span>
+                            </a>
                             <a name="audit-log" href="#">
                                 <iron-icon icon="icons:reorder"></iron-icon> <span class="menu-text">Audit</span>
                             </a>
@@ -328,6 +331,9 @@ class AppscoApp extends mixinBehaviors([
             <appsco-customers-page-actions id="appscoCustomersPageActions" name="customers">
             </appsco-customers-page-actions>
 
+            <appsco-provisioning-log-page-actions id="appscoProvisioningLogPageActions" name="provisioning-log">
+            </appsco-provisioning-log-page-actions>
+            
             <appsco-audit-log-page-actions id="appscoAuditLogPageActions" name="audit-log">
             </appsco-audit-log-page-actions>
 
@@ -664,6 +670,14 @@ class AppscoApp extends mixinBehaviors([
             <appsco-provisioning-integration-authorization-failed-page name="provisioning-integration-authorization-failed" page="" company-page="" id="appscoProvisioningIntegrationFailedPage" on-provisioning="_showCompanyProvisioningPage">
             </appsco-provisioning-integration-authorization-failed-page>
 
+             <appsco-provisioning-log-page name="provisioning-log" page="" company-page=""
+                                    id="appscoProvisioningLogPage"
+                                    authorization-token="[[ authorizationToken ]]"
+                                    audit-log-api="[[ _companyProvisioningLogApi ]]"
+                                    company-api="[[ _companyApi ]]"
+                                    toolbar="[[ \$.appscoProvisioningLogPageActions ]]">
+             </appsco-provisioning-log-page>
+             
             <appsco-audit-log-page name="audit-log" page="" company-page="" 
                 id="appscoAuditLogPage" 
                 authorization-token="[[ authorizationToken ]]" 
@@ -1013,6 +1027,10 @@ class AppscoApp extends mixinBehaviors([
             },
 
             _companyAuditLogApi: {
+                type: String
+            },
+
+            _companyProvisioningLogApi: {
                 type: String
             },
 
@@ -1624,6 +1642,8 @@ class AppscoApp extends mixinBehaviors([
                 return 'Provisioning > Authorization success';
             case 'provisioning-integration-authorization-failed':
                 return 'Provisioning > Authorization failed';
+            case 'provisioning-log':
+                return 'Provisioning Log';
             case 'audit-log':
                 return 'Audit Log';
             case 'access-on-boarding':
@@ -1796,6 +1816,7 @@ class AppscoApp extends mixinBehaviors([
             this._companyGroupApi = companyApi + '/group';
             this._companySamlMetadataApi = companyApi + '/idp/saml/metadata';
             this._companyAuditLogApi = companyApi + '/log';
+            this._companyProvisioningLogApi = companyApi + '/provisioning-log';
             this._companyCustomersApi = partnerApi + '/customers';
             this._companyConvertToCustomerApi = partnerApi + '/customers/convert';
             this._companyIntegrationApi = companyApi + '/integrations';
@@ -2281,6 +2302,8 @@ class AppscoApp extends mixinBehaviors([
                 return this.$.appscoComplianceReportPage;
             case 'manage-oauth-application':
                 return this.$.appscoManageOAuthApplicationPage;
+            case 'provisioning-log':
+                return this.$.appscoProvisioningLogPage;
             case 'audit-log':
                 return this.$.appscoAuditLogPage;
             case 'access-on-boarding':

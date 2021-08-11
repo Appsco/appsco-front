@@ -69,6 +69,12 @@
         "resource_admin_added": "Resource admin added",
         "resource_admin_removed": "Resource admin removed",
         "company_policy_enabled": "Company policy enabled",
-        "company_policy_disabled": "Company policy disabled"
+        "provisioning_webhook_watcher_initialized": "Provisioning webhook watcher initialized",
+        "provisioning_webhook_watcher_unauthorized": "Provisioning webhook watcher unauthorized",
+        "provisioning_webhook_watcher_sys_processing": "Provisioning webhook watcher system processing",
+        "provisioning_recipe_integration_inactive": "Provisioning integration inactive",
+        "provisioning_recipe_to_be_executed": "Provisioning recipe to be executed",
+        "provisioning_pst_request_successful": "Provisioning target request successful",
+        "provisioning_pst_request_failed": "Provisioning target request failed"
     }
 }
