@@ -21,6 +21,7 @@
     "src/appsco-trybusiness-page.js",
     "src/appsco-logout-page.js",
     "src/appsco-audit-log-page.js",
+    "src/appsco-provisioning-log-page.js",
     "src/appsco-statistics-page.js",
     "src/appsco-provisioning-page.js",
     "src/appsco-provisioning-integration-authorization-success-page.js",
