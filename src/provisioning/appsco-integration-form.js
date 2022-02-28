@@ -60,6 +60,12 @@ class AppscoIntegrationForm extends PolymerElement {
             <paper-input type="text" label="Corporation id" name="activate_integration[claims][corp_id]" value="[[ integration.claims.corp_id ]]" required="" disabled="[[ !requiresITXClaims ]]" hidden="[[ !requiresITXClaims ]]"></paper-input>
         </div>
 
+        <div class="input-container flex">
+            <paper-input type="text" label="Customer instance" name="activate_integration[claims][customerinstance]" value="[[ integration.claims.customerinstance ]]" required="" disabled="[[ !requiresFlexClaims ]]" hidden="[[ !requiresFlexClaims ]]"></paper-input>
+            <paper-input type="text" label="Username" name="activate_integration[claims][username]" value="[[ integration.claims.username ]]" required="" disabled="[[ !requiresFlexClaims ]]" hidden="[[ !requiresFlexClaims ]]"></paper-input>
+            <paper-input type="text" label="Password" name="activate_integration[claims][password]" value="[[ integration.claims.password ]]" required="" disabled="[[ !requiresFlexClaims ]]" hidden="[[ !requiresFlexClaims ]]"></paper-input>
+        </div>
+        
         <div class="input-container">
             <p class="input-info">Integration type determines the way in which AppsCo integrates with [[ integration.integration.title ]].</p>
             <paper-dropdown-menu id="integrationKindSelect" label="Integration type" name="activate_integration[kind]" horizontal-align="left" disabled="[[ _disableIntegrationTypeChange ]]" on-iron-overlay-closed="_onSelectClosed" required="" error-message="Please select integration type." auto-validate="">
@@ -168,6 +174,12 @@ class AppscoIntegrationForm extends PolymerElement {
                 reflectToAttribute: true
             },
 
+            requiresFlexClaims: {
+                type: Boolean,
+                value: false,
+                computed: '_computeRequiresFlex(integration)',
+                reflectToAttribute: true
+            },
             requiresInstanceId: {
                 type: Boolean,
                 value: false,
@@ -296,12 +308,14 @@ class AppscoIntegrationForm extends PolymerElement {
     _computeHasOwnUrl(integration) {
         if (integration.integration) {
             return integration.integration.alias === 4 || integration.integration.alias === 7 ||
-                   integration.integration.alias === 8 || integration.integration.alias === 15 ;
+                   integration.integration.alias === 8 || integration.integration.alias === 15 ||
+                   integration.alias === 16;
         }
 
         if (integration) {
             return integration.alias === 4 || integration.alias === 7 ||
-                   integration.alias === 8 || integration.alias === 15;
+                   integration.alias === 8 || integration.alias === 15 ||
+                   integration.alias === 16;
         }
 
         return false;
@@ -338,6 +352,18 @@ class AppscoIntegrationForm extends PolymerElement {
 
         if (integration) {
             return integration.alias == 15;
+        }
+
+        return false;
+    }
+
+    _computeRequiresFlex(integration) {
+        if (integration && integration.integration) {
+            return integration.integration.alias == 16;
+        }
+
+        if (integration) {
+            return integration.alias == 16;
         }
 
         return false;
