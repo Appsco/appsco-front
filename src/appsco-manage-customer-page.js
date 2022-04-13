@@ -14,6 +14,7 @@ import './components/customer/appsco-customer-partner-admins-page.js';
 import './components/customer/appsco-manage-customer-subscription.js';
 import './components/customer/appsco-manage-customer-page-actions.js';
 import './components/customer/appsco-add-partner-admin.js';
+import './components/resource/appsco-share-resources.js';
 import './components/customer/appsco-remove-customer.js';
 import './components/customer/appsco-customer-partner-admin-remove.js';
 import './lib/mixins/appsco-page-mixin.js';
@@ -124,6 +125,9 @@ class AppscoManageCustomerPage extends mixinBehaviors([
         <appsco-add-partner-admin id="appscoAddPartnerAdmin" authorization-token="[[ authorizationToken ]]" get-roles-api="[[ companyRolesApi ]]" add-partner-admin-api="[[ addPartnerAdminToCustomerApi ]]" api-errors="[[ apiErrors ]]" on-partner-admins-added="_onPartnerAdminsAdded" on-accounts-loaded="_hideProgressBar">
         </appsco-add-partner-admin>
 
+        <appsco-share-resources id="appscoShareResources" authorization-token="[[ authorizationToken ]]" share-resources-api="{{ _customerShareResourcesApi }}" get-resources-api="{{ _customerResourcesApi }}" api-errors="[[ apiErrors ]]" >
+        </appsco-share-resources>
+
         <appsco-customer-partner-admin-remove id="appscoCustomerPartnerAdminRemove" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]" on-partner-admin-removed-from-customer="_onPartnerAdminRemovedFromCustomer">
         </appsco-customer-partner-admin-remove>
 
@@ -177,6 +181,16 @@ class AppscoManageCustomerPage extends mixinBehaviors([
                 value: function () {
                     return {};
                 }
+            },
+
+            _customerResourcesApi: {
+                type: String,
+                computed: '_computeCustomerResourceApi(customer)'
+            },
+
+            _customerShareResourcesApi: {
+                type: String,
+                computed: '_computeCustomerShareResourceApi(customer)'
             },
 
             mediumScreen: {
@@ -300,6 +314,14 @@ class AppscoManageCustomerPage extends mixinBehaviors([
                 break;
             }
         }
+    }
+
+    _computeCustomerResourceApi(customer) {
+        return customer.hasOwnProperty('self') ? `${customer.self}/resources` : '';
+    }
+
+    _computeCustomerShareResourceApi(customer) {
+        return customer.hasOwnProperty('self') ? `${customer.self}/resources/share` : '';
     }
 
     _removePartnerAdmins(partnerAdmins) {
@@ -442,6 +464,10 @@ class AppscoManageCustomerPage extends mixinBehaviors([
     _onPartnerAdminsAdded(event) {
         const customers = event.detail.customers;
         this.reloadPartnerAdmins(customers);
+        const dialog = this.shadowRoot.getElementById('appscoShareResources');
+        dialog.setShareToCompanyRoles(event.detail.partnerAdmins);
+        dialog.toggle();
+        this._hideProgressBar();
     }
 
     _onCustomerSubscriptionStateChanged(event) {
