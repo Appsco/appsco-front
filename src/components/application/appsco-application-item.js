@@ -12,6 +12,36 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { beforeNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 
+window.AppscoImageQueue = (() => {
+    let queue = [];
+
+    let isCalled = false;
+
+    let emptyImageQueue = () => {
+
+        if (queue.length > 0 && !isCalled) {
+            isCalled = true;
+            setTimeout(() => {
+                let callable = queue.shift();
+                if(callable) {
+                    callable();
+                    isCalled = false;
+                    emptyImageQueue();
+                }
+            }, 16)
+        }
+    }
+    return {
+        push: (callable) => {
+            queue.push(callable);
+        },
+        next: () => {
+            if(isCalled) return;
+            emptyImageQueue();
+        }
+    }
+})()
+
 class AppscoApplicationItem extends PolymerElement {
     static get template() {
         return html`
@@ -33,7 +63,11 @@ class AppscoApplicationItem extends PolymerElement {
         <iron-media-query query="(max-width: 800px)" query-matches="{{ tabletScreen }}"></iron-media-query>
 
         <div class="item" on-tap="_onApplicationAction">
-            <iron-image class="item-icon" placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAI5JREFUeAHt1YEJwCAQBEFN/60KYgMRbGMnHXjs5Ofa5x/h7wu//T3dAAqIL4BAPIChAAXEF0AgHoCfIAIIxBdAIB6AK4AAAvEFEIgH4AoggEB8AQTiAbgCCCAQXwCBeACuAAIIxBdAIB6AK4AAAvEFEIgH4AoggEB8AQTiAbgCCCAQXwCBeACuAAIIxBe4yV0EThqVC64AAAAASUVORK5CYII=" sizing="cover" preload="" fade="" src="[[ _applicationIcon ]]"></iron-image>
+            <iron-image class="item-icon" 
+                        placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAI5JREFUeAHt1YEJwCAQBEFN/60KYgMRbGMnHXjs5Ofa5x/h7wu//T3dAAqIL4BAPIChAAXEF0AgHoCfIAIIxBdAIB6AK4AAAvEFEIgH4AoggEB8AQTiAbgCCCAQXwCBeACuAAIIxBdAIB6AK4AAAvEFEIgH4AoggEB8AQTiAbgCCCAQXwCBeACuAAIIxBe4yV0EThqVC64AAAAASUVORK5CYII=" 
+                        sizing="cover" preload="" fade="" src="[[ _applicationIcon ]]"
+                        loaded="{{ _iconLoaded }}"
+            ></iron-image>
 
             <template is="dom-if" if="[[ !displayGrid ]]">
                 <div class="item-info item-basic-info">
@@ -129,9 +163,19 @@ class AppscoApplicationItem extends PolymerElement {
                 reflectToAttribute: true
             },
 
+            computedIcon: {
+                type: Boolean,
+                value: false
+            },
+
             _applicationIcon: {
                 type: String,
                 computed: '_computeApplicationIcon(company, application)'
+            },
+
+            _iconLoaded: {
+                type: Boolean,
+                observer: '_onIconLoaded'
             },
 
             _shared: {
@@ -152,6 +196,10 @@ class AppscoApplicationItem extends PolymerElement {
         beforeNextRender(this, function() {
             this.style.display = 'inline-block';
         });
+    }
+
+    _onIconLoaded() {
+        window.AppscoImageQueue.next();
     }
 
     _onApplicationChanged(application) {
@@ -219,7 +267,12 @@ class AppscoApplicationItem extends PolymerElement {
     }
 
     _computeApplicationIcon(company, application) {
-        return company ? application.application_url : application.icon_url;
+        if(this.computedIcon) return '';
+        this.computedIcon = true;
+        window.AppscoImageQueue.push(() => {
+            this.shadowRoot.querySelector('.item-icon').src = company ? application.application_url : application.icon_url;
+        });
+        return '';
     }
 
     _computeApplicationShared(company, application) {
