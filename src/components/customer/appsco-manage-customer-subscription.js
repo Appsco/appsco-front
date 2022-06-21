@@ -11,6 +11,7 @@ import '../components/appsco-loader.js';
 import '../components/appsco-form-error.js';
 import './appsco-customer-subscription-toggle.js';
 import './appsco-customer-handbook-toggle.js';
+import './appsco-customer-timecontrol-toggle.js';
 import '../../lib/mixins/appsco-headers-mixin.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
@@ -30,9 +31,10 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
                 };
             }
             :host paper-dialog {
-                width: 670px;
-                top: 20vh;
                 @apply --appsco-paper-dialog;
+                width: 670px;
+                top: 114px;
+                
             }
             :host paper-dialog-scrollable > * {
                 @apply --paper-dialog-scrollable-child;
@@ -66,18 +68,20 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
             <template is="dom-if" if="[[ _hasAppsCoOneHr ]]">
                 <h3 style="margin-bottom:0; border-top: 1px solid #e8e8e8; padding-top: 10px;">Appsco One Packages</h3>
                 <paper-radio-group style="margin-top:5px;" selected="{{ selectedPackage }}">
-                    <paper-radio-button name="none">Handbook Only</paper-radio-button>
-                    <paper-radio-button name="free">Appsco One People</paper-radio-button>
+<!--                    <paper-radio-button name="none">Handbook Only</paper-radio-button>-->
+                    <paper-radio-button name="free">Appsco One Free</paper-radio-button>
                     <paper-radio-button name="plus">Appsco One Plus</paper-radio-button>
-                    <paper-radio-button name="premium">Appsco One Premium</paper-radio-button>
+<!--                    <paper-radio-button name="premium">Appsco One Premium</paper-radio-button>-->
                 </paper-radio-group>
             </template>
 
-            <template is="dom-if" if="[[ _isNotHandbookOnly ]]">
+<!--            <template is="dom-if" if="[[ _isNotHandbookOnly ]]">-->
                 <h3>Handbook</h3>
                 <appsco-customer-handbook-toggle id="appscoCustomerHandbook" customer="[[ customer ]]" partner="[[ partner ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]"></appsco-customer-handbook-toggle>
-            </template>
-            
+
+                <h3>Time Control</h3>
+                <appsco-customer-timecontrol-toggle id="appscoCustomerTimecontrol" customer="[[ customer ]]" partner="[[ partner ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]"></appsco-customer-timecontrol-toggle>
+<!--            </template>-->
 
             <div class="buttons">
                 <paper-button dialog-dismiss="">Close</paper-button>
