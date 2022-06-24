@@ -22,7 +22,7 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
             }
         </style>
 
-        <paper-toggle-button id="switch" checked\$="[[ customer.timecontrol ]]" on-change="_onSwitchChanged">Time Control activated by partner</paper-toggle-button>
+        <paper-toggle-button id="switch" checked\$="[[ customer.time_control ]]" on-change="_onSwitchChanged">Time Control activated by partner</paper-toggle-button>
         <appsco-form-error message="[[ _errorMessage ]]"></appsco-form-error>
 
         <div class="info">
@@ -131,7 +131,7 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
 
         }.bind(this), function() {
             this._showError(this.apiErrors.getError(request.response.code));
-            this.customer.timecontrol = !status;
+            this.customer.time_control = !status;
         }.bind(this));
     }
 
@@ -140,7 +140,7 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
     }
 
     _computeIsTimecontrolActive(customer) {
-        return customer && customer.timecontrol == true;
+        return customer && customer.time_control == true;
     }
 
     _computeTimecontrolPackageStateApi(customer) {
