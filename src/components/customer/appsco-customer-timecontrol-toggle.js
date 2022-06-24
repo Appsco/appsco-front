@@ -50,6 +50,13 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
                 }
             },
 
+            activated: {
+                type: Boolean,
+                value: function () {
+                    return false;
+                }
+            },
+
             partner: {
                 type: Object,
                 value: function () {
@@ -66,7 +73,7 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
 
             _isTimecontrolActivated: {
                 type: Boolean,
-                computed: '_computeIsTimecontrolActive(customer)'
+                computed: '_computeIsTimecontrolActive(activated)'
             },
 
             _timecontrolPackageStateApi: {
@@ -139,8 +146,8 @@ class AppscoCustomerTimecontrolToggle extends mixinBehaviors([Appsco.HeadersMixi
         event.target.checked ? this._turnTimecontrolPackageOn() : this._turnTimecontrolPackageOff();
     }
 
-    _computeIsTimecontrolActive(customer) {
-        return customer && customer.time_control == true;
+    _computeIsTimecontrolActive(activated) {
+        return activated;
     }
 
     _computeTimecontrolPackageStateApi(customer) {
