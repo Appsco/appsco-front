@@ -80,7 +80,7 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
                 <appsco-customer-handbook-toggle id="appscoCustomerHandbook" customer="[[ customer ]]" partner="[[ partner ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]"></appsco-customer-handbook-toggle>
 
                 <h3>Time Control</h3>
-                <appsco-customer-timecontrol-toggle id="appscoCustomerTimecontrol" customer="[[ customer ]]" partner="[[ partner ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]"></appsco-customer-timecontrol-toggle>
+                <appsco-customer-timecontrol-toggle id="appscoCustomerTimecontrol" activated="[[ timecontrol ]]" customer="[[ customer ]]" partner="[[ partner ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ apiErrors ]]"></appsco-customer-timecontrol-toggle>
 <!--            </template>-->
 
             <div class="buttons">
@@ -108,6 +108,13 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
                 type: Object,
                 value: function () {
                     return {};
+                }
+            },
+
+            timecontrol: {
+                type: Boolean,
+                value: function () {
+                    return false;
                 }
             },
 
@@ -220,6 +227,7 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
 
         appRequest.send(options).then(function() {
             let packageSelected = 'none';
+            this.timecontrol = false;
             appRequest.response.packages.forEach((availablePackage) => {
                 if(availablePackage === 'free') {
                     packageSelected = 'free';
@@ -229,6 +237,9 @@ class AppscoManageCustomerSubscription extends mixinBehaviors([Appsco.HeadersMix
                 }
                 if(availablePackage === 'premium') {
                     packageSelected = 'premium';
+                }
+                if(availablePackage === 'time_control') {
+                    this.timecontrol = true;
                 }
             })
             this.set('hasAppscoOneHr', true);
