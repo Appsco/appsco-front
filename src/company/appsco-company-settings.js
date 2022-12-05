@@ -112,6 +112,7 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
             </div>
             <div>
                 <div class="email-notifications-title-text">Email Notifications Override</div>
+                <paper-toggle-button style="margin-bottom: 2rem;" checked\$="{{ _allEmailNotificationOverridesChecked }}" on-change="_allEmailNotificationOverridesToggleChanged">Enable all email notifications</paper-toggle-button>
                 <paper-toggle-button id="COMPANY_ROLE_ADDED_WELCOME_EMAIL" style="margin-bottom: 8px;"
                                      checked\$="{{ companyNotification.COMPANY_ROLE_ADDED_WELCOME_EMAIL }}"
                                      on-change="_companyEmailNotificationChanged">
@@ -323,8 +324,19 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
             _showAdminEmailField: {
                 type: Boolean,
                 computed: '_computeShowAdminEmailField(_emailAdminOnNewDevice, _emailAdminOnNewUser, _emailAdminOnNewWebhook)'
+            },
+
+            _allEmailNotificationOverridesChecked: {
+                type: Boolean,
+                value: true
             }
         };
+    }
+
+    static get observers() {
+        return [
+            '_emailNotificationOverridesChanged(companyNotification.*)'
+        ]
     }
 
     ready() {
@@ -430,7 +442,7 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
     }
 
     _companyEmailNotificationChanged(e) {
-        this.companyNotification[e.currentTarget.id] = e.currentTarget.checked;
+        this.set('companyNotification.'+e.currentTarget.id, e.currentTarget.checked);
     }
 
     _mailAdminOnNewDeviceChanged() {
@@ -469,6 +481,20 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
         this._hideError();
         this.$.contactEmail.invalid = false;
         this.$.billingEmail.invalid = false;
+    }
+
+    _allEmailNotificationOverridesToggleChanged(e) {
+        const companyNotification = Object.assign({}, this.companyNotification);
+
+        Object.keys(companyNotification).forEach(setting => {
+            companyNotification[setting] = e.currentTarget.checked;
+        });
+
+        this.companyNotification = companyNotification;
+    }
+
+    _emailNotificationOverridesChanged() {
+        this._allEmailNotificationOverridesChecked = !Object.values(this.companyNotification).includes(false);
     }
 }
 window.customElements.define(AppscoCompanySettings.is, AppscoCompanySettings);
