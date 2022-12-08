@@ -459,7 +459,7 @@ class AppscoCompanySettings extends mixinBehaviors([Appsco.HeadersMixin], Polyme
 
     setup() {
         this.$.companyName.focus();
-        let settings = JSON.parse(this.company.email_notification_settings);
+        let settings = this.company.email_notification_settings;
         for (const property in settings) {
             let companyNotificationProperty = property.toUpperCase().replaceAll('-', '_');
 
