@@ -2295,63 +2295,63 @@ class AppscoApp extends mixinBehaviors([
     getCurrentAppscoPageElement() {
         switch (this.page) {
             case 'home':
-                return this.$.appscoHomePage;
+                return this.shadowRoot.getElementById('appscoHomePage');
             case 'company-home':
-                return this.$.appscoCompanyHomePage;
+                return this.shadowRoot.getElementById('appscoCompanyHomePage');
             case 'resources':
-                return this.$.appscoResourcesPage;
+                return this.shadowRoot.getElementById('appscoResourcesPage');
             case 'manage-integration':
-                return this.$.appscoManageIntegrationPage;
+                return this.shadowRoot.getElementById('appscoManageIntegrationPage');
             case 'directory':
-                return this.$.appscoDirectoryPage;
+                return this.shadowRoot.getElementById('appscoDirectoryPage');
             case 'company':
-                return this.$.appscoCompanyPage;
+                return this.shadowRoot.getElementById('appscoCompanyPage');
             case 'licences':
-                return this.$.appscoLicencesPage;
+                return this.shadowRoot.getElementById('appscoLicencesPage');
             case 'contacts':
-                return this.$.appscoContactsPage;
+                return this.shadowRoot.getElementById('appscoContactsPage');
             case 'groups':
-                return this.$.appscoGroupsPage;
+                return this.shadowRoot.getElementById('appscoGroupsPage');
             case 'account':
-                return this.$.appscoAccountPage;
+                return this.shadowRoot.getElementById('appscoAccountPage');
             case 'company-account':
-                return this.$.appscoCompanyAccountPage;
+                return this.shadowRoot.getElementById('appscoCompanyAccountPage');
             case 'contact-home':
-                return this.$.appscoContactHomePage;
+                return this.shadowRoot.getElementById('appscoContactHomePage');
             case 'customers':
-                return this.$.appscoCustomersPage;
+                return this.shadowRoot.getElementById('appscoCustomersPage');
             case 'oauth-applications':
-                return this.$.appscoOAuthApplicationsPage;
+                return this.shadowRoot.getElementById('appscoOAuthApplicationsPage');
             case 'reports':
-                return this.$.appscoReportsPage;
+                return this.shadowRoot.getElementById('appscoReportsPage');
             case 'access-report':
-                return this.$.appscoAccessReportPage;
+                return this.shadowRoot.getElementById('appscoAccessReportPage');
             case 'compliance-report':
-                return this.$.appscoComplianceReportPage;
+                return this.shadowRoot.getElementById('appscoComplianceReportPage');
             case 'manage-oauth-application':
-                return this.$.appscoManageOAuthApplicationPage;
+                return this.shadowRoot.getElementById('appscoManageOAuthApplicationPage');
             case 'provisioning-log':
-                return this.$.appscoProvisioningLogPage;
+                return this.shadowRoot.getElementById('appscoProvisioningLogPage');
             case 'audit-log':
-                return this.$.appscoAuditLogPage;
+                return this.shadowRoot.getElementById('appscoAuditLogPage');
             case 'access-on-boarding':
-                return this.$.appscoAccessOnBoardingPage;
+                return this.shadowRoot.getElementById('appscoAccessOnBoardingPage');
             case 'dashboard-folder':
-                return this.$.appscoDashboardFolderPage;
+                return this.shadowRoot.getElementById('appscoDashboardFolderPage');
             case 'billing':
-                return this.$.appscoBillingPage;
+                return this.shadowRoot.getElementById('appscoBillingPage');
             case 'customer-billing':
-                return this.$.appscoCustomerBillingPage;
+                return this.shadowRoot.getElementById('appscoCustomerBillingPage');
             case 'billing-report':
-                return this.$.appscoBillingReportPage;
+                return this.shadowRoot.getElementById('appscoBillingReportPage');
             case 'policies':
-                return this.$.appscoPoliciesPage;
+                return this.shadowRoot.getElementById('appscoPoliciesPage');
             case 'policies-report':
-                return this.$.appscoPoliciesReportPage;
+                return this.shadowRoot.getElementById('appscoPoliciesReportPage');
             case 'get-started':
-                return this.$.appscoGetStartedPage;
+                return this.shadowRoot.getElementById('appscoGetStartedPage');
             case 'additional-options':
-                return this.$.appscoAdditionalOptionsPage;
+                return this.shadowRoot.getElementById('appscoAdditionalOptionsPage');
         }
     }
 
@@ -3301,8 +3301,8 @@ class AppscoApp extends mixinBehaviors([
     _onEditIntegrationAction(event) {
         const integration = event.detail.integration;
 
-        if (this.$.appscoManageIntegrationPage.$) {
-            this.$.appscoManageIntegrationPage.setIntegration(integration);
+        if (this.shadowRoot.getElementById('appscoManageIntegrationPage')) {
+            this.shadowRoot.getElementById('appscoManageIntegrationPage').setIntegration(integration);
         }
 
         this._showManagePage('manage-integration/' + integration.alias);
