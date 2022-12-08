@@ -2260,11 +2260,11 @@ class AppscoApp extends mixinBehaviors([
         this._setProduct(this._accountManaged);
 
         if (this._accountManaged) {
-            this.$.appscoCompanyAccountPage.showAllNotifications = true;
+            this.shadowRoot.getElementById('appscoCompanyAccountPage').showAllNotifications = true;
             this._showCompanyAccountPage();
         }
         else {
-            this.$.appscoAccountPage.showAllNotifications = true;
+            this.shadowRoot.getElementById('appscoAccountPage').showAllNotifications = true;
             this._showAccountPage();
         }
     }
@@ -2458,8 +2458,8 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _reloadHomePageApplications() {
-        if (this.$.appscoHomePage.$) {
-            this.$.appscoHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoHomePage').$) {
+            this.shadowRoot.getElementById('appscoHomePage').reloadApplications();
         }
     }
     /**
@@ -2478,12 +2478,12 @@ class AppscoApp extends mixinBehaviors([
                 this.set('application', {});
                 this.set('application', application);
 
-                if (this.$.appscoHomePage.$) {
-                    this.$.appscoHomePage.setApplication(application);
+                if (this.shadowRoot.getElementById('appscoHomePage').$) {
+                    this.shadowRoot.getElementById('appscoHomePage').setApplication(application);
                 }
 
-                if (this.$.appscoDashboardFolderPage.$) {
-                    this.$.appscoDashboardFolderPage.setApplication(application);
+                if (this.shadowRoot.getElementById('appscoDashboardFolderPage').$) {
+                    this.shadowRoot.getElementById('appscoDashboardFolderPage').setApplication(application);
                 }
 
                 break;
@@ -2491,12 +2491,12 @@ class AppscoApp extends mixinBehaviors([
                 this.set('_companyApplication', {});
                 this.set('_companyApplication', application);
 
-                if (this.$.appscoCompanyHomePage.$) {
-                    this.$.appscoCompanyHomePage.setApplication(application);
+                if (this.shadowRoot.getElementById('appscoCompanyHomePage').$) {
+                    this.shadowRoot.getElementById('appscoCompanyHomePage').setApplication(application);
                 }
 
-                if (this.$.appscoDashboardFolderPage.$) {
-                    this.$.appscoDashboardFolderPage.setApplication(application);
+                if (this.shadowRoot.getElementById('appscoDashboardFolderPage').$) {
+                    this.shadowRoot.getElementById('appscoDashboardFolderPage').setApplication(application);
                 }
 
                 this._reloadCompanyApplications();
@@ -2505,8 +2505,8 @@ class AppscoApp extends mixinBehaviors([
                 this.set('_companyApplication', {});
                 this.set('_companyApplication', application);
 
-                if (this.$.appscoContactHomePage.$) {
-                    this.$.appscoContactHomePage.setApplication(application);
+                if (this.shadowRoot.getElementById('appscoContactHomePage').$) {
+                    this.shadowRoot.getElementById('appscoContactHomePage').setApplication(application);
                 }
                 this._reloadCompanyApplications();
                 break;
@@ -2551,8 +2551,8 @@ class AppscoApp extends mixinBehaviors([
             applications = [application],
             message = application.title + ' was successfully removed.';
 
-        if (this.$.appscoHomePage.$) {
-            this.$.appscoHomePage.removeApplications(applications);
+        if (this.shadowRoot.getElementById('appscoHomePage').$) {
+            this.shadowRoot.getElementById('appscoHomePage').removeApplications(applications);
         }
 
         this._showHomePage();
@@ -2565,20 +2565,20 @@ class AppscoApp extends mixinBehaviors([
             applicationLogApi = application.meta.log,
             message = application.title + ' was successfully changed.';
 
-        if (this.$.appscoHomePage.$) {
-            this.$.appscoHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoHomePage').$) {
+            this.shadowRoot.getElementById('appscoHomePage').reloadApplications();
         }
-        if (this.$.appscoCompanyHomePage.$) {
-            this.$.appscoCompanyHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoCompanyHomePage').$) {
+            this.shadowRoot.getElementById('appscoCompanyHomePage').reloadApplications();
         }
-        if (this.$.appscoContactHomePage.$) {
-            this.$.appscoContactHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoContactHomePage').$) {
+            this.shadowRoot.getElementById('appscoContactHomePage').reloadApplications();
         }
-        if (this.$.appscoDashboardFolderPage.$) {
-            this.$.appscoDashboardFolderPage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoDashboardFolderPage').$) {
+            this.shadowRoot.getElementById('appscoDashboardFolderPage').reloadApplications();
         }
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.modifyResources([application]);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').modifyResources([application]);
         }
 
         this._notifyAboutApplicationLogChange(applicationLogApi);
@@ -2625,8 +2625,11 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onSelfSubscriptionRevoked(event) {
-        this.$.appscoHomePage.removeApplications([event.detail.application]);
-        this.$.appscoHomePage.setDefaultApplication();
+        const homePage = this.shadowRoot.getElementById('appscoHomePage');
+        if (homePage.$) {
+            homePage.removeApplications([event.detail.application]);
+            homePage.setDefaultApplication();
+        }
         this._notify('You have successfully revoked access to ' + event.detail.application.title + '.');
     }
 
@@ -2649,24 +2652,28 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onApplicationInstanceRevoked(event) {
-        if (this.$.appscoHomePage.$ && this.page === 'home') {
-            this.$.appscoHomePage.removeApplications([event.detail.applicationInstance]);
-            this.$.appscoHomePage.setDefaultApplication();
+        const homePage = this.shadowRoot.getElementById('appscoHomePage');
+        if (homePage.$ && this.page === 'home') {
+            homePage.removeApplications([event.detail.applicationInstance]);
+            homePage.setDefaultApplication();
         }
 
-        if (this.$.appscoCompanyHomePage.$ && this.page === 'company-home') {
-            this.$.appscoCompanyHomePage.removeApplications([event.detail.applicationInstance]);
-            this.$.appscoCompanyHomePage.setDefaultApplication();
+        const companyHomePage = this.shadowRoot.getElementById('appscoCompanyHomePage');
+        if (companyHomePage.$ && this.page === 'company-home') {
+            companyHomePage.removeApplications([event.detail.applicationInstance]);
+            companyHomePage.setDefaultApplication();
         }
 
-        if (this.$.appscoDashboardFolderPage.$ && this.page === 'dashboard-folder') {
-            this.$.appscoDashboardFolderPage.removeApplications([event.detail.applicationInstance]);
-            this.$.appscoDashboardFolderPage.setDefaultApplication();
+        const dashboardFolderPage = this.shadowRoot.getElementById('appscoDashboardFolderPage');
+        if (dashboardFolderPage.$ && this.page === 'dashboard-folder') {
+            dashboardFolderPage.removeApplications([event.detail.applicationInstance]);
+            dashboardFolderPage.setDefaultApplication();
         }
 
-        if (this.$.appscoContactHomePage.$ && this.page === 'contact-home') {
-            this.$.appscoContactHomePage.removeApplications([event.detail.applicationInstance]);
-            this.$.appscoContactHomePage.setDefaultApplication();
+        const contactHomePage = this.shadowRoot.getElementById('appscoContactHomePage');
+        if (contactHomePage.$ && this.page === 'contact-home') {
+            contactHomePage.removeApplications([event.detail.applicationInstance]);
+            contactHomePage.setDefaultApplication();
         }
 
         this._notify('You have successfully revoked access to ' + event.detail.applicationInstance.application.title + '.');
@@ -2686,8 +2693,8 @@ class AppscoApp extends mixinBehaviors([
      */
 
     _updateIfAdministrator(account) {
-        if (this.$.appscoDirectoryPage.$ && (account.id === this.account.id)) {
-            this.$.appscoDirectoryPage.updateAccount(account);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$ && (account.id === this.account.id)) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').updateAccount(account);
         }
     }
 
@@ -2730,12 +2737,12 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _setupAfterTwoFaDisabled() {
-        if (this.$.appscoAccountPage.$) {
-            this.$.appscoAccountPage.setupAfterTwoFaDisabled();
+        if (this.shadowRoot.getElementById('appscoAccountPage').$) {
+            this.shadowRoot.getElementById('appscoAccountPage').setupAfterTwoFaDisabled();
         }
 
-        if (this.$.appscoCompanyAccountPage.$) {
-            this.$.appscoCompanyAccountPage.setupAfterTwoFaDisabled();
+        if (this.shadowRoot.getElementById('appscoCompanyAccountPage').$) {
+            this.shadowRoot.getElementById('appscoCompanyAccountPage').setupAfterTwoFaDisabled();
         }
     }
 
@@ -2746,12 +2753,12 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onReloadAccountLog() {
-        if (this.$.appscoAccountPage.$) {
-            this.$.appscoAccountPage.reloadLog();
+        if (this.shadowRoot.getElementById('appscoAccountPage').$) {
+            this.shadowRoot.getElementById('appscoAccountPage').reloadLog();
         }
 
-        if (this.$.appscoCompanyAccountPage.$) {
-            this.$.appscoCompanyAccountPage.reloadLog();
+        if (this.shadowRoot.getElementById('appscoCompanyAccountPage').$) {
+            this.shadowRoot.getElementById('appscoCompanyAccountPage').reloadLog();
         }
     }
 
@@ -2853,26 +2860,26 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _modifyCompanyApplications(applications) {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.modifyResources(applications);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').modifyResources(applications);
         }
     }
 
     _reloadCompanyHomePageApplications() {
-        if (this.$.appscoCompanyHomePage.$) {
-            this.$.appscoCompanyHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoCompanyHomePage').$) {
+            this.shadowRoot.getElementById('appscoCompanyHomePage').reloadApplications();
         }
     }
 
     _reloadContactHomePageApplications() {
-        if (this.$.appscoContactHomePage.$) {
-            this.$.appscoContactHomePage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoContactHomePage').$) {
+            this.shadowRoot.getElementById('appscoContactHomePage').reloadApplications();
         }
     }
 
     _reloadCompanyApplications() {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.reloadResources();
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').reloadResources();
         }
     }
 
@@ -2883,12 +2890,12 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _removeApplicationAssignee(application, assignee) {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.removeResourceAssignee(application, assignee);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').removeResourceAssignee(application, assignee);
         }
 
-        if (this.$.appscoManageApplicationPage.$) {
-            this.$.appscoManageApplicationPage.removeApplicationAssignee(application, assignee);
+        if (this.shadowRoot.getElementById('appscoManageApplicationPage').$) {
+            this.shadowRoot.getElementById('appscoManageApplicationPage').removeApplicationAssignee(application, assignee);
         }
     }
 
@@ -2899,12 +2906,12 @@ class AppscoApp extends mixinBehaviors([
         this.resetApplicationAssigneesPage();
         this._removeApplicationAssignee(application, assignee);
 
-        if (this.$.appscoManageAccountPage.$) {
-            this.$.appscoManageAccountPage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoManageAccountPage').$) {
+            this.shadowRoot.getElementById('appscoManageAccountPage').reloadApplications();
         }
 
-        if (this.$.appscoManageContactPage.$) {
-            this.$.appscoManageContactPage.reloadApplications();
+        if (this.shadowRoot.getElementById('appscoManageContactPage').$) {
+            this.shadowRoot.getElementById('appscoManageContactPage').reloadApplications();
         }
 
         this._notifyReloadApplications();
@@ -2917,12 +2924,12 @@ class AppscoApp extends mixinBehaviors([
         const application = event.detail.application,
             assignee = event.detail.assignee;
 
-        if (this.$.appscoManageApplicationPage.$) {
-            this.$.appscoManageApplicationPage.reloadResourceAdmins();
+        if (this.shadowRoot.getElementById('appscoManageApplicationPage').$) {
+            this.shadowRoot.getElementById('appscoManageApplicationPage').reloadResourceAdmins();
         }
 
-        if (this.$.appscoManageAccountPage.$) {
-            this.$.appscoManageAccountPage.reloadResourceAdmins();
+        if (this.shadowRoot.getElementById('appscoManageAccountPage').$) {
+            this.shadowRoot.getElementById('appscoManageAccountPage').reloadResourceAdmins();
         }
 
         this._notifyReloadApplications();
@@ -2930,8 +2937,8 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onApplicationsRemoved(event) {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.removeResources(event.detail.applications);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').removeResources(event.detail.applications);
         }
 
         this._showCompanyResourcesPage();
@@ -2944,8 +2951,8 @@ class AppscoApp extends mixinBehaviors([
         const application = event.detail.application,
             group = event.detail.group;
 
-        this.$.appscoManageApplicationPage.removeGroup(group);
-        this.$.appscoManageApplicationPage.reload();
+        this.shadowRoot.getElementById('appscoManageApplicationPage').removeGroup(group);
+        this.shadowRoot.getElementById('appscoManageApplicationPage').reload();
 
         this._notify(application.application.title + ' has been successfully removed from group ' + group.name + '.');
         this._notifyReloadApplications();
@@ -2982,8 +2989,8 @@ class AppscoApp extends mixinBehaviors([
      * Directory page START
      */
     _evaluateSubscriptionLicences() {
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.evaluateSubscriptionLicences();
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').evaluateSubscriptionLicences();
         }
     }
 
@@ -3002,8 +3009,8 @@ class AppscoApp extends mixinBehaviors([
 
         this._notify('Selected accounts were successfully added to ' + event.detail.orgunit.name + '.');
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.modifyAccounts(accounts);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').modifyAccounts(accounts);
         }
 
         if (accounts.length === 1) {
@@ -3023,19 +3030,19 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onManageDomains() {
-        this.$.appscoCompanyPage.showDomainsPage = true;
+        this.shadowRoot.getElementById('appscoCompanyPage').showDomainsPage = true;
         this._showCompanyPage();
     }
 
     _reloadCompanyAccounts() {
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.reloadAccounts();
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').reloadAccounts();
         }
     }
 
     _reloadCompanyContacts() {
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.reloadContacts();
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').reloadContacts();
         }
     }
 
@@ -3071,8 +3078,8 @@ class AppscoApp extends mixinBehaviors([
             this._reloadHomePageApplications();
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.modifyAccounts([role]);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').modifyAccounts([role]);
         }
 
         this._role = role;
@@ -3087,14 +3094,17 @@ class AppscoApp extends mixinBehaviors([
         const role = event.detail.account,
             group = event.detail.group;
 
-        this.$.appscoManageAccountPage.removeGroup(group);
+        const manageAccountPage = this.shadowRoot.getElementById('appscoManageAccountPage');
+        if (manageAccountPage.$) {
+            manageAccountPage.removeGroup(group);
+        }
 
         if (role.account.email === this.account.email) {
             this._reloadHomePageApplications();
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.modifyAccounts([role]);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').modifyAccounts([role]);
         }
 
         this._role = role;
@@ -3109,13 +3119,15 @@ class AppscoApp extends mixinBehaviors([
         const contact = event.detail.contact,
             group = event.detail.group;
 
-        if (this.$.appscoManageContactPage.$) {
-            this.$.appscoManageContactPage.removeGroup(group);
-            this.$.appscoManageContactPage.reload();
+        const manageContactPage = this.shadowRoot.getElementById('appscoManageContactPage');
+        if (manageContactPage.$) {
+            manageContactPage.removeGroup(group);
+            manageContactPage.reload();
         }
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.reloadContacts();
+        const contactsPage = this.shadowRoot.getElementById('appscoContactsPage');
+        if (contactsPage.$) {
+            contactsPage.reloadContacts();
         }
         this._notify(contact.display_name + ' has been successfully removed from group ' + group.name + '.');
     }
@@ -3161,8 +3173,8 @@ class AppscoApp extends mixinBehaviors([
     _onEditContactAction(event) {
         const contact = event.detail.contact;
 
-        if (this.$.appscoManageContactPage.$) {
-            this.$.appscoManageContactPage.setContact(contact);
+        if (this.shadowRoot.getElementById('appscoManageContactPage').$) {
+            this.shadowRoot.getElementById('appscoManageContactPage').setContact(contact);
         }
 
         this._showManagePage('manage-contact/' + contact.alias);
@@ -3171,12 +3183,12 @@ class AppscoApp extends mixinBehaviors([
     _onContactConverted(event) {
         const contact = event.detail.contact;
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.removeContacts([contact]);
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').removeContacts([contact]);
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.reloadAccounts();
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').reloadAccounts();
         }
 
         this._showContactsPage();
@@ -3186,8 +3198,8 @@ class AppscoApp extends mixinBehaviors([
     _onCustomerRemoved(event) {
         const customer = event.detail.customer;
 
-        if (this.$.appscoCustomersPage.$) {
-            this.$.appscoCustomersPage.removeCustomers([customer]);
+        if (this.shadowRoot.getElementById('appscoCustomersPage').$) {
+            this.shadowRoot.getElementById('appscoCustomersPage').removeCustomers([customer]);
         }
 
         this._showCustomersPage();
@@ -3197,8 +3209,8 @@ class AppscoApp extends mixinBehaviors([
     _onContactDeleted(event) {
         const contact = event.detail.contact;
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.removeContacts([contact]);
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').removeContacts([contact]);
         }
 
         this._showContactsPage();
@@ -3231,8 +3243,8 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onReloadAccessOnBoarding() {
-        if (this.$.appscoAccessOnBoardingPage.$) {
-            this.$.appscoAccessOnBoardingPage.reloadRoles();
+        if (this.shadowRoot.getElementById('appscoAccessOnBoardingPage').$) {
+            this.shadowRoot.getElementById('appscoAccessOnBoardingPage').reloadRoles();
         }
     }
     /**
@@ -3243,22 +3255,24 @@ class AppscoApp extends mixinBehaviors([
      * Billing page START
      */
     _setSubscription(subscription) {
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.setSubscription(subscription);
+        const directoryPage = this.shadowRoot.getElementById('appscoDirectoryPage');
+        if (directoryPage.$) {
+            directoryPage.setSubscription(subscription);
+
+            return;
         }
-        else {
-            this.$.appscoDirectoryPage.subscription = subscription;
-            this.$.appscoDirectoryPage.subscriptionLoaded = true;
-        }
+
+        directoryPage.subscription = subscription;
+        directoryPage.subscriptionLoaded = true;
     }
 
     _reloadSubscription() {
-        if (this.$.appscoBillingPage.$) {
-            this.$.appscoBillingPage.reloadSubscription();
+        if (this.shadowRoot.getElementById('appscoBillingPage').$) {
+            this.shadowRoot.getElementById('appscoBillingPage').reloadSubscription();
         }
 
-        if (this.$.appscoCustomerBillingPage.$) {
-            this.$.appscoCustomerBillingPage.reloadSubscription();
+        if (this.shadowRoot.getElementById('appscoCustomerBillingPage').$) {
+            this.shadowRoot.getElementById('appscoCustomerBillingPage').reloadSubscription();
         }
     }
 
@@ -3281,11 +3295,11 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _onCreditCardAdded(event) {
-        if (this.$.appscoBillingPage.$) {
-            this.$.appscoBillingPage.setCreditCard(event.detail.credit_card);
+        if (this.shadowRoot.getElementById('appscoBillingPage').$) {
+            this.shadowRoot.getElementById('appscoBillingPage').setCreditCard(event.detail.credit_card);
         }
-        if (this.$.appscoCustomerBillingPage.$) {
-            this.$.appscoCustomerBillingPage.setCreditCard(event.detail.credit_card);
+        if (this.shadowRoot.getElementById('appscoCustomerBillingPage').$) {
+            this.shadowRoot.getElementById('appscoCustomerBillingPage').setCreditCard(event.detail.credit_card);
         }
         this._notify('Credit card has been successfully saved.');
     }
@@ -3311,8 +3325,8 @@ class AppscoApp extends mixinBehaviors([
     _onIntegrationSettingsChanged(event) {
         const integration = event.detail.integration;
 
-        if (this.$.appscoProvisioningPage.$) {
-            this.$.appscoProvisioningPage.setIntegration(integration);
+        if (this.shadowRoot.getElementById('appscoProvisioningPage').$) {
+            this.shadowRoot.getElementById('appscoProvisioningPage').setIntegration(integration);
         }
 
         this._notify('Settings for integration ' + integration.name + ' has been successfully saved.');
@@ -3385,8 +3399,8 @@ class AppscoApp extends mixinBehaviors([
     _onDomainAdded(event) {
         const domain = event.detail.domain;
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.evaluateDomainVerification({
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').evaluateDomainVerification({
                 domain: domain,
                 added: true,
                 removed: false
@@ -3394,13 +3408,17 @@ class AppscoApp extends mixinBehaviors([
         }
 
         this._notify('Domain ' + domain.domain + ' was successfully saved.');
-        this.$.appscoCompanyPage.addDomain(domain);
+
+        const companyPage = this.shadowRoot.getElementById('appscoCompanyPage');
+        if (companyPage.$) {
+            companyPage.addDomain(domain);
+        }
         this.$.appscoTutorial.notifyDomainAdded(domain);
     }
 
     _onIntegrationRemoved(event) {
-        if (this.$.appscoProvisioningPage.$) {
-            this.$.appscoProvisioningPage.reloadIntegrations();
+        if (this.shadowRoot.getElementById('appscoProvisioningPage').$) {
+            this.shadowRoot.getElementById('appscoProvisioningPage').reloadIntegrations();
         }
         this._showCompanyProvisioningPage();
         this._notify('Integration was successfully removed.');
@@ -3409,30 +3427,36 @@ class AppscoApp extends mixinBehaviors([
     _onDomainRemoved(event) {
         const domain = event.detail.domain;
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.evaluateDomainVerification({
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').evaluateDomainVerification({
                 domain: domain,
                 added: false,
                 removed: true
             });
         }
 
-        this.$.appscoCompanyPage.removeDomain(domain);
+        const companyPage = this.shadowRoot.getElementById('appscoCompanyPage');
+        if (companyPage.$) {
+            companyPage.removeDomain(domain);
+        }
+
         this._notify('Domain ' + domain.domain + ' was successfully removed.');
     }
 
     _onDomainVerified(event) {
         const domain = event.detail.domain;
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.hideDomainNotVerifiedInfo();
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').hideDomainNotVerifiedInfo();
         }
 
-        if (this.$.appscoCompanyPage.$) {
-            this.$.appscoCompanyPage.reloadIdPDomains();
+        const companyPage = this.shadowRoot.getElementById('appscoCompanyPage');
+
+        if (companyPage.$) {
+            companyPage.reloadIdPDomains();
+            companyPage.modifyDomain(domain);
         }
 
-        this.$.appscoCompanyPage.modifyDomain(domain);
         this._notify('Domain ' + domain.domain + ' was successfully verified.');
     }
 
@@ -3457,19 +3481,19 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _addResourceToCompanyHomePage(resource) {
-        if (this.$.appscoCompanyHomePage.$) {
-            this.$.appscoCompanyHomePage.addApplications([resource]);
+        if (this.shadowRoot.getElementById('appscoCompanyHomePage').$) {
+            this.shadowRoot.getElementById('appscoCompanyHomePage').addApplications([resource]);
         }
     }
 
     _removeResourceFromCompanyHomePage(resource) {
-        if (this.$.appscoCompanyHomePage.$) {
-            this.$.appscoCompanyHomePage.removeApplications([resource]);
+        if (this.shadowRoot.getElementById('appscoCompanyHomePage').$) {
+            this.shadowRoot.getElementById('appscoCompanyHomePage').removeApplications([resource]);
         }
     }
 
     _addResourceToDashboardFolderPage(resource, folder) {
-        const dashboardFolderPage = this.$.appscoDashboardFolderPage;
+        const dashboardFolderPage = this.shadowRoot.getElementById('appscoDashboardFolderPage');
 
         if (dashboardFolderPage.$ && (folder.alias === dashboardFolderPage.getFolder().alias)) {
             dashboardFolderPage.addApplications([resource]);
@@ -3477,7 +3501,7 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _removeResourceFromDashboardFolderPage(resource, folder) {
-        const dashboardFolderPage = this.$.appscoDashboardFolderPage;
+        const dashboardFolderPage = this.shadowRoot.getElementById('appscoDashboardFolderPage');
 
         if (dashboardFolderPage.$ && (folder.alias === dashboardFolderPage.getFolder().alias)) {
             dashboardFolderPage.removeApplications([resource]);
@@ -3533,38 +3557,38 @@ class AppscoApp extends mixinBehaviors([
      */
 
     _addGroup(group) {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.addGroup(group);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').addGroup(group);
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.addGroup(group);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').addGroup(group);
         }
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.addGroup(group);
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').addGroup(group);
         }
 
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.addGroup(group);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').addGroup(group);
             this._reloadGroups();
         }
     }
 
     _renameGroups(groups) {
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.modifyGroups(groups);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').modifyGroups(groups);
         }
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.modifyGroups(groups);
-        }
-
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.modifyGroups(groups);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').modifyGroups(groups);
         }
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.modifyGroups(groups);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').modifyGroups(groups);
+        }
+
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').modifyGroups(groups);
         }
     }
 
@@ -3584,20 +3608,20 @@ class AppscoApp extends mixinBehaviors([
 
     _onRemovedGroups(event) {
         const groups = event.detail.groups;
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.removeGroups(groups);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').removeGroups(groups);
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.removeGroups(groups);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').removeGroups(groups);
         }
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.removeGroups(groups);
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').removeGroups(groups);
         }
 
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.removeGroups(groups);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').removeGroups(groups);
         }
 
         this._reloadCompanyApplications();
@@ -3615,20 +3639,20 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _removeGroup(group) {
-        if (this.$.appscoResourcesPage.$) {
-            this.$.appscoResourcesPage.removeGroup(group);
+        if (this.shadowRoot.getElementById('appscoResourcesPage').$) {
+            this.shadowRoot.getElementById('appscoResourcesPage').removeGroup(group);
         }
 
-        if (this.$.appscoDirectoryPage.$) {
-            this.$.appscoDirectoryPage.removeGroup(group);
+        if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+            this.shadowRoot.getElementById('appscoDirectoryPage').removeGroup(group);
         }
 
-        if (this.$.appscoContactsPage.$) {
-            this.$.appscoContactsPage.removeGroup(group);
+        if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+            this.shadowRoot.getElementById('appscoContactsPage').removeGroup(group);
         }
 
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.removeGroup(group);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').removeGroup(group);
         }
 
         this._reloadCompanyApplications();
@@ -3640,12 +3664,12 @@ class AppscoApp extends mixinBehaviors([
         const length = items.length,
             oneItem = (length === 1);
 
-        if (this.$.appscoManageGroupPage.$) {
-            this.$.appscoManageGroupPage.addGroupItems(groups, items, resourceType);
+        if (this.shadowRoot.getElementById('appscoManageGroupPage').$) {
+            this.shadowRoot.getElementById('appscoManageGroupPage').addGroupItems(groups, items, resourceType);
         }
 
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.recalculateTotals(groups, resourceType);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').recalculateTotals(groups, resourceType);
         }
 
         switch (resourceType) {
@@ -3668,8 +3692,8 @@ class AppscoApp extends mixinBehaviors([
                     this._role = items[0];
                 }
 
-                if (this.$.appscoDirectoryPage.$) {
-                    this.$.appscoDirectoryPage.modifyAccounts(items);
+                if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+                    this.shadowRoot.getElementById('appscoDirectoryPage').modifyAccounts(items);
                 }
 
                 for (let i = 0; i < length; i++) {
@@ -3690,8 +3714,8 @@ class AppscoApp extends mixinBehaviors([
             case 'contact':
                 this._notify('Selected contacts were successfully added to groups.');
 
-                if (this.$.appscoContactsPage.$) {
-                    this.$.appscoContactsPage.modifyContacts(items);
+                if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+                    this.shadowRoot.getElementById('appscoContactsPage').modifyContacts(items);
                 }
 
                 break;
@@ -3713,12 +3737,12 @@ class AppscoApp extends mixinBehaviors([
             group = event.detail.group,
             resourceType = event.detail.resourceType;
 
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.removeGroupItems(group, [item], resourceType);
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').removeGroupItems(group, [item], resourceType);
         }
 
-        if (this.$.appscoManageGroupPage.$) {
-            this.$.appscoManageGroupPage.removeGroupItems(group, [item], resourceType);
+        if (this.shadowRoot.getElementById('appscoManageGroupPage').$) {
+            this.shadowRoot.getElementById('appscoManageGroupPage').removeGroupItems(group, [item], resourceType);
         }
 
         switch (resourceType) {
@@ -3736,8 +3760,8 @@ class AppscoApp extends mixinBehaviors([
             case 'role':
                 this._notify(item.account.display_name + ' was successfully removed from ' + group.name + ' group.');
 
-                if (this.$.appscoDirectoryPage.$) {
-                    this.$.appscoDirectoryPage.modifyAccounts([item]);
+                if (this.shadowRoot.getElementById('appscoDirectoryPage').$) {
+                    this.shadowRoot.getElementById('appscoDirectoryPage').modifyAccounts([item]);
                 }
 
                 for (let i = 0; i < length; i++) {
@@ -3756,8 +3780,8 @@ class AppscoApp extends mixinBehaviors([
             case 'contact':
                 this._notify(item.account.display_name + ' was successfully removed from ' + group.name + ' group.');
 
-                if (this.$.appscoContactsPage.$) {
-                    this.$.appscoContactsPage.modifyContacts([item]);
+                if (this.shadowRoot.getElementById('appscoContactsPage').$) {
+                    this.shadowRoot.getElementById('appscoContactsPage').modifyContacts([item]);
                 }
 
                 break;
@@ -3775,8 +3799,8 @@ class AppscoApp extends mixinBehaviors([
 
     _onEditCustomerAction(event) {
         const customer = event.detail.customer;
-        if (this.$.appscoManageCustomerPage.$) {
-            this.$.appscoManageCustomerPage.setCustomer(customer);
+        if (this.shadowRoot.getElementById('appscoManageCustomerPage').$) {
+            this.shadowRoot.getElementById('appscoManageCustomerPage').setCustomer(customer);
         }
         this._showManagePage('manage-customer/' + customer.alias);
     }
@@ -3786,26 +3810,26 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _reloadPartnerAdmins(customers) {
-        if (this.$.appscoManageCustomerPage.$) {
-            this.$.appscoManageCustomerPage.reloadPartnerAdmins(customers);
+        if (this.shadowRoot.getElementById('appscoManageCustomerPage').$) {
+            this.shadowRoot.getElementById('appscoManageCustomerPage').reloadPartnerAdmins(customers);
         }
     }
 
     _reloadCustomersInfo(customers) {
-        if (this.$.appscoCustomersPage.$) {
-            this.$.appscoCustomersPage.reloadCustomersInfo(customers);
+        if (this.shadowRoot.getElementById('appscoCustomersPage').$) {
+            this.shadowRoot.getElementById('appscoCustomersPage').reloadCustomersInfo(customers);
         }
     }
 
     _reloadGroups() {
-        if (this.$.appscoGroupsPage.$) {
-            this.$.appscoGroupsPage.reloadGroups();
+        if (this.shadowRoot.getElementById('appscoGroupsPage').$) {
+            this.shadowRoot.getElementById('appscoGroupsPage').reloadGroups();
         }
     }
 
     _reloadAccountLog() {
-        if (this.$.appscoManageAccountPage) {
-            this.$.appscoManageAccountPage.reloadAccountLog();
+        if (this.shadowRoot.getElementById('appscoManageAccountPage').$) {
+            this.shadowRoot.getElementById('appscoManageAccountPage').reloadAccountLog();
         }
     }
 
@@ -3834,35 +3858,51 @@ class AppscoApp extends mixinBehaviors([
      */
 
     _onExportAccessReportAction() {
-        this.exportReport(this._exportAccessReportApi, 'GET', this.$.appscoAccessReportPage);
+        this.exportReport(
+            this._exportAccessReportApi,
+            'GET',
+            this.shadowRoot.getElementById('appscoAccessReportPage')
+        );
     }
 
     _onExportComplianceReportAction() {
-        this.exportReport(this._exportComplianceReportApi, 'POST', this.$.appscoComplianceReportPage);
+        this.exportReport(
+            this._exportComplianceReportApi,
+            'POST',
+            this.shadowRoot.getElementById('appscoComplianceReportPage')
+        );
     }
 
     _onExportPoliciesReportAction() {
-        this.exportReport(this._exportPoliciesReportApi, 'POST', this.$.appscoPoliciesReportPage);
+        this.exportReport(
+            this._exportPoliciesReportApi,
+            'POST',
+            this.shadowRoot.getElementById('appscoPoliciesReportPage')
+        );
     }
 
     _onExportBillingReportAction() {
-        this.exportReport(this._exportBillingReportApi, 'GET', this.$.appscoBillingReportPage);
+        this.exportReport(
+            this._exportBillingReportApi,
+            'GET',
+            this.shadowRoot.getElementById('appscoBillingReportPage')
+        );
     }
 
     /**
      * Oauth page START
      */
     _reloadOAuthApplications() {
-        if (this.$.appscoOAuthApplicationsPage.$) {
-            this.$.appscoOAuthApplicationsPage.reloadOAuthApplications();
+        if (this.shadowRoot.getElementById('appscoOAuthApplicationsPage').$) {
+            this.shadowRoot.getElementById('appscoOAuthApplicationsPage').reloadOAuthApplications();
         }
     }
 
     _onEditOAuthApplicationAction(event) {
         const application = event.detail.application;
 
-        if (this.$.appscoManageOAuthApplicationPage.$) {
-            this.$.appscoManageOAuthApplicationPage.setApplication(application);
+        if (this.shadowRoot.getElementById('appscoManageOAuthApplicationPage').$) {
+            this.shadowRoot.getElementById('appscoManageOAuthApplicationPage').setApplication(application);
         }
 
         this._showManagePage('manage-oauth-application/' + application.alias);
@@ -3878,8 +3918,8 @@ class AppscoApp extends mixinBehaviors([
     _onOAuthApplicationRemoved(event) {
         this._showOAuthApplicationsPage();
         this._reloadOAuthApplications();
-        if (this.$.appscoOAuthApplicationsPage.$) {
-            this.$.appscoOAuthApplicationsPage.hideInfo();
+        if (this.shadowRoot.getElementById('appscoOAuthApplicationsPage').$) {
+            this.shadowRoot.getElementById('appscoOAuthApplicationsPage').hideInfo();
         }
         this._notify('OAuth application ' + event.detail.application.title + ' has been successfully removed.');
     }
