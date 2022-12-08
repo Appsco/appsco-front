@@ -3301,7 +3301,7 @@ class AppscoApp extends mixinBehaviors([
     _onEditIntegrationAction(event) {
         const integration = event.detail.integration;
 
-        if (this.shadowRoot.getElementById('appscoManageIntegrationPage')) {
+        if (this.shadowRoot.getElementById('appscoManageIntegrationPage').$) {
             this.shadowRoot.getElementById('appscoManageIntegrationPage').setIntegration(integration);
         }
 
