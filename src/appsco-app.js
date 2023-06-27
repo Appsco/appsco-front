@@ -670,10 +670,10 @@ class AppscoApp extends mixinBehaviors([
             <template is="dom-if" if="[[ _isCompanyPackagePremium ]]">
                 <appsco-provisioning-page name="provisioning" page="" company-page="" id="appscoProvisioningPage" active-integrations-api="[[ _getActiveIntegrationsApi ]]" available-integrations-api="[[ _getAvailableIntegrationsApi ]]" authorization-token="[[ authorizationToken ]]" api-errors="[[ _apiErrors ]]" toolbar="[[ \$.appscoProvisioningPageActions ]]" on-edit-integration="_onEditIntegrationAction" on-active-integration="_onIntegrationSetup">
                 </appsco-provisioning-page>
-    
-                <appsco-manage-integration-page name="manage-integration" page="" company-page="" id="appscoManageIntegrationPage" route="[[ subroute ]]" integration="[[ _selectedIntegration ]]" integration-api="[[ _companyIntegrationApi ]]" api-errors="[[ _apiErrors ]]" authorization-token="[[ authorizationToken ]]" on-page-error="_onError" on-integration-removed="_onIntegrationRemoved" on-integration-settings-changed="_onIntegrationSettingsChanged">
-                </appsco-manage-integration-page>
             </template>
+
+            <appsco-manage-integration-page name="manage-integration" page="" company-page="" id="appscoManageIntegrationPage" route="[[ subroute ]]" integration="[[ _selectedIntegration ]]" integration-api="[[ _companyIntegrationApi ]]" api-errors="[[ _apiErrors ]]" authorization-token="[[ authorizationToken ]]" on-page-error="_onError" on-integration-removed="_onIntegrationRemoved" on-integration-settings-changed="_onIntegrationSettingsChanged">
+            </appsco-manage-integration-page>
             
             <appsco-provisioning-integration-authorization-success-page name="provisioning-integration-authorization-success" page="" company-page="" id="appscoProvisioningIntegrationSuccessPage" on-provisioning="_showCompanyProvisioningPage">
             </appsco-provisioning-integration-authorization-success-page>
@@ -1630,6 +1630,8 @@ class AppscoApp extends mixinBehaviors([
             afterNextRender(this, () => this.$.appDrawer.close());
         }
 
+        console.log('changed', page);
+
         // Load page import on demand. Show 404 page if fails
         import(`./appsco-${page}-page.js`).then(null, this._showPage404.bind(this));
 
@@ -1710,10 +1712,13 @@ class AppscoApp extends mixinBehaviors([
     }
 
     _showPage(name) {
+
+        console.log(name);
         this.set('routeData.page', name);
     }
 
     _showManagePage(path) {
+        console.log(path);
         this.set('route.path', this._prefixPath + '/' + path);
     }
 
