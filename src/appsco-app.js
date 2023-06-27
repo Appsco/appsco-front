@@ -1634,7 +1634,7 @@ class AppscoApp extends mixinBehaviors([
         import(`./appsco-${page}-page.js`).then(null, this._showPage404.bind(this));
 
         const currentElement = this.getCurrentAppscoPageElement();
-        if(currentElement !== undefined && typeof currentElement.pageSelected === 'function') {
+        if (currentElement !== undefined && currentElement !== null && typeof currentElement.pageSelected === 'function') {
             currentElement.pageSelected();
         }
     }
@@ -2353,6 +2353,8 @@ class AppscoApp extends mixinBehaviors([
             case 'additional-options':
                 return this.shadowRoot.getElementById('appscoAdditionalOptionsPage');
         }
+
+        return null;
     }
 
     getCurrentAppscoPageActionsElement() {
