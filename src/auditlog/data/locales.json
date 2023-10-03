@@ -47,6 +47,7 @@
         "account_added_to_orgunit": "{ account } added to { orgunit } organization unit.",
         "company_role_removed_from_orgunit": "{ account } removed from { orgunit } organization unit.",
         "application_removed_from_orgunit": "{ application } removed from { orgunit } organization unit.",
+        "subscription_created": "Company subscription created.",
         "subscription_updated": "Company subscription updated to { licences } licences. Subscription plan is { plan }.",
         "subscription_canceled": "Company subscription canceled.",
         "invoice_sent": "Invoice with id '{ invoice }' sent to company contact.",

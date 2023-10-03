@@ -1096,7 +1096,7 @@ class AppscoAuditLog extends mixinBehaviors([
                 }.bind(this));
             }
             else {
-                this._message = 'There are no asked log records.';
+                this._message = 'There are no log records.';
                 this._handleEmptyLog();
             }
 
