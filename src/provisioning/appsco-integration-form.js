@@ -194,18 +194,7 @@ class AppscoIntegrationForm extends PolymerElement {
 
             _integrationKindList: {
                 type: Array,
-                value: function () {
-                    return [
-                        {
-                            value: 'ra',
-                            name: 'From integration system to AppsCo'
-                        },
-                        {
-                            value: 'pst',
-                            name: 'From AppsCo to integration system'
-                        }
-                    ];
-                }
+                computed: '_computeIntegrationKindList(integration)'
             },
 
             _urlValidationPattern: {
@@ -399,6 +388,28 @@ class AppscoIntegrationForm extends PolymerElement {
 
     _computeScheduleSyncInterval(integration) {
         return integration.hasOwnProperty('scheduleSyncInterval') && integration.scheduleSyncInterval !== '' ? integration.scheduleSyncInterval : 'daily';
+    }
+
+    _computeIntegrationKindList(integration) {
+        if (integration && integration.alias && integration.alias === 17) {
+            return [
+                {
+                    value: 'ra',
+                    name: 'From integration system to AppsCo'
+                }
+            ];
+        }
+
+        return [
+            {
+                value: 'ra',
+                name: 'From integration system to AppsCo'
+            },
+            {
+                value: 'pst',
+                name: 'From AppsCo to integration system'
+            }
+        ];
     }
 
     getIntegrationActive() {
