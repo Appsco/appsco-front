@@ -216,6 +216,12 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
                         </template>
                     </template>
 
+                    <template is="dom-if" if="[[ _hasSCIMIntegrationUrl ]]">
+                        <div class="info secret">
+                            Copy integration url to clipboard <appsco-copy value="[[ _SCIMIntegrationUrlApi ]]"></appsco-copy>
+                        </div>
+                    </template>
+
                     <template is="dom-if" if="[[ integration.secret ]]">
                         <div class="info secret">
                             Copy integration secret key to clipboard <appsco-copy value="[[ integration.secret ]]"></appsco-copy>
@@ -361,6 +367,11 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
                 computed: '_computeWebhookApi(integration)'
             },
 
+            _SCIMIntegrationUrlApi: {
+                type: String,
+                computed: '_computeSCIMIntegrationUrlApi(integration)'
+            },
+
             _integrationTemplatesApi: {
                 type: String,
                 computed: '_computeIntegrationTemplatesApi(integration)'
@@ -386,6 +397,11 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
             _hasDownloadableConfig: {
                 type: Boolean,
                 computed: '_computeHasDownloadableConfig(integration)'
+            },
+
+            _hasSCIMIntegrationUrl: {
+                type: Boolean,
+                computed: '_computeHasSCIMIntegrationUrl(integration)'
             },
 
             _authorizedDate: {
@@ -687,6 +703,16 @@ class AppscoManageIntegrationPage extends mixinBehaviors([
         return integration
             && integration.integration
             && (integration.integration.alias === 3 || integration.integration.alias === 11) ;
+    }
+
+    _computeHasSCIMIntegrationUrl(integration) {
+        return integration
+            && integration.integration
+            && (integration.integration.alias === 17) ;
+    }
+
+    _computeSCIMIntegrationUrlApi(integration) {
+        return integration && integration.meta && integration.meta.integration_scim_url ? integration.meta.integration_scim_url : null;
     }
 
     _downloadConfig() {
