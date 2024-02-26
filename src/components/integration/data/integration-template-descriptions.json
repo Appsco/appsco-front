@@ -215,6 +215,13 @@
         "pipedrive_pst_from_modified_PSOAppsCoContact_title": "Contact modified",
         "pipedrive_pst_from_modified_PSOAppsCoContact_description": "Contact modified in AppsCo should be modified in { integration }",
         "pipedrive_pst_from_deleted_PSOAppsCoContact_title": "Contact removed",
-        "pipedrive_pst_from_deleted_PSOAppsCoContact_description": "Contact removed in AppsCo should be removed in { integration }"
+        "pipedrive_pst_from_deleted_PSOAppsCoContact_description": "Contact removed in AppsCo should be removed in { integration }",
+        "microsoft_entra_ra_from_lookup_PSOAppsCoUser_description": "Sync all users from { integration } to AppsCo directory",
+        "microsoft_entra_ra_from_added_PSOAppsCoUser_title": "User added",
+        "microsoft_entra_ra_from_added_PSOAppsCoUser_description": "User added in { integration } should be added to AppsCo",
+        "microsoft_entra_ra_from_modified_PSOAppsCoUser_title": "User modified",
+        "microsoft_entra_ra_from_modified_PSOAppsCoUser_description": "User modified in { integration } should be modified in AppsCo",
+        "microsoft_entra_ra_from_deleted_PSOAppsCoUser_title": "User removed",
+        "microsoft_entra_ra_from_deleted_PSOAppsCoUser_description": "User removed in { integration } should be removed in AppsCo"
     }
 }
